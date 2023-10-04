@@ -1,0 +1,183 @@
+import 'package:ecommerce/common/app_colors.dart';
+import 'package:ecommerce/common/app_images.dart';
+import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/models/enums/load_status.dart';
+import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_cubit.dart';
+import 'package:ecommerce/ui/widget/buttons/app_button.dart';
+import 'package:ecommerce/ui/widget/textfields/app_email_text_field.dart';
+import 'package:ecommerce/ui/widget/textfields/app_password_text_field.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+class SignInPage extends StatelessWidget {
+  const SignInPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SignInChildPage();
+  }
+}
+
+class SignInChildPage extends StatefulWidget {
+  const SignInChildPage({Key? key}) : super(key: key);
+
+  @override
+  State<SignInChildPage> createState() => _SignInChildPageState();
+}
+
+class _SignInChildPageState extends State<SignInChildPage> {
+  late SignInCubit _signInCubit;
+  late TextEditingController emailTextController;
+  late TextEditingController passwordTextController;
+
+  late ObscureTextController obscurePasswordController;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    emailTextController = TextEditingController();
+    passwordTextController = TextEditingController();
+    _signInCubit = BlocProvider.of<SignInCubit>(context);
+
+    obscurePasswordController = ObscureTextController(obscureText: false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: buildBodyWidget(),
+        resizeToAvoidBottomInset: false,
+      ),
+    );
+  }
+
+  Widget buildBodyWidget() {
+    final showingKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
+    return BlocBuilder<SignInCubit, SignInState>(
+  builder: (context, state) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                  margin: const EdgeInsets.symmetric(vertical: 40),
+                  height: showingKeyboard ? 0 : 100,
+                  child: Image.asset(AppImages.logoFashion)),
+              ListTile(
+                  title: Text(
+                    'Welcome!',
+                    style: AppTextStyle.blackS18Bold,
+                  ),
+                  subtitle: const Text(
+                    'please login or sign up to continue our app',
+                  ),
+                  contentPadding: EdgeInsets.zero),
+              AppEmailTextField(
+                textEditingController: emailTextController,
+                onChanged: (text) {
+                  _signInCubit.changeEmail(email: emailTextController.text);
+                },
+              ),
+              const SizedBox(height: 20),
+              AppPasswordTextField(
+                textEditingController: passwordTextController,
+                obscureTextController: obscurePasswordController,
+                onChanged: (text) {
+                  _signInCubit.changePassword(password: passwordTextController.text);
+                },
+              ),
+              const SizedBox(height: 40),
+              AppButton(
+                title: 'Login',
+                onPressed: () => _signIn(),
+                isEnable: state.signInStatus == LoadStatus.loading ? false : true,
+                isLoading: state.signInStatus == LoadStatus.loading ? true : false,
+                backgroundColor: AppColors.textBlack,
+                textStyle: AppTextStyle.whiteS16Bold,
+                cornerRadius: 50,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Divider(),
+                    Text('or'),
+                    Divider(),
+                  ],
+                ),
+              ),
+              AppButton(
+                leadingIcon: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Image.asset(
+                    'assets/image/ic_facebook.png',
+                    width: 20,
+                    height: 20,
+                  ),
+                ),
+                title: 'Continue with Facebook',
+                onPressed: () {},
+                backgroundColor: AppColors.buttonFacebook,
+                textStyle: AppTextStyle.whiteS16Bold,
+                cornerRadius: 50,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: AppButton(
+                  leadingIcon: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: SvgPicture.asset(
+                      'assets/vectors/ic_google.svg',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                  title: 'Continue with Google',
+                  onPressed: () {},
+                  backgroundColor: AppColors.transparent,
+                  textStyle: AppTextStyle.blackS16Bold,
+                  cornerRadius: 50,
+                  // borderWidth: 1,
+                  // borderColor: AppColors.textWhite,
+                ),
+              ),
+              AppButton(
+                leadingIcon: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: SvgPicture.asset(
+                    'assets/vectors/ic_apple.svg',
+                    width: 20,
+                    height: 20,
+                  ),
+                ),
+                title: 'Continue with Apple',
+                onPressed: () {},
+                backgroundColor: AppColors.textWhite,
+                textStyle: AppTextStyle.blackS16Bold,
+                cornerRadius: 50,
+                // borderWidth: 1,
+                // borderColor: AppColors.textWhite,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  },
+);
+  }
+
+  void _signIn() {
+    if (_formKey.currentState!.validate()) {
+      _signInCubit.signIn();
+    }
+  }
+}
