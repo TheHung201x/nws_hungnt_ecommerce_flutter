@@ -26,10 +26,6 @@ class ApiUtil {
     return apiClient;
   }
 
-// static ApiClient get mocKyApiClient {
-//   final apiClient = ApiClient(getDio(), baseUrl: AppConfigs.mocKyBaseUrl);
-//   return apiClient;
-// }
 //
 // static Future<TokenEntity?> onRefreshToken(String? token) async {
 //   if (token == null) return null;

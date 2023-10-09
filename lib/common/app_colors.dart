@@ -32,6 +32,7 @@ class AppColors {
   static const Color textFieldFocusedBorder = Color(0xFFd74315);
   static const Color textFieldDisabledBorder = Color(0xFF919191);
   static const Color textFieldCursor = Color(0xFF919191);
+  static const Color textHint = Color(0xFFAAAAAA);
 
   ///Button
   static const Color buttonBGWhite = Color(0xFFcdd0d5);
@@ -42,6 +43,7 @@ class AppColors {
 
   /// Tabs
   static const Color imageBG = Color(0xFF919191);
+  static const Color backgroundTabBar = Color(0xFFEEEEEE);
 
   ///BottomNavigationBar
   static const Color bottomNavigationBar = Color(0xFF919191);

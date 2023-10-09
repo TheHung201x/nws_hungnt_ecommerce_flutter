@@ -1,6 +1,22 @@
 part of 'splash_cubit.dart';
 
-@immutable
-abstract class SplashState {}
+class SplashState extends Equatable {
+  final LoadStatus fetchProfileStatus;
 
-class SplashInitial extends SplashState {}
+  const SplashState({
+    this.fetchProfileStatus = LoadStatus.initial,
+  });
+
+  SplashState copyWith({
+    LoadStatus? fetchProfileStatus,
+  }) {
+    return SplashState(
+      fetchProfileStatus: fetchProfileStatus ?? this.fetchProfileStatus,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    fetchProfileStatus,
+  ];
+}

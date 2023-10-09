@@ -8,22 +8,36 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({Key? key}) : super(key: key);
+class OnBoardingPage extends StatelessWidget {
+  const OnBoardingPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<OnBoardingPage> createState() => _OnBoardingPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        return OnBoardingCubit();
+      },
+      child: const OnBoardingChildPage(),
+    );
+  }
+}
+class OnBoardingChildPage extends StatefulWidget {
+  const OnBoardingChildPage({Key? key}) : super(key: key);
+
+  @override
+  State<OnBoardingChildPage> createState() => _OnBoardingChildPageState();
 }
 
-class _OnBoardingPageState extends State<OnBoardingPage> {
-  int flag = 1;
+class _OnBoardingChildPageState extends State<OnBoardingChildPage> {
   late OnBoardingCubit _boardingCubit;
   final controller = PageController();
 
   @override
   void initState() {
     _boardingCubit = BlocProvider.of<OnBoardingCubit>(context);
-    _boardingCubit.setFlag(flag);
+    _boardingCubit.setFlag();
     super.initState();
   }
 
@@ -94,7 +108,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       }
                     },
                     child: SvgPicture.asset(
-                      "assets/vectors/next.svg",
+                      AppImages.next,
                       height: 50,
                       width: 50,
                     ),
