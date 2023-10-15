@@ -3,6 +3,7 @@ import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
+import 'package:ecommerce/models/enums/search_status.dart';
 import 'package:ecommerce/repositories/category_repository.dart';
 import 'package:ecommerce/router/router_config.dart';
 import 'package:ecommerce/ui/pages/home/home_cubit.dart';
@@ -38,11 +39,13 @@ class HomeChildPage extends StatefulWidget {
 
 class _HomeChildPageState extends State<HomeChildPage> {
   late HomeCubit _homeCubit;
+  late TextEditingController searchController;
 
   @override
   void initState() {
     _homeCubit = BlocProvider.of<HomeCubit>(context);
     _homeCubit.getAllCategories();
+    searchController = TextEditingController();
     super.initState();
   }
 
@@ -58,7 +61,7 @@ class _HomeChildPageState extends State<HomeChildPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 40),
                 child: SvgPicture.asset(
-                  "assets/vectors/ic_back_appbar.svg",
+                  AppImages.back,
                   height: 40,
                   width: 40,
                 ),
@@ -79,25 +82,26 @@ class _HomeChildPageState extends State<HomeChildPage> {
                       height: 20,
                       width: 20,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
                         child: TextField(
-                          style: TextStyle(
+                          controller: searchController,
+                          onChanged: (value) {
+                            _homeCubit.searchCategories(value);
+                          },
+                          style: const TextStyle(
                             fontSize: 18,
                             color: Colors.black,
                           ),
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(
+                            border: const OutlineInputBorder(
                               borderSide: BorderSide.none,
                             ),
                             contentPadding: EdgeInsets.zero,
                             hintText: 'Search Category',
-                            hintStyle: TextStyle(
-                              color: AppColors.textHint,
-                              fontSize: 16
-                            ),
+                            hintStyle: AppTextStyle.greyA14,
                           ),
                         ),
                       ),
@@ -112,22 +116,35 @@ class _HomeChildPageState extends State<HomeChildPage> {
                     _homeCubit.getAllCategories();
                   },
                   child: BlocBuilder<HomeCubit, HomeState>(
+                    buildWhen: (previous, current) {
+                      return previous.getCategoriesLoadStatus !=
+                              current.getCategoriesLoadStatus ||
+                          previous.searchStatus != current.searchStatus;
+                    },
                     builder: (context, state) {
+                      if (state.searchStatus == SearchStatus.notFound) {
+                        return Center(
+                          child: Text('Category Not Found...',
+                              style: AppTextStyle.blackS16),
+                        );
+                      }
                       if (state.getCategoriesLoadStatus == LoadStatus.success) {
                         return GridView.builder(
+                          physics: const BouncingScrollPhysics(),
                           itemCount: state.categoriesList?.length,
                           gridDelegate:
-                          SliverGridDelegateWithMaxCrossAxisExtent(
-                                  mainAxisSpacing: 16,
-                                  crossAxisSpacing: 16,
-                                maxCrossAxisExtent:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                            maxCrossAxisExtent:
                                 MediaQuery.of(context).size.width / 2,
-                                childAspectRatio: 3/3.3,
-                              ),
+                            childAspectRatio: 3 / 3.3,
+                          ),
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
-                              onTap: (){
-                                context.pushNamed(AppRouter.productList,extra: state.categoriesList?[index]);
+                              onTap: () {
+                                context.pushNamed(AppRouter.productList,
+                                    extra: state.categoriesList?[index]);
                               },
                               child: Stack(
                                 children: [
@@ -136,12 +153,15 @@ class _HomeChildPageState extends State<HomeChildPage> {
                                       Radius.circular(20),
                                     ),
                                     child: CachedNetworkImage(
-                                      height: MediaQuery.of(context).size.height,
+                                      height:
+                                          MediaQuery.of(context).size.height,
                                       imageUrl:
-                                      state.categoriesList?[index].image ??
-                                          AppImages.imageDefault,
-                                      placeholder: (context, url) => const Center(
-                                          child: CircularProgressIndicator()),
+                                          state.categoriesList?[index].image ??
+                                              AppImages.imageDefault,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
                                       errorWidget: (context, url, error) =>
                                           Image.network(AppImages.imageDefault),
                                       fit: BoxFit.cover,
@@ -155,13 +175,16 @@ class _HomeChildPageState extends State<HomeChildPage> {
                                       height: 60,
                                       decoration: BoxDecoration(
                                           color:
-                                              AppColors.textWhite.withOpacity(0.6),
-                                          borderRadius: BorderRadius.circular(20)),
+                                              AppColors.white.withOpacity(0.6),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '${state.categoriesList?[index].name}',
+                                            state.categoriesList?[index].name ??
+                                                '',
                                             style: AppTextStyle.blackS20W800,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
@@ -187,7 +210,8 @@ class _HomeChildPageState extends State<HomeChildPage> {
                             children: [
                               const Text('Something went wrong...'),
                               ElevatedButton(
-                                  onPressed: () => _homeCubit.getAllCategories(),
+                                  onPressed: () =>
+                                      _homeCubit.getAllCategories(),
                                   child: const Text('Try again'))
                             ],
                           ),
@@ -195,7 +219,7 @@ class _HomeChildPageState extends State<HomeChildPage> {
                       } else {
                         return const Center(
                           child: AppCircularProgressIndicator(
-                              color: AppColors.textWhite),
+                              color: AppColors.white),
                         );
                       }
                     },

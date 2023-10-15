@@ -1,33 +1,55 @@
+import 'package:ecommerce/common/app_colors.dart';
+import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {
-  final TextEditingController? controller;
+  final TextEditingController textEditingController;
   final ValueChanged<String>? onChanged;
-  final TextInputType? textInputType;
   final String? labelText;
   final String? hintText;
+  final FocusNode? focusNode;
+  final AutovalidateMode? autoValidateMode;
 
   const AppTextField({
     Key? key,
-    this.controller,
+    required this.textEditingController,
     this.onChanged,
-    this.textInputType,
-    this.labelText,
+    this.labelText = "",
     this.hintText,
+    this.focusNode,
+    this.autoValidateMode,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      width: 200,
       child: TextFormField(
-        controller: controller,
+        readOnly: true,
+        controller: textEditingController,
+        focusNode: focusNode,
+        style: AppTextStyle.blackS14,
         decoration: InputDecoration(
-          labelText: labelText,
-          hintText: hintText,
-          border: const OutlineInputBorder(),
+            hintText: hintText,
+            labelStyle: AppTextStyle.blackS16Bold,
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: AppColors.border),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: AppColors.border),
+            ),
+            contentPadding: const EdgeInsets.only(bottom: 4, left: 14),
+          isDense: true,
         ),
-        keyboardType: textInputType,
+        keyboardType: TextInputType.emailAddress,
         onChanged: onChanged,
+        autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   if (value == null || value.isEmpty) {
+        //     return 'Please enter username';
+        //   }
+        //   return null;
+        // },
       ),
     );
   }

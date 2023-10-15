@@ -44,16 +44,24 @@ class _MyAppState extends State<MyApp> {
             return ProductRepositoryImpl(apiClient: _apiClient);
           },
         ),
+        RepositoryProvider<UserRepository>(
+          create: (context) {
+            return UserRepositoryImpl(apiClient: _apiClient);
+          },
+        ),
       ],
-      child: BlocProvider<AppCubit>(
-        create: (context) {
-          final userRepository = RepositoryProvider.of<UserRepository>(context);
-          final authRepository = RepositoryProvider.of<AuthRepository>(context);
-          return AppCubit(
-            userRepository: userRepository,
-            authRepository: authRepository,
-          );
-        },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AppCubit>(
+            create: (context) {
+              return AppCubit(
+                  userRepository:
+                      RepositoryProvider.of<UserRepository>(context),
+                  authRepository:
+                      RepositoryProvider.of<AuthRepository>(context));
+            },
+          ),
+        ],
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           routerConfig: AppRouter.router,

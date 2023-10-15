@@ -4,15 +4,15 @@ import 'app_colors.dart';
 
 class AppTextStyle {
   ///Black
-  static const black = TextStyle(color: Colors.black);
+  static const black = TextStyle(color: Colors.black, fontFamily: 'Poppins');
 
   //s12
   static final blackS12 = black.copyWith(fontSize: 12);
-  static final blackS12Bold = blackS12.copyWith(fontWeight: FontWeight.bold);
   static final blackS12W800 = blackS12.copyWith(fontWeight: FontWeight.w800);
 
   //s14
   static final blackS14 = black.copyWith(fontSize: 14);
+  static final blackS14Opacity = black.copyWith(fontSize: 14,color: Colors.black.withOpacity(0.9));
   static final blackS14Bold = blackS14.copyWith(fontWeight: FontWeight.bold);
   static final blackS14W800 = blackS14.copyWith(fontWeight: FontWeight.w800);
 
@@ -24,30 +24,30 @@ class AppTextStyle {
 
   //s18
   static final blackS18 = black.copyWith(fontSize: 18);
-  static final blackS18Bold = blackS18.copyWith(fontWeight: FontWeight.bold);
+  static final blackS18Bold = blackS18.copyWith(fontWeight: FontWeight.w700);
   static final blackS18W500 = blackS18.copyWith(fontWeight: FontWeight.w500);
-  static final blackS18W700 = blackS18.copyWith(fontWeight: FontWeight.w700);
-  static final blackS18W800 = blackS18.copyWith(fontWeight: FontWeight.w800);
-  static final blackS20W800 = blackS18.copyWith(fontWeight: FontWeight.w800,fontSize: 20);
+  static final blackS20W800 =
+      blackS18.copyWith(fontWeight: FontWeight.w800, fontSize: 20);
 
   //s30
-  static final blackS30 = black.copyWith(fontSize: 30);
-  static final blackS30Bold = blackS30.copyWith(fontWeight: FontWeight.bold);
-  static final blackS30W700 = blackS30.copyWith(fontWeight: FontWeight.w700);
-  static final blackS30W800 = blackS30.copyWith(fontWeight: FontWeight.w800);
+  static final blackS24 = black.copyWith(fontSize: 24);
+  static final blackS24Bold = blackS24.copyWith(fontWeight: FontWeight.bold);
 
   ///White
-  static const white = TextStyle(color: Colors.white);
+  static const white = TextStyle(color: Colors.white, fontFamily: 'Poppins');
 
   //s12
   static final whiteS12 = white.copyWith(fontSize: 12);
   static final whiteS12Bold = whiteS12.copyWith(fontWeight: FontWeight.bold);
   static final whiteS12W800 = whiteS12.copyWith(fontWeight: FontWeight.w800);
 
-  //s14
-  static final whiteS14 = white.copyWith(fontSize: 14,decoration: TextDecoration.none,);
-  static final whiteS14Bold = whiteS14.copyWith(fontWeight: FontWeight.bold);
-  static final whiteS14W800 = whiteS14.copyWith(fontWeight: FontWeight.w800);
+  // //s14
+  // static final whiteS14 = white.copyWith(
+  //   fontSize: 14,
+  //   decoration: TextDecoration.none,
+  // );
+  // static final whiteS14Bold = whiteS14.copyWith(fontWeight: FontWeight.bold);
+  // static final whiteS14W800 = whiteS14.copyWith(fontWeight: FontWeight.w800);
 
   //s16
   static final whiteS16 = white.copyWith(fontSize: 16);
@@ -60,10 +60,17 @@ class AppTextStyle {
   static final whiteS18W800 = whiteS18.copyWith(fontWeight: FontWeight.w800);
 
   ///Gray
-  static const grey = TextStyle(color: Colors.grey);
+  static const grey = TextStyle(color: Colors.grey, fontFamily: 'Poppins');
+  static const greyA =
+      TextStyle(color: Color(0xFFAAAAAA), fontFamily: 'Poppins');
+  static final greyA12 = greyA.copyWith(fontSize: 12);
+  static final greyA14 = greyA.copyWith(fontSize: 14);
+  static final greyA16 = greyA.copyWith(fontSize: 16);
+  static final greyABold = greyA.copyWith(fontWeight: FontWeight.bold);
 
   //s12
   static final greyS12 = grey.copyWith(fontSize: 12);
+  static final greySA12 = greyA.copyWith(fontSize: 12);
   static final greyS12Bold = greyS12.copyWith(fontWeight: FontWeight.bold);
   static final greyS12W800 = greyS12.copyWith(fontWeight: FontWeight.w800);
 
@@ -81,27 +88,4 @@ class AppTextStyle {
   static final greyS18 = grey.copyWith(fontSize: 18);
   static final greyS18Bold = greyS18.copyWith(fontWeight: FontWeight.bold);
   static final greyS18W800 = greyS18.copyWith(fontWeight: FontWeight.w800);
-
-  ///Tint
-  static const tint = TextStyle(color: AppColors.secondary);
-
-  //s12
-  static final tintS12 = tint.copyWith(fontSize: 12);
-  static final tintS12Bold = tintS12.copyWith(fontWeight: FontWeight.bold);
-  static final tintS12W800 = tintS12.copyWith(fontWeight: FontWeight.w800);
-
-  //s14
-  static final tintS14 = tint.copyWith(fontSize: 14);
-  static final tintS14Bold = tintS14.copyWith(fontWeight: FontWeight.bold);
-  static final tintS14W800 = tintS14.copyWith(fontWeight: FontWeight.w800);
-
-  //s16
-  static final tintS16 = tint.copyWith(fontSize: 16);
-  static final tintS16Bold = tintS16.copyWith(fontWeight: FontWeight.bold);
-  static final tintS16W800 = tintS16.copyWith(fontWeight: FontWeight.w800);
-
-  //s18
-  static final tintS18 = tint.copyWith(fontSize: 18);
-  static final tintS18Bold = tintS18.copyWith(fontWeight: FontWeight.bold);
-  static final tintS18W800 = tintS18.copyWith(fontWeight: FontWeight.w800);
 }

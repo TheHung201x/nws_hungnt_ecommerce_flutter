@@ -89,7 +89,7 @@ class _OnBoardingChildPageState extends State<OnBoardingChildPage> {
                     controller: controller,
                     count: image.length,
                     effect: const ExpandingDotsEffect(
-                      activeDotColor: AppColors.textBlack,
+                      activeDotColor: AppColors.black,
                       dotColor: AppColors.imageBG,
                       dotHeight: 8,
                       dotWidth: 10,
@@ -155,7 +155,7 @@ class _OnBoardingChildPageState extends State<OnBoardingChildPage> {
             padding: const EdgeInsets.only(bottom: 10),
             child: Text(
               title,
-              style: AppTextStyle.blackS30Bold,
+              style: AppTextStyle.blackS24Bold,
             ),
           ),
           subtitle: const Text(

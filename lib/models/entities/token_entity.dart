@@ -5,9 +5,9 @@ part 'token_entity.g.dart';
 
 @JsonSerializable()
 class TokenEntity {
-  @JsonKey()
+  @JsonKey(name: 'access_token')
   String accessToken;
-  @JsonKey()
+  @JsonKey(name: 'refresh_token')
   String refreshToken;
 
   TokenEntity({

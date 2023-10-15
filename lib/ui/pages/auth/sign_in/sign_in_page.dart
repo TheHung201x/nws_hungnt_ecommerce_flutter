@@ -4,12 +4,14 @@ import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
+import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_cubit.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_navigator.dart';
 import 'package:ecommerce/ui/widget/buttons/app_button.dart';
 import 'package:ecommerce/ui/widget/buttons/app_icon_button.dart';
 import 'package:ecommerce/ui/widget/textfields/app_email_text_field.dart';
 import 'package:ecommerce/ui/widget/textfields/app_password_text_field.dart';
+import 'package:ecommerce/utils/hide_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,9 +24,13 @@ class SignInPage extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         final authRepo = RepositoryProvider.of<AuthRepository>(context);
+        final userRepo = RepositoryProvider.of<UserRepository>(context);
+        final appCubit = RepositoryProvider.of<AppCubit>(context);
         return SignInCubit(
-          authRepository: authRepo,
           navigator: SignInNavigator(context: context),
+          authRepository: authRepo,
+          userRepository: userRepo,
+          appCubit: appCubit,
         );
       },
       child: const SignInChildPage(),
@@ -50,8 +56,8 @@ class _SignInChildPageState extends State<SignInChildPage> {
   @override
   void initState() {
     super.initState();
-    emailTextController = TextEditingController(text: 'hungnt@gmail.com');
-    passwordTextController = TextEditingController(text: '123456');
+    emailTextController = TextEditingController(text: 'john@mail.com');
+    passwordTextController = TextEditingController(text: 'changeme');
     _signInCubit = BlocProvider.of<SignInCubit>(context);
 
     obscurePasswordController = ObscureTextController(obscureText: false);
@@ -86,8 +92,9 @@ class _SignInChildPageState extends State<SignInChildPage> {
                     'Welcome!',
                     style: AppTextStyle.blackS18Bold,
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     'please login or sign up to continue our app',
+                    style: AppTextStyle.greyS14,
                   ),
                   contentPadding: EdgeInsets.zero),
               const SizedBox(
@@ -95,18 +102,13 @@ class _SignInChildPageState extends State<SignInChildPage> {
               ),
               AppEmailTextField(
                 textEditingController: emailTextController,
-                onChanged: (text) {
-                  _signInCubit.changeEmail(email: emailTextController.text);
-                },
+                hintText: 'Please enter email',
               ),
               const SizedBox(height: 10),
               AppPasswordTextField(
                 textEditingController: passwordTextController,
                 obscureTextController: obscurePasswordController,
-                onChanged: (text) {
-                  _signInCubit.changePassword(
-                      password: passwordTextController.text);
-                },
+                hintText: 'Please enter password',
               ),
               const SizedBox(height: 40),
               BlocBuilder<SignInCubit, SignInState>(
@@ -118,7 +120,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
                         state.signInStatus == LoadStatus.loading ? false : true,
                     isLoading:
                         state.signInStatus == LoadStatus.loading ? true : false,
-                    backgroundColor: AppColors.textBlack,
+                    backgroundColor: AppColors.black,
                     textStyle: AppTextStyle.whiteS16Bold,
                     cornerRadius: 50,
                   );
@@ -181,7 +183,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
                 ),
                 title: 'Continue with Apple',
                 onPressed: () {},
-                backgroundColor: AppColors.textWhite,
+                backgroundColor: AppColors.white,
                 textStyle: AppTextStyle.blackS16Bold,
                 cornerRadius: 50,
                 // borderWidth: 1,
@@ -196,7 +198,8 @@ class _SignInChildPageState extends State<SignInChildPage> {
 
   void _signIn() {
     if (_formKey.currentState!.validate()) {
-      _signInCubit.signIn(context);
+      hideKeyboard(context);
+      _signInCubit.signIn();
     }
   }
 }

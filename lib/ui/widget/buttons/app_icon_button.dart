@@ -14,6 +14,7 @@ class AppIconButton extends StatelessWidget {
   final Color backgroundColor;
   final Color disableBackgroundColor;
   final TextStyle textStyle;
+  final bool isContentCenter;
 
   //Child widgets
   final Widget? leadingIcon;
@@ -42,6 +43,7 @@ class AppIconButton extends StatelessWidget {
     this.isEnable = true,
     this.isLoading = false,
     this.onPressed,
+    this.isContentCenter = false,
   }) : super(key: key);
 
   @override
@@ -71,17 +73,28 @@ class AppIconButton extends StatelessWidget {
     if (isLoading) {
       return const AppCircularProgressIndicator(color: Colors.white);
     } else {
-      return Padding(
-        padding: const EdgeInsets.only(left: 50),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            leadingIcon ?? Container(),
-            title.isNotEmpty ? Text(title, style: textStyle) : Container(),
-            trailingIcon ?? Container(),
-          ],
-        ),
-      );
+      return isContentCenter != true
+          ? Padding(
+              padding: const EdgeInsets.only(left: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  leadingIcon ?? Container(),
+                  title.isNotEmpty
+                      ? Text(title, style: textStyle)
+                      : Container(),
+                  trailingIcon ?? Container(),
+                ],
+              ),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                leadingIcon ?? Container(),
+                title.isNotEmpty ? Text(title, style: textStyle) : Container(),
+                trailingIcon ?? Container(),
+              ],
+            );
     }
   }
 }

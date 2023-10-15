@@ -16,15 +16,15 @@ class AppColors {
   static const Color shadow = Color(0x25606060);
 
   ///Border
-  static const Color border = Color(0xFF606060);
+  static const Color border = Color(0xFFDDDDDD);
 
   ///Divider
   static const Color divider = Color(0xFF606060);
 
   ///Text
-  static const Color textWhite = Color(0xFFFFFFFF);
-  static const Color textBlack = Color(0xFF000000);
-  static const Color textBlue = Color(0xFF0000FF);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF000000);
+  static const Color blue = Color(0xFF0000FF);
   static const Color textDisable = Color(0xFF89a3b1);
 
   ///TextField
@@ -44,6 +44,7 @@ class AppColors {
   /// Tabs
   static const Color imageBG = Color(0xFF919191);
   static const Color backgroundTabBar = Color(0xFFEEEEEE);
+  static const Color greyD = Color(0xFFDDDDDD);
 
   ///BottomNavigationBar
   static const Color bottomNavigationBar = Color(0xFF919191);

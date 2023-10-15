@@ -1,6 +1,3 @@
-
-
-import 'package:ecommerce/database/secure_storage_helper.dart';
 import 'package:ecommerce/models/entities/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
@@ -22,8 +19,7 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> getProfile() async {
     try {
-      final token = await SecureStorageHelper.instance.getToken();
-      final result = await userRepository.getProfile(token: token!);
+      final result = await userRepository.getProfile();
       emit(
         state.copyWith(
           user: result,
@@ -36,7 +32,6 @@ class AppCubit extends Cubit<AppState> {
       );
     }
   }
-
   void fetchProfile() {
     emit(state.copyWith(fetchProfileStatus: LoadStatus.loading));
   }
@@ -60,7 +55,6 @@ class AppCubit extends Cubit<AppState> {
   Future<void> signOut() async {
     emit(state.copyWith(signOutStatus: LoadStatus.loading));
     try {
-      await Future.delayed(const Duration(seconds: 2));
       await authRepository.removeToken();
       emit(state.removeUser().copyWith(signOutStatus: LoadStatus.success));
     } catch (e) {

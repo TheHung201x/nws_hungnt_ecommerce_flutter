@@ -26,17 +26,16 @@ abstract class ApiClient {
   // Get list product by idCategory
   @GET("/categories/{id}/products")
   Future<List<ProductEntity>> getProductByIdCategory(
-      @Path('id') int id,
-      );
+    @Path('id') int id,
+  );
 
   // Get totalProducts by idCategory
   @GET("/categories/{id}/products")
   Future<int> getTotalProductByIdCategory(
-      @Path('id') int id,
-      );
+    @Path('id') int id,
+  );
 
   // Profile
   @GET("/auth/profile")
-  Future<UserEntity> getProfile(
-      @Header('Authorization') Map<String, dynamic> authorization);
+  Future<UserEntity> getProfile();
 }

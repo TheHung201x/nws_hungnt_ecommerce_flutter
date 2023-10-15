@@ -6,12 +6,12 @@ import 'package:go_router/go_router.dart';
 class SplashNavigator extends AppNavigator {
   SplashNavigator({required BuildContext context}) : super(context: context);
 
-  void openSignInPage() {
-    GoRouter.of(context).pushReplacementNamed(AppRouter.signIn);
+  void openAuthPage() {
+    GoRouter.of(context).pushReplacementNamed(AppRouter.auth);
   }
 
-  void openMainPage() {
-    GoRouter.of(context).pushReplacementNamed(AppRouter.main);
+  void openHomePage() {
+    context.goNamed(AppRouter.home);
   }
 
   void openOnboardingPage() {

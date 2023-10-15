@@ -46,9 +46,13 @@ class AppPasswordTextField extends StatelessWidget {
                   return TextFormField(
                     controller: textEditingController,
                     focusNode: focusNode,
+                    style: AppTextStyle.blackS14,
                     decoration: InputDecoration(
                       label: Text(labelText!),
                       labelStyle: AppTextStyle.blackS16Bold,
+                      hintText: hintText,
+                      hintStyle: AppTextStyle.greyS12,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: AppColors.border),
                       ),
@@ -71,11 +75,12 @@ class AppPasswordTextField extends StatelessWidget {
                               obscureText
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              color: AppColors.textBlack,
+                              color: AppColors.black,
                             ),
                           );
                         },
                       ),
+                      contentPadding: EdgeInsets.zero,
                     ),
                     keyboardType: TextInputType.visiblePassword,
                     onChanged: onChanged,
@@ -99,15 +104,20 @@ class AppPasswordTextField extends StatelessWidget {
         : TextFormField(
             controller: textEditingController,
             focusNode: focusNode,
+            style: AppTextStyle.blackS14,
             decoration: InputDecoration(
               label: Text(labelText!),
               labelStyle: AppTextStyle.blackS16Bold,
+              hintText: hintText,
+              hintStyle: AppTextStyle.greyS12,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: AppColors.border),
               ),
               focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: AppColors.border),
               ),
+              contentPadding: EdgeInsets.zero,
             ),
             keyboardType: TextInputType.visiblePassword,
             onChanged: onChanged,

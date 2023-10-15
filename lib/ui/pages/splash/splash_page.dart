@@ -17,7 +17,7 @@ class SplashPage extends StatelessWidget {
       create: (context) {
         return SplashCubit(navigator: SplashNavigator(context: context),
           authRepo: RepositoryProvider.of<AuthRepository>(context),
-          // appCubit: RepositoryProvider.of<AppCubit>(context),
+          appCubit: RepositoryProvider.of<AppCubit>(context),
         );
       },
       child: const SplashChildPage(),

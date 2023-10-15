@@ -13,30 +13,32 @@ part 'splash_state.dart';
 class SplashCubit extends Cubit<SplashState> {
   final SplashNavigator navigator;
   final AuthRepository authRepo;
-  // final AppCubit appCubit;
+  final AppCubit appCubit;
 
   SplashCubit({
     required this.navigator,
     required this.authRepo,
-    // required this.appCubit,
+    required this.appCubit,
   }) : super(const SplashState());
 
   void checkLogin() async {
     await Future.delayed(const Duration(seconds: 2));
     final token = await authRepo.getToken();
-    if (token == null) {
+    if (token == null || token.accessToken =="") {
       if (await SharedPreferencesHelper.isOnboardCompleted()) {
-        navigator.openSignInPage();
+        navigator.openAuthPage();
       } else {
         navigator.openOnboardingPage();
       }
     } else {
       try {
         //Profile
-        // await appCubit.getProfile();
+        await appCubit.getProfile();
+        navigator.openHomePage();
       } catch (error, s) {
        debugPrint('error $error - $s');
         //Check 401
+        // ignore: deprecated_member_use
         if (error is DioError) {
           if (error.response?.statusCode == 401) {
             //Todo
@@ -54,7 +56,6 @@ class SplashCubit extends Cubit<SplashState> {
         );
         return;
       }
-      navigator.openMainPage();
     }
   }
 

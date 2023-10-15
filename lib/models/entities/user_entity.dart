@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_entity.g.dart';
@@ -40,4 +41,10 @@ class UserEntity {
       _$UserEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserEntityToJson(this);
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return toJson().toString();
+  }
 }

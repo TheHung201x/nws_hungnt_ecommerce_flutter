@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category_entity.g.dart';
@@ -24,4 +25,10 @@ class CategoryEntity {
       _$CategoryEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryEntityToJson(this);
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return toJson().toString();
+  }
 }

@@ -27,16 +27,20 @@ class AppEmailTextField extends StatelessWidget {
       child: TextFormField(
         controller: textEditingController,
         focusNode: focusNode,
+        style: AppTextStyle.blackS14,
         decoration: InputDecoration(
           label: Text(labelText!),
           labelStyle: AppTextStyle.blackS16Bold,
+          hintText: hintText,
+          hintStyle: AppTextStyle.greyS12,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: AppColors.border),
           ),
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: AppColors.border),
           ),
-          contentPadding: EdgeInsets.zero
+          contentPadding: EdgeInsets.zero,
         ),
         keyboardType: TextInputType.emailAddress,
         onChanged: onChanged,

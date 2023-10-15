@@ -1,48 +1,47 @@
 import 'package:ecommerce/blocs/app_cubit.dart';
-import 'package:ecommerce/database/secure_storage_helper.dart';
+import 'package:ecommerce/models/entities/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
-import 'package:ecommerce/router/router_config.dart';
+import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_navigator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   final SignInNavigator navigator;
   final AuthRepository authRepository;
+  final UserRepository userRepository;
+  final AppCubit appCubit;
 
-  SignInCubit({required this.navigator,required this.authRepository}) : super(const SignInState());
+  SignInCubit({required this.navigator,required this.authRepository,
+    required this.userRepository,
+    required this.appCubit
+  }) : super(const SignInState());
 
-  void changeEmail({required String email}) {
-    emit(state.copyWith(email: email));
-  }
-
-  void changePassword({required String password}) {
-    emit(state.copyWith(password: password));
-  }
-
-  void signIn(BuildContext context) async {
-    String email = state.email ?? '';
-    String password = state.password ?? '';
+  void signIn() async {
     emit(state.copyWith(signInStatus: LoadStatus.loading));
+    // final token = await authRepository.getToken();
+    // print('token $token');
+    // emit(state.copyWith(signInStatus: LoadStatus.success));
+
     try {
-      final result = await authRepository.signIn(email, password);
-        print('resp ${result}');
+      final result = await authRepository.signIn('john@mail.com', 'changeme');
       if (result != null) {
-        // UserEntity? myProfile = await userRepo.getProfile();
-        // appCubit.updateProfile(myProfile);
-        authRepository.saveToken(result);
-        final token = await SecureStorageHelper.instance.getToken();
-        print('token $token');
+        await authRepository.saveToken(result);
+        UserEntity? myProfile = await userRepository.getProfile();
+        appCubit.updateProfile(myProfile);
+        print("my profile $myProfile");
         emit(state.copyWith(signInStatus: LoadStatus.success));
-        navigator.openMainPage();
+        navigator.showSuccessFlushbar(message: 'Login success');
+        navigator.openHomePage();
       } else {
+        navigator.showErrorFlushbar(message: 'An error occurred, please try again');
         emit(state.copyWith(signInStatus: LoadStatus.failure));
       }
     } catch (err) {
+        navigator.showErrorFlushbar(message: 'Incorrect Email or Password');
       debugPrint(' err :$err');
       emit(state.copyWith(signInStatus: LoadStatus.failure));
     }

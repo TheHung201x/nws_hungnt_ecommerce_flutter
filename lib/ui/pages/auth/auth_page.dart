@@ -31,7 +31,7 @@ class AuthPage extends StatelessWidget {
                     AppButton(
                       title: 'Login',
                       onPressed: () => context.push('/signIn'),
-                      backgroundColor: AppColors.textWhite,
+                      backgroundColor: AppColors.white,
                       textStyle: AppTextStyle.blackS16Bold,
                       cornerRadius: 50,
                     ),
@@ -45,7 +45,7 @@ class AuthPage extends StatelessWidget {
                       textStyle: AppTextStyle.whiteS16Bold,
                       cornerRadius: 50,
                       borderWidth: 1,
-                      borderColor: AppColors.textWhite,
+                      borderColor: AppColors.white,
                     ),
                   ],
                 ),

@@ -1,15 +1,15 @@
-import 'package:ecommerce/blocs/app_cubit.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
-import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_cubit.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_cubit.dart';
+import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_navigator.dart';
 import 'package:ecommerce/ui/widget/buttons/app_button.dart';
 import 'package:ecommerce/ui/widget/textfields/app_email_text_field.dart';
 import 'package:ecommerce/ui/widget/textfields/app_password_text_field.dart';
 import 'package:ecommerce/ui/widget/textfields/app_username_text_field.dart';
+import 'package:ecommerce/utils/hide_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,6 +24,7 @@ class SignUpPage extends StatelessWidget {
       create: (context) {
         final authRepo = RepositoryProvider.of<AuthRepository>(context);
         return SignUpCubit(
+          navigator: SignUpNavigator(context: context),
           authRepository: authRepo,
         );
       },
@@ -95,8 +96,9 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
                     'Sign Up',
                     style: AppTextStyle.blackS18Bold,
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     'Create an new account',
+                    style: AppTextStyle.greyS14,
                   ),
                   contentPadding: EdgeInsets.zero),
               const SizedBox(
@@ -108,6 +110,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
                   _signUpCubit.changeUserName(
                       userName: userNameTextController.text);
                 },
+                hintText: 'Please enter username',
               ),
               const SizedBox(height: 10),
               AppEmailTextField(
@@ -115,6 +118,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
                 onChanged: (text) {
                   _signUpCubit.changeEmail(email: emailTextController.text);
                 },
+                hintText: 'Please enter email',
               ),
               const SizedBox(height: 10),
               AppPasswordTextField(
@@ -125,6 +129,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
                   _signUpCubit.changePassword(
                       password: passwordTextController.text);
                 },
+                hintText: 'Please enter password',
               ),
               const SizedBox(height: 10),
               AppPasswordTextField(
@@ -136,25 +141,29 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
                   _signUpCubit.changePassword(
                       password: passwordTextController.text);
                 },
+                hintText: 'Please enter confirm password',
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
-                child: CheckboxListTile(
-                  title: Text(
-                    'By creating an account you have to agree with our them & condication',
-                    style: AppTextStyle.greyS16,
-                  ),
-                  //    <-- label
-                  value: isCheck,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  onChanged: (newValue) {
-                    setState(() {
-                      isCheck = !isCheck;
-                    });
-                  },
-                  contentPadding: EdgeInsets.zero,
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: isCheck,
+                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                      onChanged: (newValue) {
+                        setState(() {
+                          isCheck = !isCheck;
+                        });
+                      },
+                    ),
+                    Expanded(
+                      child: Text(
+                        'By creating an account you have to agree with our them & condication',
+                        style: AppTextStyle.greySA12,
+                        maxLines: 2,
+                      ),
+                    )
+                  ],
                 ),
               ),
               BlocBuilder<SignUpCubit, SignUpState>(
@@ -166,7 +175,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
                         state.signUpStatus == LoadStatus.loading ? false : true,
                     isLoading:
                         state.signUpStatus == LoadStatus.loading ? true : false,
-                    backgroundColor: AppColors.textBlack,
+                    backgroundColor: AppColors.black,
                     textStyle: AppTextStyle.whiteS16Bold,
                     cornerRadius: 50,
                   );
@@ -181,6 +190,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
 
   void _signUp() {
     if (_formKey.currentState!.validate()) {
+      hideKeyboard(context);
       _signUpCubit.signUp(context);
     }
   }

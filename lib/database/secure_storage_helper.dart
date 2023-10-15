@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:ecommerce/models/entities/token_entity.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'share_preferences_helper.dart';
-
 class SecureStorageHelper {
   static const _apiTokenKey = '_apiTokenKey';
 
@@ -20,20 +18,20 @@ class SecureStorageHelper {
   //Save token
   void saveToken(TokenEntity token) async {
     await _storage.write(key: _apiTokenKey, value: jsonEncode(token.toJson()));
-    SharedPreferencesHelper.setApiTokenKey(_apiTokenKey);
+    // SharedPreferencesHelper.setApiTokenKey(_apiTokenKey);
   }
 
   //Remove token
   void removeToken() async {
     await _storage.delete(key: _apiTokenKey);
-    SharedPreferencesHelper.removeApiTokenKey();
+    // SharedPreferencesHelper.removeApiTokenKey();
   }
 
   //Get token
   Future<TokenEntity?> getToken() async {
     try {
-      final key = await SharedPreferencesHelper.getApiTokenKey();
-      final tokenEncoded = await _storage.read(key: key);
+      // final key = await SharedPreferencesHelper.getApiTokenKey();
+      final tokenEncoded = await _storage.read(key: _apiTokenKey);
       if (tokenEncoded == null) {
         return null;
       } else {

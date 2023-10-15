@@ -1,10 +1,11 @@
-import 'package:ecommerce/models/entities/token_entity.dart';
 import 'package:ecommerce/models/entities/user_entity.dart';
 import 'package:ecommerce/network/api_client.dart';
 import 'package:ecommerce/network/api_util.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class UserRepository {
-  Future<UserEntity> getProfile({required TokenEntity token});
+  Future<UserEntity> getProfile();
+
   Future<UserEntity> updateProfile({required UserEntity userEntity});
 }
 
@@ -14,12 +15,15 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl({required this.apiClient});
 
   @override
-  Future<UserEntity> getProfile({required TokenEntity token}) async {
-    final appService = ApiUtil.apiClient;
-    final response = await appService.getProfile({
-      'Authorization' : 'Bearer $token'
-    });
-    return response;
+  Future<UserEntity> getProfile() async {
+    try {
+      final appService = ApiUtil.apiClient;
+      final response = appService.getProfile();
+      return response;
+    } catch (e) {
+      debugPrint(e.toString());
+      return UserEntity();
+    }
   }
 
   @override
