@@ -1,5 +1,5 @@
 import 'package:ecommerce/blocs/app_cubit.dart';
-import 'package:ecommerce/models/entities/user_entity.dart';
+import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';

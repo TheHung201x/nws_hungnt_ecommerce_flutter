@@ -1,6 +1,6 @@
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
-import 'package:ecommerce/models/entities/product_entity.dart';
+import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,29 +16,29 @@ class TitleAndRatingProductDetail extends StatelessWidget {
       children: [
         Text(
           productEntity.title,
-          style: AppTextStyle.blackS20W800,
+          style: AppTextStyle.blackS18Bold,
           maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          overflow: TextOverflow.clip,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
+          padding: const EdgeInsets.symmetric(vertical: 4),
           child: Text(
             productEntity.description,
             maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTextStyle.greyS16,
+            overflow: TextOverflow.clip,
+            style: AppTextStyle.greyS12,
           ),
         ),
         Row(
           children: [
             SvgPicture.asset(
               AppImages.stars,
-              height: 14,
+              height: 12,
             ),
             const SizedBox(
               width: 10,
             ),
-            const Text('(320 Review)')
+            Text('(320 Review)',style: AppTextStyle.blackS14,)
           ],
         ),
       ],

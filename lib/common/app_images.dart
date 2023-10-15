@@ -12,6 +12,7 @@ class AppImages {
   static const next = 'assets/vectors/ic_next.svg';
   static const back = 'assets/vectors/ic_back_appbar.svg';
   static const about = 'assets/vectors/ic_more_vert.svg';
+  static const arrow = 'assets/vectors/ic_arrow.svg';
   static const favouriteBlack = 'assets/vectors/ic_favourite_black.svg';
   static const favouriteWhite = 'assets/vectors/ic_favourite_white.svg';
   static const bag = 'assets/vectors/ic_bag.svg';

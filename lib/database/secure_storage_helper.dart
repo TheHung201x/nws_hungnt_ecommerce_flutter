@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ecommerce/models/entities/token_entity.dart';
+import 'package:ecommerce/models/entities/token/token_entity.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorageHelper {

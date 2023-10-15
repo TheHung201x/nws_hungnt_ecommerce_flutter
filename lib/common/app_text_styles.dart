@@ -12,6 +12,7 @@ class AppTextStyle {
 
   //s14
   static final blackS14 = black.copyWith(fontSize: 14);
+  static final blackS15 = black.copyWith(fontSize: 15);
   static final blackS14Opacity = black.copyWith(fontSize: 14,color: Colors.black.withOpacity(0.9));
   static final blackS14Bold = blackS14.copyWith(fontWeight: FontWeight.bold);
   static final blackS14W800 = blackS14.copyWith(fontWeight: FontWeight.w800);
@@ -42,12 +43,11 @@ class AppTextStyle {
   static final whiteS12W800 = whiteS12.copyWith(fontWeight: FontWeight.w800);
 
   // //s14
-  // static final whiteS14 = white.copyWith(
-  //   fontSize: 14,
-  //   decoration: TextDecoration.none,
-  // );
-  // static final whiteS14Bold = whiteS14.copyWith(fontWeight: FontWeight.bold);
-  // static final whiteS14W800 = whiteS14.copyWith(fontWeight: FontWeight.w800);
+  static final whiteS14 = white.copyWith(
+    fontSize: 14,
+  );
+  static final whiteS14Bold = whiteS14.copyWith(fontWeight: FontWeight.bold);
+  static final whiteS14W800 = whiteS14.copyWith(fontWeight: FontWeight.w800);
 
   //s16
   static final whiteS16 = white.copyWith(fontSize: 16);

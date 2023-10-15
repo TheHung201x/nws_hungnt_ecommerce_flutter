@@ -1,4 +1,4 @@
-import 'package:ecommerce/models/entities/user_entity.dart';
+import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/network/api_client.dart';
 import 'package:ecommerce/network/api_util.dart';
 import 'package:flutter/cupertino.dart';

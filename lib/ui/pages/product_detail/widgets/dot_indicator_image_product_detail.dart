@@ -1,5 +1,5 @@
 import 'package:ecommerce/common/app_colors.dart';
-import 'package:ecommerce/models/entities/product_entity.dart';
+import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

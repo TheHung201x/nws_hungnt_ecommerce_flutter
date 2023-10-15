@@ -78,7 +78,7 @@ class AppNavigator {
         color: Colors.white,
       ),
       titleColor: Colors.white,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       backgroundColor: Colors.redAccent,
     ).show(context);
   }
@@ -94,7 +94,7 @@ class AppNavigator {
         color: Colors.white,
       ),
       titleColor: Colors.white,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       backgroundColor: Colors.green,
     ).show(context);
   }

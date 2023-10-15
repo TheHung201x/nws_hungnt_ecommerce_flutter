@@ -1,4 +1,4 @@
-import 'package:ecommerce/models/entities/user_entity.dart';
+import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:equatable/equatable.dart';
 

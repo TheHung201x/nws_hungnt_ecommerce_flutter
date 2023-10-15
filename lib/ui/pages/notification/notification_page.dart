@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
-import 'package:ecommerce/models/entities/notification_entity.dart';
+import 'package:ecommerce/models/entities/notification/notification_entity.dart';
 import 'package:ecommerce/models/enums/max_time_ago.dart';
 import 'package:ecommerce/repositories/category_repository.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
@@ -165,7 +165,7 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
                     ),
                   );
                 }, separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(color: AppColors.black,);
+                  return const Divider(color: AppColors.border,thickness: 1,);
                   },
               ))
             ],

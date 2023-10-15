@@ -1,4 +1,4 @@
-import 'package:ecommerce/models/entities/category_entity.dart';
+import 'package:ecommerce/models/entities/category/category_entity.dart';
 import 'package:ecommerce/network/api_client.dart';
 import 'package:ecommerce/network/api_util.dart';
 

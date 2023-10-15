@@ -1,5 +1,5 @@
-import 'package:ecommerce/models/entities/category_entity.dart';
-import 'package:ecommerce/models/entities/product_entity.dart';
+import 'package:ecommerce/models/entities/category/category_entity.dart';
+import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:ecommerce/ui/pages/auth/auth_page.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_page.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_page.dart';

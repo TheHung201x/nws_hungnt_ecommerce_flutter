@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_images.dart';
-import 'package:ecommerce/models/entities/product_entity.dart';
+import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:flutter/material.dart';
 
 class ImageProductDetail extends StatelessWidget {

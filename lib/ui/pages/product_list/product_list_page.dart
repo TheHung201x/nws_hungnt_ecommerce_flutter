@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
-import 'package:ecommerce/models/entities/category_entity.dart';
+import 'package:ecommerce/models/entities/category/category_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/product_repository.dart';
 import 'package:ecommerce/router/router_config.dart';

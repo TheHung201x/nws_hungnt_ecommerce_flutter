@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:ecommerce/models/entities/category_entity.dart';
-import 'package:ecommerce/models/entities/product_entity.dart';
-import 'package:ecommerce/models/entities/token_entity.dart';
-import 'package:ecommerce/models/entities/user_entity.dart';
+import 'package:ecommerce/models/entities/category/category_entity.dart';
+import 'package:ecommerce/models/entities/product/product_entity.dart';
+import 'package:ecommerce/models/entities/token/token_entity.dart';
+import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'api_client.g.dart';

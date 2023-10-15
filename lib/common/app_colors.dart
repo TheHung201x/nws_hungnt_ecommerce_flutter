@@ -45,6 +45,7 @@ class AppColors {
   static const Color imageBG = Color(0xFF919191);
   static const Color backgroundTabBar = Color(0xFFEEEEEE);
   static const Color greyD = Color(0xFFDDDDDD);
+  static const Color greyF3 = Color(0xFFF3F3F3);
 
   ///BottomNavigationBar
   static const Color bottomNavigationBar = Color(0xFF919191);
