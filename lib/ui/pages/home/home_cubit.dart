@@ -23,8 +23,8 @@ class HomeCubit extends Cubit<HomeState> {
         categoriesCopyList: result,
       ));
     } catch (err) {
-      debugPrint(' err :$err');
       emit(state.copyWith(getCategoriesLoadStatus: LoadStatus.failure));
+      debugPrint(' err :$err');
     }
   }
 

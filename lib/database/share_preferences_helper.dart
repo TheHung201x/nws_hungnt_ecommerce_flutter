@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferencesHelper {static const _didOnboardKey = '_didOnboardKey';
+class SharedPreferencesHelper {
+  static const _didOnboardKey = '_didOnboardKey';
 
   //Get onboard
   static Future<bool> isOnboardCompleted() async {

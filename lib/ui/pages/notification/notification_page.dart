@@ -3,8 +3,12 @@ import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/entities/notification/notification_entity.dart';
+import 'package:ecommerce/models/entities/user/user_entity.dart';
+import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/models/enums/max_time_ago.dart';
 import 'package:ecommerce/repositories/category_repository.dart';
+import 'package:ecommerce/repositories/notification_repository.dart';
+import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
 import 'package:ecommerce/utils/time_ago.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +24,9 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return NotificationCubit();
+        return NotificationCubit(
+            notificationRepository:
+                RepositoryProvider.of<NotificationRepository>(context));
       },
       child: const NotificationChildPage(),
     );
@@ -36,48 +42,21 @@ class NotificationChildPage extends StatefulWidget {
 
 class _NotificationChildPageState extends State<NotificationChildPage> {
   late NotificationCubit _notificationCubit;
-  List<NotificationEntity> listNotifi = [
-    NotificationEntity(
-        title: 'You have added the item to the cart',
-        image:
-            'https://i.imgur.com/rUWNzYa.jpeg',
-        createAt: DateTime.now().toString()),
-    NotificationEntity(
-        title: 'You have added the item to the cart',
-        image:
-            'https://i.imgur.com/rUWNzYa.jpeg',
-        createAt: DateTime.now().toString()),
-    NotificationEntity(
-        title: 'You have added the item to the cart',
-        image:
-            'https://i.imgur.com/rUWNzYa.jpeg',
-        createAt: DateTime.now().toString()),
-    NotificationEntity(
-        title: 'You have added the item to the cart',
-        image:
-            'https://i.imgur.com/rUWNzYa.jpeg',
-        createAt: DateTime.now().toString()),
-    NotificationEntity(
-        title: 'You have added the item to the cart',
-        image:
-            'https://i.imgur.com/rUWNzYa.jpeg',
-        createAt: DateTime.now().toString()),
-    NotificationEntity(
-        title: 'You have added the item to the cart',
-        image:
-            'https://i.imgur.com/rUWNzYa.jpeg',
-        createAt: DateTime.now().toString()),
-    NotificationEntity(
-        title: 'You have added the item to the cart',
-        image:
-            'https://i.imgur.com/rUWNzYa.jpeg',
-        createAt: DateTime.now().toString()),
-  ];
+  late UserRepository userRepository;
+  late UserEntity userEntity;
 
   @override
   void initState() {
     _notificationCubit = BlocProvider.of<NotificationCubit>(context);
+    userRepository = RepositoryProvider.of<UserRepository>(context);
+    userEntity = UserEntity();
+    getUser();
+    _notificationCubit.getAllNotifications(userEntity);
     super.initState();
+  }
+
+  void getUser() async {
+    userEntity = await userRepository.getProfile();
   }
 
   @override
@@ -126,47 +105,68 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Expanded(
-                  child: ListView.separated(
+              Expanded(child: BlocBuilder<NotificationCubit, NotificationState>(
+                builder: (context, state) {
+                 if(state.getAllNotificationsStatus == LoadStatus.success){
+                  final listNotifi = state.notificationList;
+                  return ListView.separated(
                     physics: const BouncingScrollPhysics(),
-                itemCount: listNotifi.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            height: 60,
-                            width: 60,
-                            imageUrl: listNotifi[index].image,
-                            placeholder: (context, url) =>
-                                const Center(child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) =>
-                                Image.network(AppImages.imageDefault),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(listNotifi[index].title, style: AppTextStyle.blackS14Opacity,),
-                                const SizedBox(height: 5,),
-                                Text(getTimeAgo(listNotifi[index].createAt, MaxAgoType.week, true),style: AppTextStyle.greyA,),
-                              ],
+                    itemCount: listNotifi.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: CachedNetworkImage(
+                                height: 60,
+                                width: 60,
+                                imageUrl: listNotifi[index].image,
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Image.network(AppImages.imageDefault),
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      listNotifi[index].title,
+                                      style: AppTextStyle.blackS14Opacity,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      getTimeAgo(listNotifi[index].createAt,
+                                          MaxAgoType.week, true),
+                                      style: AppTextStyle.greyA,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider(
+                        color: AppColors.border,
+                        thickness: 1,
+                      );
+                    },
                   );
-                }, separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(color: AppColors.border,thickness: 1,);
-                  },
+                 }else{
+                   return const Center(child: CircularProgressIndicator(),);
+                 }
+                },
               ))
             ],
           ),

@@ -2,7 +2,9 @@ import 'package:ecommerce/blocs/app_cubit.dart';
 import 'package:ecommerce/network/api_client.dart';
 import 'package:ecommerce/network/api_util.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
+import 'package:ecommerce/repositories/cart_repository.dart';
 import 'package:ecommerce/repositories/category_repository.dart';
+import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/product_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/router/router_config.dart';
@@ -47,6 +49,16 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider<UserRepository>(
           create: (context) {
             return UserRepositoryImpl(apiClient: _apiClient);
+          },
+        ),
+        RepositoryProvider<CartRepository>(
+          create: (context) {
+            return CartRepositoryImpl();
+          },
+        ),
+        RepositoryProvider<NotificationRepository>(
+          create: (context) {
+            return NotificationRepositoryImpl();
           },
         ),
       ],

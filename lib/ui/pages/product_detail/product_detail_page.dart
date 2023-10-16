@@ -2,7 +2,12 @@ import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/models/entities/cart/cart_entity.dart';
 import 'package:ecommerce/models/entities/product/product_entity.dart';
+import 'package:ecommerce/models/entities/user/user_entity.dart';
+import 'package:ecommerce/repositories/cart_repository.dart';
+import 'package:ecommerce/repositories/user_repository.dart';
+import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:ecommerce/ui/pages/product_detail/product_detail_cubit.dart';
 import 'package:ecommerce/ui/pages/product_detail/widgets/app_bar_product_detail.dart';
 import 'package:ecommerce/ui/pages/product_detail/widgets/dot_indicator_image_product_detail.dart';
@@ -22,10 +27,22 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return ProductDetailCubit(appNavigator: AppNavigator(context: context));
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            return ProductDetailCubit(
+                appNavigator: AppNavigator(context: context));
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            final cartRepository =
+                RepositoryProvider.of<CartRepository>(context);
+            return CartCubit(cartRepository: cartRepository);
+          },
+        ),
+      ],
       child: ProductDetailChildPage(
         productEntity: productEntity,
       ),
@@ -43,20 +60,31 @@ class ProductDetailChildPage extends StatefulWidget {
 }
 
 class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
+  late UserRepository userRepository;
   late PageController pageController;
   late int quantityProduct;
   late List<String> listSize;
   late List<int> listColors;
   late ProductDetailCubit _productDetailCubit;
+  late CartCubit _cartCubit;
+  late UserEntity userEntity;
 
   @override
   void initState() {
+    _cartCubit = BlocProvider.of<CartCubit>(context);
+    userRepository = RepositoryProvider.of<UserRepository>(context);
+    userEntity = UserEntity();
+    getUser();
     pageController = PageController();
     listSize = ['S', 'M', 'L', 'XL', 'XXL'];
     listColors = [0xFFCCCCCC, 0xFF000000, 0xFFCADCA7, 0xFFF79F1F];
     _productDetailCubit = BlocProvider.of<ProductDetailCubit>(context);
     _productDetailCubit.getQuantityAndTotalPrice(widget.productEntity.price);
     super.initState();
+  }
+
+  void getUser() async {
+    userEntity = await userRepository.getProfile();
   }
 
   @override
@@ -231,41 +259,44 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
           height: 50,
           width: MediaQuery.of(context).size.width / 1.5,
           child: BlocBuilder<ProductDetailCubit, ProductDetailState>(
-  builder: (context, state) {
-    return ListView.separated(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: listSize.length,
-            itemBuilder: (context, index) {
-              return
-                  GestureDetector(
-                      onTap: (){
-                        _productDetailCubit.chooseSizeProduct(listSize[index]);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: state.size == listSize[index] ? AppColors.black : AppColors.white,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.greyD),
-                        ),
-                        child: Text(
-                          listSize[index],
-                          style: state.size == listSize[index] ? AppTextStyle.whiteS14 :AppTextStyle.blackS14,
-                        ),
+            builder: (context, state) {
+              return ListView.separated(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: listSize.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      _productDetailCubit.chooseSizeProduct(listSize[index]);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: state.size == listSize[index]
+                            ? AppColors.black
+                            : AppColors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.greyD),
                       ),
-                    );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(
-                width: 10,
+                      child: Text(
+                        listSize[index],
+                        style: state.size == listSize[index]
+                            ? AppTextStyle.whiteS14
+                            : AppTextStyle.blackS14,
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(
+                    width: 10,
+                  );
+                },
               );
             },
-          );
-  },
-),
+          ),
         ),
       ],
     );
@@ -382,22 +413,35 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
             ],
           ),
         ),
-        AppIconButton(
-          width: MediaQuery.of(context).size.width / 2,
-          isContentCenter: true,
-          backgroundColor: AppColors.black,
-          title: 'Add to cart',
-          onPressed: () {},
-          cornerRadius: 30,
-          leadingIcon: Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: SvgPicture.asset(
-              AppImages.bag,
-              color: AppColors.white,
-              width: 20,
-              height: 20,
-            ),
-          ),
+        BlocBuilder<ProductDetailCubit, ProductDetailState>(
+          builder: (context, state) {
+            return AppIconButton(
+              width: MediaQuery.of(context).size.width / 2,
+              isContentCenter: true,
+              backgroundColor: AppColors.black,
+              title: 'Add to cart',
+              onPressed: () {
+                final cartEntity = CartEntity(
+                    userEntity.id,
+                    widget.productEntity,
+                    widget.productEntity.images[0],
+                    widget.productEntity.description,
+                    state.totalPrice,
+                    state.quantity);
+                _cartCubit.addToCart(cartEntity);
+              },
+              cornerRadius: 30,
+              leadingIcon: Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: SvgPicture.asset(
+                  AppImages.bag,
+                  color: AppColors.white,
+                  width: 20,
+                  height: 20,
+                ),
+              ),
+            );
+          },
         ),
       ],
     );

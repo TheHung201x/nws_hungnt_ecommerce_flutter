@@ -1,9 +1,12 @@
+// ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
 
 part 'notification_entity.g.dart';
 
 @JsonSerializable()
 class NotificationEntity {
+  @JsonKey()
+  int idUser;
   @JsonKey()
   String image;
   @JsonKey()
@@ -12,6 +15,7 @@ class NotificationEntity {
   String createAt;
 
   NotificationEntity({
+    this.idUser = 0,
     this.image = "",
     this.title = "",
     this.createAt = "",

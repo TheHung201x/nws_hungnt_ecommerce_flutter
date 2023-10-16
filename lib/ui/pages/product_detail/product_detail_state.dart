@@ -6,10 +6,6 @@ class ProductDetailState extends Equatable {
   final String size;
   final int price;
   final int totalPrice;
-  // final LoadStatus changeQuantityStatus;
-  // final LoadStatus changeSizeStatus;
-  // final LoadStatus changeColorStatus;
-  final LoadStatus addToCartStatus;
 
   const ProductDetailState({
     this.quantity = 1,
@@ -17,10 +13,6 @@ class ProductDetailState extends Equatable {
     this.size = '',
     this.price = 0,
     this.totalPrice = 0,
-    // this.changeQuantityStatus = LoadStatus.initial,
-    // this.changeSizeStatus = LoadStatus.initial,
-    // this.changeColorStatus = LoadStatus.initial,
-    this.addToCartStatus = LoadStatus.initial,
   });
 
   ProductDetailState copyWith({
@@ -29,9 +21,6 @@ class ProductDetailState extends Equatable {
     String? size,
     int? price,
     int? totalPrice,
-    // LoadStatus? changeQuantityStatus,
-    // LoadStatus? changeSizeStatus,
-    // LoadStatus? changeColorStatus,
     LoadStatus? addToCartStatus,
   }) {
     return ProductDetailState(
@@ -40,10 +29,6 @@ class ProductDetailState extends Equatable {
       size: size ?? this.size,
       price: price ?? this.price,
       totalPrice: totalPrice ?? this.totalPrice,
-      // changeQuantityStatus: changeQuantityStatus ?? this.changeQuantityStatus,
-      // changeSizeStatus: changeSizeStatus ?? this.changeSizeStatus,
-      // changeColorStatus: changeColorStatus ?? this.changeColorStatus,
-      addToCartStatus: addToCartStatus ?? this.addToCartStatus,
     );
   }
 
@@ -54,9 +39,5 @@ class ProductDetailState extends Equatable {
         size,
         price,
         totalPrice,
-        addToCartStatus,
-        // changeQuantityStatus,
-        // changeSizeStatus,
-        // changeColorStatus,
       ];
 }

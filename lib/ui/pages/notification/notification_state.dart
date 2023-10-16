@@ -1,6 +1,31 @@
 part of 'notification_cubit.dart';
 
-@immutable
-abstract class NotificationState {}
+class NotificationState extends Equatable {
+  final LoadStatus addNewNotificationStatus;
+  final LoadStatus getAllNotificationsStatus;
+  final List<NotificationEntity> notificationList;
 
-class NotificationInitial extends NotificationState {}
+  const NotificationState({
+    this.addNewNotificationStatus = LoadStatus.initial,
+    this.getAllNotificationsStatus = LoadStatus.initial,
+    this.notificationList = const [],
+  });
+
+  NotificationState copyWith({
+    LoadStatus? addNewNotificationStatus,
+    LoadStatus? getAllNotificationsStatus,
+    List<NotificationEntity>? notificationList,
+  }) {
+    return NotificationState(
+      addNewNotificationStatus:
+          addNewNotificationStatus ?? this.addNewNotificationStatus,
+      getAllNotificationsStatus:
+          getAllNotificationsStatus ?? this.getAllNotificationsStatus,
+      notificationList: notificationList ?? this.notificationList,
+    );
+  }
+
+  @override
+  List<Object?> get props =>
+      [addNewNotificationStatus, getAllNotificationsStatus, notificationList];
+}

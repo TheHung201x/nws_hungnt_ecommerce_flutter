@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1055468942794",
+    "project_id": "ecommerce-newwave-hungnt",
+    "storage_bucket": "ecommerce-newwave-hungnt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055468942794:android:06aece756b21088e0f0b33",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkBKgDYYENndBW_8kxNFDQaNoDpK8sPpU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

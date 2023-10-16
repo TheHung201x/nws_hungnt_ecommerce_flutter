@@ -1,41 +1,36 @@
 // ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
+import 'package:ecommerce/models/entities/product/product_entity.dart';
 
 part 'cart_entity.g.dart';
 
 @JsonSerializable()
 class CartEntity {
   @JsonKey()
-  int id;
-  @JsonKey()
   int idUser;
   @JsonKey()
-  int idProduct;
+  ProductEntity productEntity;
   @JsonKey()
-  String imageProduct;
-  @JsonKey()
-  String nameProduct;
+  String image;
   @JsonKey()
   String description;
   @JsonKey()
-  double totalPrice;
+  int totalPrice;
   @JsonKey()
   int quantity;
 
   CartEntity(
-      {
-        this.id = 0,
-        this.idUser = 0,
-        this.idProduct = 0,
-        this.imageProduct = "",
-        this.nameProduct = "",
-        this.description = "",
-        this.totalPrice = 0,
-        this.quantity = 0,
-      });
+      this.idUser, this.productEntity, this.image,
+      this.description, this.totalPrice, this.quantity);
 
   factory CartEntity.fromJson(Map<String, dynamic> json) =>
       _$CartEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CartEntityToJson(this);
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return toJson().toString();
+  }
 }
