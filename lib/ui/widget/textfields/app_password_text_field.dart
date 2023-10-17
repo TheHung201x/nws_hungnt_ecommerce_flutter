@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ObscureTextController extends ValueNotifier<bool> {
@@ -91,9 +92,9 @@ class AppPasswordTextField extends StatelessWidget {
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
                       }
-                      // if (!Utils.isPassword(value)) {
-                      //   return "Password requires at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character.";
-                      // }
+                      if (!Utils.isPassword(value)) {
+                        return "Password requires at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character.";
+                      }
                       return null;
                     },
                   );

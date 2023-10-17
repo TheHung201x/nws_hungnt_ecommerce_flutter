@@ -30,11 +30,11 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
   }
 
-  Future<void> getAllNotifications(UserEntity userEntity) async {
+  Future<void> getAllNotifications(int id) async {
     emit(state.copyWith(getAllNotificationsStatus: LoadStatus.loading));
     try {
       final notificationList =
-          await notificationRepository.getAllNotifications(userEntity);
+          await notificationRepository.getAllNotifications(id);
       emit(
         state.copyWith(
           getAllNotificationsStatus: LoadStatus.success,

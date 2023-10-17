@@ -10,6 +10,7 @@ import 'package:ecommerce/repositories/category_repository.dart';
 import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
+import 'package:ecommerce/ui/widget/list/empty_list_widget.dart';
 import 'package:ecommerce/utils/time_ago.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,12 +52,12 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
     userRepository = RepositoryProvider.of<UserRepository>(context);
     userEntity = UserEntity();
     getUser();
-    _notificationCubit.getAllNotifications(userEntity);
     super.initState();
   }
 
   void getUser() async {
     userEntity = await userRepository.getProfile();
+    _notificationCubit.getAllNotifications(userEntity.id);
   }
 
   @override
@@ -107,65 +108,89 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
               ),
               Expanded(child: BlocBuilder<NotificationCubit, NotificationState>(
                 builder: (context, state) {
-                 if(state.getAllNotificationsStatus == LoadStatus.success){
-                  final listNotifi = state.notificationList;
-                  return ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: listNotifi.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: CachedNetworkImage(
-                                height: 60,
-                                width: 60,
-                                imageUrl: listNotifi[index].image,
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    Image.network(AppImages.imageDefault),
-                                fit: BoxFit.cover,
-                              ),
+                  if (state.getAllNotificationsStatus == LoadStatus.success) {
+                    final listNotification = state.notificationList;
+                    return listNotification.isNotEmpty
+                        ? RefreshIndicator(
+                          onRefresh: () async{
+                            await _notificationCubit.getAllNotifications(userEntity.id);
+                          },
+                          child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: listNotification.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(100),
+                                        child: CachedNetworkImage(
+                                          height: 60,
+                                          width: 60,
+                                          imageUrl: listNotification[index].image,
+                                          placeholder: (context, url) =>
+                                              const Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                          errorWidget: (context, url, error) =>
+                                              Image.network(
+                                                  AppImages.imageDefault),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                listNotification[index].title,
+                                                style:
+                                                    AppTextStyle.blackS14Opacity,
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                getTimeAgo(
+                                                    listNotification[index]
+                                                        .createAt,
+                                                    MaxAgoType.week,
+                                                    true),
+                                                style: AppTextStyle.greyA,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const Divider(
+                                  color: AppColors.border,
+                                  thickness: 1,
+                                );
+                              },
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      listNotifi[index].title,
-                                      style: AppTextStyle.blackS14Opacity,
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      getTimeAgo(listNotifi[index].createAt,
-                                          MaxAgoType.week, true),
-                                      style: AppTextStyle.greyA,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const Divider(
-                        color: AppColors.border,
-                        thickness: 1,
-                      );
-                    },
-                  );
-                 }else{
-                   return const Center(child: CircularProgressIndicator(),);
-                 }
+                        )
+                        : EmptyListWidget(
+                            text: 'No Notifications Yet',
+                            onRefresh: () async {
+                              await _notificationCubit.getAllNotifications(userEntity.id);
+                            });
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                 },
               ))
             ],

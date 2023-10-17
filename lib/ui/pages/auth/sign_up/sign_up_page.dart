@@ -46,12 +46,15 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   late TextEditingController emailTextController;
   late TextEditingController passwordTextController;
   late TextEditingController confirmPasswordTextController;
-
+  late CheckIconValidateController checkIconEmailController;
+  late CheckIconValidateController checkIconUserNameController;
   late ObscureTextController obscurePasswordController;
   late ObscureTextController obscureConfirmPasswordController;
 
   final _formKey = GlobalKey<FormState>();
-  bool isCheck = false;
+  bool isCheckBox = false;
+  bool hasCheckIconEmail = false;
+  bool hasCheckIconUserName = false;
 
   @override
   void initState() {
@@ -61,7 +64,8 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
     passwordTextController = TextEditingController();
     confirmPasswordTextController = TextEditingController();
     _signUpCubit = BlocProvider.of<SignUpCubit>(context);
-
+    checkIconEmailController = CheckIconValidateController(check: false);
+    checkIconUserNameController = CheckIconValidateController(check: false);
     obscurePasswordController = ObscureTextController(obscureText: false);
     obscureConfirmPasswordController =
         ObscureTextController(obscureText: false);
@@ -104,21 +108,28 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
               const SizedBox(
                 height: 20,
               ),
-              AppUsernameTextField(
+              AppUserNameTextField(
                 textEditingController: userNameTextController,
-                onChanged: (text) {
-                  _signUpCubit.changeUserName(
-                      userName: userNameTextController.text);
+                checkIconController: checkIconUserNameController,
+                onChanged:(_){
+                  setState(() {
+                    hasCheckIconUserName = true;
+                  });
                 },
+                hasCheck: hasCheckIconUserName,
                 hintText: 'Please enter username',
               ),
               const SizedBox(height: 10),
               AppEmailTextField(
                 textEditingController: emailTextController,
-                onChanged: (text) {
-                  _signUpCubit.changeEmail(email: emailTextController.text);
-                },
+                checkIconController: checkIconEmailController,
                 hintText: 'Please enter email',
+                onChanged:(_){
+                  setState(() {
+                    hasCheckIconEmail = true;
+                  });
+                },
+                hasCheck: hasCheckIconEmail,
               ),
               const SizedBox(height: 10),
               AppPasswordTextField(
@@ -148,11 +159,12 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
                 child: Row(
                   children: [
                     Checkbox(
-                      value: isCheck,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                      value: isCheckBox,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
                       onChanged: (newValue) {
                         setState(() {
-                          isCheck = !isCheck;
+                          isCheckBox = !isCheckBox;
                         });
                       },
                     ),
@@ -191,7 +203,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   void _signUp() {
     if (_formKey.currentState!.validate()) {
       hideKeyboard(context);
-      _signUpCubit.signUp(context);
+      _signUpCubit.signUp(userNameTextController.text, emailTextController.text, passwordTextController.text);
     }
   }
 }

@@ -10,6 +10,7 @@ import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
+import 'package:ecommerce/ui/widget/list/empty_list_widget.dart';
 import 'package:ecommerce/ui/widget/list/error_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,8 @@ class CartPage extends StatelessWidget {
       BlocProvider(
         create: (context) {
           return NotificationCubit(
-              notificationRepository: RepositoryProvider.of<NotificationRepository>(context));
+              notificationRepository:
+                  RepositoryProvider.of<NotificationRepository>(context));
         },
       )
     ], child: const CartChildPage());
@@ -54,17 +56,17 @@ class _CartChildPageState extends State<CartChildPage> {
 
   @override
   void initState() {
-    _cartCubit = BlocProvider.of<CartCubit>(context);
     _notificationCubit = BlocProvider.of<NotificationCubit>(context);
     userRepository = RepositoryProvider.of<UserRepository>(context);
     userEntity = UserEntity();
+    _cartCubit = BlocProvider.of<CartCubit>(context);
     getUser();
-    _cartCubit.getAllCart(userEntity);
     super.initState();
   }
 
   void getUser() async {
     userEntity = await userRepository.getProfile();
+    _cartCubit.getAllCart(userEntity.id);
   }
 
   @override
@@ -125,115 +127,135 @@ class _CartChildPageState extends State<CartChildPage> {
                         builder: (context, state) {
                       if (state.getAllCartStatus == LoadStatus.success) {
                         final listCart = state.cartList;
-                        return ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Container(
-                                height: 100,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color: AppColors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 2.0,
-                                        offset: const Offset(
-                                          0,
-                                          10,
-                                        ),
-                                      ),
-                                    ],
-                                    borderRadius: BorderRadius.circular(13)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        ClipRRect(
+                        return RefreshIndicator(
+                          onRefresh: () async {
+                            _cartCubit.getAllCart(userEntity.id);
+                          },
+                          child: listCart.isNotEmpty
+                              ? ListView.separated(
+                                  physics: const BouncingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      height: 100,
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          color: AppColors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.1),
+                                              blurRadius: 10.0,
+                                              spreadRadius: 2.0,
+                                              offset: const Offset(
+                                                0,
+                                                10,
+                                              ),
+                                            ),
+                                          ],
                                           borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: CachedNetworkImage(
-                                            imageUrl: listCart[index].image,
-                                            height: 80,
-                                            width: 80,
+                                              BorderRadius.circular(13)),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.end,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  listCart[index].image,
+                                              height: 80,
+                                              width: 80,
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          width: 6,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              listCart[index]
-                                                  .productEntity
-                                                  .title,
-                                              style: AppTextStyle.blackS16Bold,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.clip,
-                                            ),
-                                            Text(
-                                              listCart[index].description,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.clip,
-                                              style: AppTextStyle.greyS12,
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              '\$${listCart[index].totalPrice}',
-                                              style: AppTextStyle.blackS18Bold,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        height: 40,
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: const BoxDecoration(
-                                          color: AppColors.backgroundTabBar,
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(30),
+                                          const SizedBox(
+                                            width: 6,
                                           ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Icon(Icons.remove),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  listCart[index]
+                                                      .productEntity
+                                                      .title,
+                                                  style: AppTextStyle
+                                                      .blackS16Bold,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                                Text(
+                                                  listCart[index].description,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.clip,
+                                                  style: AppTextStyle.greyS12,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  '\$${listCart[index].totalPrice}',
+                                                  style: AppTextStyle
+                                                      .blackS18Bold,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: const BoxDecoration(
+                                              color:
+                                              AppColors.backgroundTabBar,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(30),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                const Icon(Icons.remove),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       horizontal: 4),
-                                              child: Text(listCart[index]
-                                                  .quantity
-                                                  .toString()),
+                                                  child: Text(listCart[index]
+                                                      .quantity
+                                                      .toString()),
+                                                ),
+                                                const Icon(Icons.add),
+                                              ],
                                             ),
-                                            const Icon(Icons.add),
-                                          ],
-                                        ),
+                                          )
+
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(
-                                height: 15,
-                              );
-                            },
-                            itemCount: listCart.length);
-                      } else {
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(
+                                      height: 15,
+                                    );
+                                  },
+                                  itemCount: listCart.length)
+                              : EmptyListWidget(
+                                  text: 'No products in the cart',
+                                  onRefresh: () async {
+                                    await _cartCubit.getAllCart(userEntity.id);
+                                  }),
+                        );
+                      } else if (state.getAllCartStatus == LoadStatus.failure) {
                         return ErrorListWidget(
-                          onRefresh: () => _cartCubit.getAllCart(userEntity),
+                          onRefresh: () => _cartCubit.getAllCart(userEntity.id),
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
                         );
                       }
                     }),
@@ -244,77 +266,67 @@ class _CartChildPageState extends State<CartChildPage> {
                 bottom: 20,
                 left: 0,
                 right: 0,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: BlocBuilder<CartCubit, CartState>(
+                  builder: (context, state) {
+                    return Column(
                       children: [
-                        Text(
-                          'Total (3 item)',
-                          style: AppTextStyle.greyS14,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        BlocBuilder<CartCubit, CartState>(
-                          builder: (context, state) {
-                            return Text(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total (${state.cartList.length} item)',
+                              style: AppTextStyle.greyS14,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
                               '\$${state.totalAllPrice}',
                               style: AppTextStyle.blackS18Bold,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                            );
-                          },
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    BlocBuilder<CartCubit, CartState>(
-                      builder: (context, state) {
-                        if (state.getAllCartStatus == LoadStatus.success) {
-                          return GestureDetector(
-                            onTap: () async {
-                              await _cartCubit.deleteAllCart(userEntity);
-                              final notificationEntity = NotificationEntity(
-                                  title:
-                                      'You have placed your order successfully',
-                                  createAt: DateTime.now().toString(),
-                                  image: userEntity.avatar);
-                              _notificationCubit
-                                  .addNewNotification(notificationEntity);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              decoration: const BoxDecoration(
-                                color: AppColors.black,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Text(
-                                      'Proceed to Checkout',
-                                      style: AppTextStyle.whiteS16,
-                                    ),
-                                  ),
-                                  SvgPicture.asset(AppImages.arrow)
-                                ],
+                        GestureDetector(
+                          onTap: () async {
+                            await _cartCubit.deleteAllCart(userEntity.id);
+                            final notificationEntity = NotificationEntity(
+                                idUser: userEntity.id,
+                                title:
+                                    'You have placed your order successfully',
+                                createAt: DateTime.now().toString(),
+                                image: userEntity.avatar);
+                            _notificationCubit
+                                .addNewNotification(notificationEntity);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: const BoxDecoration(
+                              color: AppColors.black,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
                               ),
                             ),
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-                  ],
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Text(
+                                    'Proceed to Checkout',
+                                    style: AppTextStyle.whiteS16,
+                                  ),
+                                ),
+                                SvgPicture.asset(AppImages.arrow)
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
             ],

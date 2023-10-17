@@ -5,7 +5,7 @@ import 'package:ecommerce/models/entities/user/user_entity.dart';
 abstract class NotificationRepository {
   Future<String> addToNotification({required NotificationEntity notificationEntity});
 
-  Future<List<NotificationEntity>> getAllNotifications(UserEntity userEntity);
+  Future<List<NotificationEntity>> getAllNotifications(int id);
 }
 
 class NotificationRepositoryImpl extends NotificationRepository {
@@ -25,11 +25,11 @@ class NotificationRepositoryImpl extends NotificationRepository {
   }
 
   @override
-  Future<List<NotificationEntity>> getAllNotifications(UserEntity userEntity) async {
+  Future<List<NotificationEntity>> getAllNotifications(int id) async {
     final db = FirebaseFirestore.instance;
     List<NotificationEntity> notificationList = [];
     await Future.delayed(const Duration(seconds: 2));
-    await db.collection("Notification").where('idUser', isEqualTo: 0).get().then(
+    await db.collection("Notification").where('idUser', isEqualTo: id).get().then(
           (querySnapshot) {
         querySnapshot.docs.map(
               (e) {

@@ -36,8 +36,6 @@ class AppRouter {
   static const String signIn = "signIn";
   static const String signUp = "signUp";
   static const String signUpSuccess = "signUpSuccess";
-
-  // static const String main = "main";
   static const String home = "home";
   static const String productList = "productList";
   static const String productDetail = "productDetail";

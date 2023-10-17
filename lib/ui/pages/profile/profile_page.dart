@@ -90,7 +90,9 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 100,),
+                      const SizedBox(
+                        height: 100,
+                      ),
                       Center(
                         child: Column(
                           children: [
@@ -114,8 +116,8 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                                   bottom: -8,
                                   right: -8,
                                   child: Container(
-                                    width: 40,
-                                    height: 40,
+                                    width: 36,
+                                    height: 36,
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       color: AppColors.white,
@@ -162,31 +164,118 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                       Row(
                         children: [
                           Text(
-                            'Age',
+                            'Gender',
                             style: AppTextStyle.greyABold,
                           ),
                           const Spacer(),
-                          AppTextField(
-                            textEditingController: _ageController,
-                            hintText: 'Age',
+                          SizedBox(
+                            width: 220,
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  height: 40,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.black,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 14,
+                                        height: 14,
+                                        padding: EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                                          border: Border.all(
+
+                                          color: AppColors.white,
+                                          )
+                                        ),
+                                        child: Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Male',
+                                        style: AppTextStyle.whiteS12Bold,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(
+                                        10,
+                                      ),
+                                    ),
+                                    border: Border.all(color: AppColors.greyD),
+                                  ),
+                                  height: 40,
+                                  width: 100,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 14,
+                                        height: 14,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            border: Border.all(
+                                              color: AppColors.greyD,
+                                            )
+                                        ),
+                                      ),
+                                      Text(
+                                        'Female',
+                                        style: AppTextStyle.greyA12Blod,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           )
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 30),
+                        padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Row(
                           children: [
                             Text(
-                              'Email',
+                              'Age',
                               style: AppTextStyle.greyABold,
                             ),
                             const Spacer(),
                             AppTextField(
-                              textEditingController: _emailController,
-                              hintText: 'Email',
+                              textEditingController: _ageController,
+                              hintText: 'Age',
                             )
                           ],
                         ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Email',
+                            style: AppTextStyle.greyABold,
+                          ),
+                          const Spacer(),
+                          AppTextField(
+                            textEditingController: _emailController,
+                            hintText: 'Email',
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 30,
                       ),
                       Text(
                         'Settings',
@@ -245,7 +334,10 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                         onPressed: () {
                           _navigator.showSimpleDialog(
                               title: 'Are you sure you want to log out?',
-                              onConfirm: () => _navigator.openLoginPage(),
+                              onConfirm: () {
+                                _profileCubit.signOut();
+                                print("state ${state.signOutStatus}");
+                              },
                               onCancel: () => _navigator.pop());
                         },
                       ),
@@ -255,7 +347,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
               );
             } else if (state.signOutStatus == LoadStatus.loading) {
               return const Center(
-                child: AppCircularProgressIndicator(),
+                child: CircularProgressIndicator(),
               );
             } else {
               return const AppShimmer();

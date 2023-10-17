@@ -26,10 +26,8 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(state.copyWith(password: password));
   }
 
-  void signUp(BuildContext context) async {
-    String userName = state.userName ?? '';
-    String email = state.email ?? '';
-    String password = state.password ?? '';
+  void signUp(String userName, String email, String password) async {
+
     emit(state.copyWith(signUpStatus: LoadStatus.loading));
     try {
       await authRepository.signUp(userName, email, password);

@@ -1,38 +1,41 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/models/entities/cart/cart_entity.dart';
-import 'package:ecommerce/models/entities/user/user_entity.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class CartRepository {
-  Future<String> addToCart({required CartEntity cartEntity});
+  Future<void> addToCart({required CartEntity cartEntity, required BuildContext context});
 
-  Future<List<CartEntity>> getAllCart(UserEntity userEntity);
+  Future<List<CartEntity>> getAllCart(int id);
 
-  Future<void> deleteAllCart(UserEntity userEntity);
+  Future<void> deleteAllCart(int id);
 }
 
 class CartRepositoryImpl extends CartRepository {
   @override
-  Future<String> addToCart({required CartEntity cartEntity}) async {
+  Future<void> addToCart({required CartEntity cartEntity, required BuildContext context}) async {
     final CollectionReference cartCollection =
         FirebaseFirestore.instance.collection('Cart');
+    final navigator = AppNavigator(context: context);
     try {
       await cartCollection
           .add(cartEntity.toJson())
-          .then((value) => print("Cart Added"))
-          .catchError((error) => print("Failed to add cart: $error"));
-      return '200';
+          .then((value){
+        navigator.showSuccessFlushbar(message: 'You have added the product to your cart');
+      }).catchError((error){
+        navigator.showErrorFlushbar(message: 'Adding product to cart failed');
+      });
     } catch (e) {
-      return 'lỗi: $e';
+      debugPrint('err 00 : $e');
     }
   }
 
   @override
-  Future<List<CartEntity>> getAllCart(UserEntity userEntity) async {
+  Future<List<CartEntity>> getAllCart(int id) async {
     final db = FirebaseFirestore.instance;
     List<CartEntity> cartList = [];
     await Future.delayed(const Duration(seconds: 2));
-    print('id ${userEntity.id}');
-    await db.collection("Cart").where('idUser', isEqualTo: 1).get().then(
+    await db.collection("Cart").where('idUser', isEqualTo: id).get().then(
       (querySnapshot) {
         querySnapshot.docs.map(
           (e) {
@@ -47,9 +50,9 @@ class CartRepositoryImpl extends CartRepository {
   }
 
   @override
-  Future<void> deleteAllCart(UserEntity userEntity) async {
+  Future<void> deleteAllCart(int id) async {
     CollectionReference cart = FirebaseFirestore.instance.collection('Cart');
-    final deleteCards = await cart.where('idUser', isEqualTo: 1).get();
+    final deleteCards = await cart.where('idUser', isEqualTo: id).get();
     final futures = deleteCards.docs.map((e) => cart.doc(e.id).delete());
     await Future.wait(futures);
   }

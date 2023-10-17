@@ -400,6 +400,7 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
                 'Total Price',
                 style: AppTextStyle.greyS12,
               ),
+              // Viết chung 1 cái ...
               BlocBuilder<ProductDetailCubit, ProductDetailState>(
                 builder: (context, state) {
                   return Text(
@@ -428,7 +429,7 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
                     widget.productEntity.description,
                     state.totalPrice,
                     state.quantity);
-                _cartCubit.addToCart(cartEntity);
+                _cartCubit.addToCart(cartEntity, context);
               },
               cornerRadius: 30,
               leadingIcon: Padding(

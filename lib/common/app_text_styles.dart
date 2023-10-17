@@ -64,8 +64,10 @@ class AppTextStyle {
   static const greyA =
       TextStyle(color: Color(0xFFAAAAAA), fontFamily: 'Poppins');
   static final greyA12 = greyA.copyWith(fontSize: 12);
+  static final greyA12Blod = greyA.copyWith(fontSize: 12, fontWeight: FontWeight.bold);
   static final greyA14 = greyA.copyWith(fontSize: 14);
   static final greyA16 = greyA.copyWith(fontSize: 16);
+  static final greyA16Bold = greyA.copyWith(fontSize: 16, fontWeight: FontWeight.bold);
   static final greyABold = greyA.copyWith(fontWeight: FontWeight.bold);
 
   //s12

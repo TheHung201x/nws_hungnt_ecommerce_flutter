@@ -20,14 +20,11 @@ class SignInCubit extends Cubit<SignInState> {
     required this.appCubit
   }) : super(const SignInState());
 
-  void signIn() async {
+  void signIn(String email, String pass) async {
     emit(state.copyWith(signInStatus: LoadStatus.loading));
-    // final token = await authRepository.getToken();
-    // print('token $token');
-    // emit(state.copyWith(signInStatus: LoadStatus.success));
 
     try {
-      final result = await authRepository.signIn('john@mail.com', 'changeme');
+      final result = await authRepository.signIn(email, pass);
       if (result != null) {
         await authRepository.saveToken(result);
         UserEntity? myProfile = await userRepository.getProfile();
@@ -37,11 +34,12 @@ class SignInCubit extends Cubit<SignInState> {
         navigator.showSuccessFlushbar(message: 'Login success');
         navigator.openHomePage();
       } else {
-        navigator.showErrorFlushbar(message: 'An error occurred, please try again');
+        navigator.showErrorFlushbar(
+            message: 'An error occurred, please try again');
         emit(state.copyWith(signInStatus: LoadStatus.failure));
       }
     } catch (err) {
-        navigator.showErrorFlushbar(message: 'Incorrect Email or Password');
+      navigator.showErrorFlushbar(message: 'Incorrect Email or Password');
       debugPrint(' err :$err');
       emit(state.copyWith(signInStatus: LoadStatus.failure));
     }

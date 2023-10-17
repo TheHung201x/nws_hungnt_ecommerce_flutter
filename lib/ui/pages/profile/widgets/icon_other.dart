@@ -20,47 +20,50 @@ class IconOtherInProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Container(
-              height: 50,
-              width: 50,
-              margin: const EdgeInsets.only(right: 14,bottom: 14),
-              padding: const EdgeInsets.all(14),
-              decoration: const BoxDecoration(
-                  color: AppColors.backgroundTabBar,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: SvgPicture.asset(
-                linkImg,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 50,
+                width: 50,
+                margin: const EdgeInsets.only(right: 14),
+                padding: const EdgeInsets.all(14),
+                decoration: const BoxDecoration(
+                    color: AppColors.backgroundTabBar,
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: SvgPicture.asset(
+                  linkImg,
+                ),
               ),
-            ),
-            Text(title,style: AppTextStyle.blackS16W600,),
-          ],
-        ),
-        !isSwitch
-            ? Row(
-              children: [
-                isText ? const Text('English') : const SizedBox.shrink(),
-                const SizedBox(width: 10,),
-                const Icon(Icons.chevron_right),
-              ],
-            )
-            : Row(
-              children: [
-                isText ? const Text('off') : const SizedBox.shrink(),
-                const SizedBox(width: 4,),
-                CupertinoSwitch(
-                value: hasSwitch,
-                activeColor: AppColors.black,
-                onChanged: (bool value) {
-                  // hasSwitch = !hasSwitch;
-                }),
-              ],
-            ),
-      ],
+              Text(title,style: AppTextStyle.blackS16W600),
+            ],
+          ),
+          !isSwitch
+              ? Row(
+                children: [
+                  isText ? const Text('English') : const SizedBox.shrink(),
+                  const SizedBox(width: 10,),
+                  const Icon(Icons.chevron_right),
+                ],
+              )
+              : Row(
+                children: [
+                  isText ? const Text('off') : const SizedBox.shrink(),
+                  const SizedBox(width: 4,),
+                  CupertinoSwitch(
+                  value: hasSwitch,
+                  activeColor: AppColors.black,
+                  onChanged: (bool value) {
+                    // hasSwitch = !hasSwitch;
+                  }),
+                ],
+              ),
+        ],
+      ),
     );
   }
 }

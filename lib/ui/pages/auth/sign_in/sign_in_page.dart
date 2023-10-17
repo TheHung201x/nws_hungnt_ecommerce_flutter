@@ -49,9 +49,10 @@ class _SignInChildPageState extends State<SignInChildPage> {
   late SignInCubit _signInCubit;
   late TextEditingController emailTextController;
   late TextEditingController passwordTextController;
-
   late ObscureTextController obscurePasswordController;
+  late CheckIconValidateController checkIconController;
   final _formKey = GlobalKey<FormState>();
+  bool hasCheckIcon = false;
 
   @override
   void initState() {
@@ -59,8 +60,8 @@ class _SignInChildPageState extends State<SignInChildPage> {
     emailTextController = TextEditingController(text: 'john@mail.com');
     passwordTextController = TextEditingController(text: 'changeme');
     _signInCubit = BlocProvider.of<SignInCubit>(context);
-
     obscurePasswordController = ObscureTextController(obscureText: false);
+    checkIconController = CheckIconValidateController(check: false);
   }
 
   @override
@@ -103,6 +104,13 @@ class _SignInChildPageState extends State<SignInChildPage> {
               AppEmailTextField(
                 textEditingController: emailTextController,
                 hintText: 'Please enter email',
+                checkIconController: checkIconController,
+                onChanged: (_) {
+                  setState(() {
+                    hasCheckIcon = true;
+                  });
+                },
+                hasCheck: hasCheckIcon,
               ),
               const SizedBox(height: 10),
               AppPasswordTextField(
@@ -131,9 +139,20 @@ class _SignInChildPageState extends State<SignInChildPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Divider(),
-                    Text('or'),
-                    Divider(),
+                    Expanded(
+                        child: Divider(
+                      color: AppColors.border,
+                      thickness: 1,
+                    )),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4),
+                      child: Text('or', style: AppTextStyle.black),
+                    ),
+                    Expanded(
+                        child: Divider(
+                      color: AppColors.border,
+                      thickness: 1,
+                    )),
                   ],
                 ),
               ),
@@ -166,7 +185,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
                   title: 'Continue with Google',
                   onPressed: () {},
                   backgroundColor: AppColors.transparent,
-                  textStyle: AppTextStyle.blackS16Bold,
+                  textStyle: AppTextStyle.greyA16Bold,
                   cornerRadius: 50,
                   // borderWidth: 1,
                   // borderColor: AppColors.textWhite,
@@ -184,7 +203,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
                 title: 'Continue with Apple',
                 onPressed: () {},
                 backgroundColor: AppColors.white,
-                textStyle: AppTextStyle.blackS16Bold,
+                textStyle: AppTextStyle.greyA16Bold,
                 cornerRadius: 50,
                 // borderWidth: 1,
                 // borderColor: AppColors.textWhite,
@@ -199,7 +218,8 @@ class _SignInChildPageState extends State<SignInChildPage> {
   void _signIn() {
     if (_formKey.currentState!.validate()) {
       hideKeyboard(context);
-      _signInCubit.signIn();
+      _signInCubit.signIn(
+          emailTextController.text, passwordTextController.text);
     }
   }
 }

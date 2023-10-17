@@ -7,7 +7,7 @@ class EmptyListWidget extends StatelessWidget {
 
   const EmptyListWidget({
     Key? key,
-    this.text = 'Không có data',
+    this.text = 'No data',
     this.onRefresh,
   }) : super(key: key);
 
