@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
+import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/entities/notification/notification_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
@@ -8,6 +9,7 @@ import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/cart_repository.dart';
 import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
+import 'package:ecommerce/router/router_config.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
 import 'package:ecommerce/ui/widget/list/empty_list_widget.dart';
@@ -15,6 +17,7 @@ import 'package:ecommerce/ui/widget/list/error_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({
@@ -27,7 +30,8 @@ class CartPage extends StatelessWidget {
       BlocProvider(
         create: (context) {
           return CartCubit(
-              cartRepository: RepositoryProvider.of<CartRepository>(context));
+              cartRepository: RepositoryProvider.of<CartRepository>(context),
+              appNavigator: AppNavigator(context: context));
         },
       ),
       BlocProvider(
@@ -135,6 +139,7 @@ class _CartChildPageState extends State<CartChildPage> {
                               ? ListView.separated(
                                   physics: const BouncingScrollPhysics(),
                                   itemBuilder: (context, index) {
+                                    _cartCubit.getCart(listCart);
                                     return Container(
                                       height: 100,
                                       padding: const EdgeInsets.all(10),
@@ -156,83 +161,104 @@ class _CartChildPageState extends State<CartChildPage> {
                                               BorderRadius.circular(13)),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                            CrossAxisAlignment.end,
                                         children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  listCart[index].image,
-                                              height: 80,
-                                              width: 80,
+                                          GestureDetector(
+                                            onTap: () {
+                                              context.pushNamed(
+                                                  AppRouter.productDetail,
+                                                  extra: listCart[index]
+                                                      .productEntity);
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: CachedNetworkImage(
+                                                imageUrl: listCart[index].image,
+                                                height: 80,
+                                                width: 80,
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(
                                             width: 6,
                                           ),
                                           Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  listCart[index]
-                                                      .productEntity
-                                                      .title,
-                                                  style: AppTextStyle
-                                                      .blackS16Bold,
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.clip,
-                                                ),
-                                                Text(
-                                                  listCart[index].description,
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.clip,
-                                                  style: AppTextStyle.greyS12,
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  '\$${listCart[index].totalPrice}',
-                                                  style: AppTextStyle
-                                                      .blackS18Bold,
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ],
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                context.pushNamed(
+                                                    AppRouter.productDetail,
+                                                    extra: listCart[index]
+                                                        .productEntity);
+                                              },
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    listCart[index]
+                                                        .productEntity
+                                                        .title,
+                                                    style: AppTextStyle
+                                                        .blackS16Bold,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.clip,
+                                                  ),
+                                                  Text(
+                                                    listCart[index]
+                                                        .productEntity
+                                                        .description,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.clip,
+                                                    style: AppTextStyle.greyS12,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    '\$${listCart[index].totalPrice}',
+                                                    style: AppTextStyle
+                                                        .blackS18Bold,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                           Container(
                                             height: 40,
                                             padding: const EdgeInsets.all(10),
                                             decoration: const BoxDecoration(
-                                              color:
-                                              AppColors.backgroundTabBar,
+                                              color: AppColors.backgroundTabBar,
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(30),
                                               ),
                                             ),
                                             child: Row(
                                               children: [
-                                                const Icon(Icons.remove),
+                                                GestureDetector(
+                                                    onTap: () {
+                                                        _cartCubit.decrement(index, listCart[index].productEntity.price,);},
+                                                    child: const Icon(
+                                                        Icons.remove)),
                                                 Padding(
                                                   padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 4),
-                                                  child: Text(listCart[index]
-                                                      .quantity
+                                                      .symmetric(horizontal: 4),
+                                                  child: Text('${state.cartList[index].quantity}'
                                                       .toString()),
                                                 ),
-                                                const Icon(Icons.add),
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      _cartCubit.increment(index,listCart[index].productEntity.price,);},
+                                                    child:
+                                                        const Icon(Icons.add)),
                                               ],
                                             ),
                                           )
-
                                         ],
                                       ),
                                     );

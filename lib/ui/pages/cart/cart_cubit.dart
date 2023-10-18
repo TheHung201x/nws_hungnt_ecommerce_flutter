@@ -1,5 +1,5 @@
+import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/models/entities/cart/cart_entity.dart';
-import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/cart_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -10,8 +10,12 @@ part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
   final CartRepository cartRepository;
+  final AppNavigator appNavigator;
 
-  CartCubit({required this.cartRepository}) : super(const CartState());
+  CartCubit({
+    required this.cartRepository,
+    required this.appNavigator,
+  }) : super(const CartState());
 
   Future<void> addToCart(CartEntity cartEntity, BuildContext context) async {
     emit(
@@ -67,5 +71,55 @@ class CartCubit extends Cubit<CartState> {
         state.copyWith(getAllCartStatus: LoadStatus.failure),
       );
     }
+  }
+
+  void getCart(List<CartEntity> cartList) {
+    emit(state.copyWith(cartList: cartList));
+  }
+
+  void increment(int index, int price) {
+    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
+    var list = [...state.cartList];
+    var quantity = state.cartList[index].quantity;
+    var totalPrice = state.cartList[index].totalPrice;
+    var totalAllPrice = state.totalAllPrice;
+    totalAllPrice += price;
+    quantity++;
+    totalPrice = quantity * price;
+    list.elementAt(index).quantity = quantity;
+    list.elementAt(index).totalPrice = totalPrice;
+    emit(
+      state.copyWith(
+          cartList: list,
+          getAllCartStatus: LoadStatus.success,
+          totalAllPrice: totalAllPrice),
+    );
+  }
+
+  void decrement(int index, int price) {
+    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
+    var list = state.cartList;
+    var quantity = state.cartList[index].quantity;
+    var totalPrice = state.cartList[index].totalPrice;
+    var totalAllPrice = state.totalAllPrice;
+    quantity--;
+    if (quantity >= 1) {
+      totalAllPrice -= price;
+    } else {
+      quantity = 1;
+      appNavigator.showErrorFlushbar(
+          message: 'Cannot decrease the quantity anymore');
+    }
+
+    totalPrice = quantity * price;
+    list.elementAt(index).quantity = quantity;
+    list.elementAt(index).totalPrice = totalPrice;
+
+    emit(
+      state.copyWith(
+          cartList: list,
+          getAllCartStatus: LoadStatus.success,
+          totalAllPrice: totalAllPrice),
+    );
   }
 }

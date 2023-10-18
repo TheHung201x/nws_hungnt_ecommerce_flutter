@@ -39,7 +39,7 @@ class ProductDetailPage extends StatelessWidget {
           create: (context) {
             final cartRepository =
                 RepositoryProvider.of<CartRepository>(context);
-            return CartCubit(cartRepository: cartRepository);
+            return CartCubit(cartRepository: cartRepository,appNavigator: AppNavigator(context: context));
           },
         ),
       ],
@@ -158,6 +158,7 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
         child: Stack(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   // crossAxisAlignment: CrossAxisAlignment.start,
@@ -426,7 +427,6 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
                     userEntity.id,
                     widget.productEntity,
                     widget.productEntity.images[0],
-                    widget.productEntity.description,
                     state.totalPrice,
                     state.quantity);
                 _cartCubit.addToCart(cartEntity, context);

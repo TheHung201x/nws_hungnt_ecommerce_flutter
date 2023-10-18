@@ -13,15 +13,12 @@ class CartEntity {
   @JsonKey()
   String image;
   @JsonKey()
-  String description;
-  @JsonKey()
   int totalPrice;
   @JsonKey()
   int quantity;
 
   CartEntity(
-      this.idUser, this.productEntity, this.image,
-      this.description, this.totalPrice, this.quantity);
+      this.idUser, this.productEntity, this.image, this.totalPrice, this.quantity);
 
   factory CartEntity.fromJson(Map<String, dynamic> json) =>
       _$CartEntityFromJson(json);
