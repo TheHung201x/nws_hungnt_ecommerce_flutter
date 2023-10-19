@@ -1,6 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
-import 'package:ecommerce/ui/widget/textfields/app_email_text_field.dart';
+import 'package:ecommerce/ui/widgets/textfields/app_email_text_field.dart';
 import 'package:flutter/material.dart';
 
 class AppUserNameTextField extends StatelessWidget {

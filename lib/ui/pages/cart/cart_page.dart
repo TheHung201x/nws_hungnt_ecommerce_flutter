@@ -12,8 +12,8 @@ import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/router/router_config.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
-import 'package:ecommerce/ui/widget/list/empty_list_widget.dart';
-import 'package:ecommerce/ui/widget/list/error_list_widget.dart';
+import 'package:ecommerce/ui/widgets/list/empty_list_widget.dart';
+import 'package:ecommerce/ui/widgets/list/error_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -90,7 +90,7 @@ class _CartChildPageState extends State<CartChildPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SvgPicture.asset(
-                          AppImages.back,
+                          AppImages.icBack,
                           height: 40,
                           width: 40,
                         ),
@@ -110,7 +110,7 @@ class _CartChildPageState extends State<CartChildPage> {
                             ],
                           ),
                           child: SvgPicture.asset(
-                            AppImages.bag,
+                            AppImages.icBag,
                           ),
                         ),
                       ],
@@ -271,6 +271,7 @@ class _CartChildPageState extends State<CartChildPage> {
                                   itemCount: listCart.length)
                               : EmptyListWidget(
                                   text: 'No products in the cart',
+                                  linkImage: AppImages.emptyCart,
                                   onRefresh: () async {
                                     await _cartCubit.getAllCart(userEntity.id);
                                   }),
@@ -345,7 +346,7 @@ class _CartChildPageState extends State<CartChildPage> {
                                     style: AppTextStyle.whiteS16,
                                   ),
                                 ),
-                                SvgPicture.asset(AppImages.arrow)
+                                SvgPicture.asset(AppImages.icArrow)
                               ],
                             ),
                           ),

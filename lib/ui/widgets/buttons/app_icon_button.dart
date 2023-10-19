@@ -1,11 +1,10 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_dimens.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
-import 'package:ecommerce/ui/widget/app_circular_progress_indicator.dart';
+import 'package:ecommerce/ui/widgets/app_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 
-class AppButton extends StatelessWidget {
-  //Attributes
+class AppIconButton extends StatelessWidget {
   final String title;
   final double width;
   final double height;
@@ -15,6 +14,7 @@ class AppButton extends StatelessWidget {
   final Color backgroundColor;
   final Color disableBackgroundColor;
   final TextStyle textStyle;
+  final bool isContentCenter;
 
   //Child widgets
   final Widget? leadingIcon;
@@ -27,7 +27,7 @@ class AppButton extends StatelessWidget {
   //Action & callback
   final VoidCallback? onPressed;
 
-  const AppButton({
+  const AppIconButton({
     Key? key,
     this.title = "",
     this.width = double.infinity,
@@ -43,6 +43,7 @@ class AppButton extends StatelessWidget {
     this.isEnable = true,
     this.isLoading = false,
     this.onPressed,
+    this.isContentCenter = false,
   }) : super(key: key);
 
   @override
@@ -72,14 +73,28 @@ class AppButton extends StatelessWidget {
     if (isLoading) {
       return const AppCircularProgressIndicator(color: Colors.white);
     } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          leadingIcon ?? Container(),
-          title.isNotEmpty ? Text(title, style: textStyle) : Container(),
-          trailingIcon ?? Container(),
-        ],
-      );
+      return isContentCenter != true
+          ? Padding(
+              padding: const EdgeInsets.only(left: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  leadingIcon ?? Container(),
+                  title.isNotEmpty
+                      ? Text(title, style: textStyle)
+                      : Container(),
+                  trailingIcon ?? Container(),
+                ],
+              ),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                leadingIcon ?? Container(),
+                title.isNotEmpty ? Text(title, style: textStyle) : Container(),
+                trailingIcon ?? Container(),
+              ],
+            );
     }
   }
 }

@@ -11,37 +11,39 @@ class TitleAndRatingProductDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          productEntity.title,
-          style: AppTextStyle.blackS18Bold,
-          maxLines: 1,
-          overflow: TextOverflow.clip,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Text(
-            productEntity.description,
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            productEntity.title,
+            style: AppTextStyle.blackS18Bold,
             maxLines: 1,
             overflow: TextOverflow.clip,
-            style: AppTextStyle.greyS12,
           ),
-        ),
-        Row(
-          children: [
-            SvgPicture.asset(
-              AppImages.stars,
-              height: 12,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              productEntity.description,
+              maxLines: 1,
+              overflow: TextOverflow.clip,
+              style: AppTextStyle.greyS12,
             ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text('(320 Review)',style: AppTextStyle.blackS14,)
-          ],
-        ),
-      ],
+          ),
+          Row(
+            children: [
+              SvgPicture.asset(
+                AppImages.icStars,
+                height: 12,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text('(320 Review)',style: AppTextStyle.blackS14,)
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-
 class AppTextStyle {
   ///Black
   static const black = TextStyle(color: Colors.black, fontFamily: 'Poppins');

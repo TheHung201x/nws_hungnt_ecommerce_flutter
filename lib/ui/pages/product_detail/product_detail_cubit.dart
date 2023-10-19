@@ -7,9 +7,9 @@ part 'product_detail_state.dart';
 
 class ProductDetailCubit extends Cubit<ProductDetailState> {
   final AppNavigator appNavigator;
-  ProductDetailCubit({
-    required this.appNavigator
-}) : super(const ProductDetailState());
+
+  ProductDetailCubit({required this.appNavigator})
+      : super(const ProductDetailState());
 
   void getQuantityAndTotalPrice(int price) {
     emit(state.copyWith(price: price, totalPrice: price));
@@ -39,15 +39,16 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
           totalPrice: state.price * state.quantity,
         ),
       );
-      appNavigator.showErrorFlushbar(message: 'Cannot decrease the quantity anymore');
+      appNavigator.showErrorFlushbar(
+          message: 'Cannot decrease the quantity anymore');
     }
   }
-  
-  void chooseSizeProduct(String size){
+
+  void chooseSizeProduct(String size) {
     emit(state.copyWith(size: size));
   }
 
-  void chooseColorProduct(int color){
+  void chooseColorProduct(int color) {
     emit(state.copyWith(color: color));
   }
 }

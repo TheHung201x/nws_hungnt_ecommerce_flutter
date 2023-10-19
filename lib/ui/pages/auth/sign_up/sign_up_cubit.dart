@@ -14,18 +14,6 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit({required this.navigator, required this.authRepository})
       : super(const SignUpState());
 
-  void changeUserName({required String userName}) {
-    emit(state.copyWith(userName: userName));
-  }
-
-  void changeEmail({required String email}) {
-    emit(state.copyWith(email: email));
-  }
-
-  void changePassword({required String password}) {
-    emit(state.copyWith(password: password));
-  }
-
   void signUp(String userName, String email, String password) async {
 
     emit(state.copyWith(signUpStatus: LoadStatus.loading));

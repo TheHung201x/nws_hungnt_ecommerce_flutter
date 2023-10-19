@@ -5,7 +5,7 @@ import 'package:ecommerce/repositories/auth_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_navigator.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'sign_in_state.dart';
 
@@ -29,7 +29,9 @@ class SignInCubit extends Cubit<SignInState> {
         await authRepository.saveToken(result);
         UserEntity? myProfile = await userRepository.getProfile();
         appCubit.updateProfile(myProfile);
-        print("my profile $myProfile");
+        if (kDebugMode) {
+          print("my profile $myProfile");
+        }
         emit(state.copyWith(signInStatus: LoadStatus.success));
         navigator.showSuccessFlushbar(message: 'Login success');
         navigator.openHomePage();

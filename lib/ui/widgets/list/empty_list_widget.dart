@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 
 class EmptyListWidget extends StatelessWidget {
   final String text;
+  final String linkImage;
   final RefreshCallback? onRefresh;
 
   const EmptyListWidget({
     Key? key,
     this.text = 'No data',
+    this.linkImage = '',
     this.onRefresh,
   }) : super(key: key);
 
@@ -17,15 +19,19 @@ class EmptyListWidget extends StatelessWidget {
       onRefresh: onRefresh ?? _onRefreshData,
       child: ListView.builder(
         itemBuilder: (context, index) {
-          return SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: Center(
-              child: Text(
+          return Column(
+            children: [
+              Image.asset(
+                linkImage,
+                height: 80,
+                width: 80,
+              ),
+              const SizedBox(height: 10,),
+              Text(
                 text,
                 style: AppTextStyle.greyS18W800,
               ),
-            ),
+            ],
           );
         },
         itemCount: 1,

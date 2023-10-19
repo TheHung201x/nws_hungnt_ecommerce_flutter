@@ -1,16 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce/common/app_colors.dart';
-import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/models/entities/category/category_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/models/enums/search_status.dart';
 import 'package:ecommerce/repositories/category_repository.dart';
 import 'package:ecommerce/router/router_config.dart';
 import 'package:ecommerce/ui/pages/home/home_cubit.dart';
-import 'package:ecommerce/ui/widget/app_circular_progress_indicator.dart';
+import 'package:ecommerce/ui/pages/home/widgets/appbar_home.dart';
+import 'package:ecommerce/ui/pages/home/widgets/item_category.dart';
+import 'package:ecommerce/ui/pages/home/widgets/search_categories.dart';
+import 'package:ecommerce/ui/widgets/list/error_load_widget.dart';
+import 'package:ecommerce/ui/widgets/list/loading_gridview_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
@@ -58,60 +59,10 @@ class _HomeChildPageState extends State<HomeChildPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40),
-                child: SvgPicture.asset(
-                  AppImages.back,
-                  height: 40,
-                  width: 40,
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: const Color(0xFFF3F4F6),
-                ),
-                height: 50,
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppImages.search,
-                      height: 20,
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextField(
-                          controller: searchController,
-                          onChanged: (value) {
-                            _homeCubit.searchCategories(value);
-                          },
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                          textAlignVertical: TextAlignVertical.center,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: EdgeInsets.zero,
-                            hintText: 'Search Category',
-                            hintStyle: AppTextStyle.greyA14,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const AppBarHome(),
+              const SearchCategories(),
               Expanded(
                 child: RefreshIndicator(
-                  color: Colors.red,
                   onRefresh: () async {
                     _homeCubit.getAllCategories();
                   },
@@ -129,107 +80,47 @@ class _HomeChildPageState extends State<HomeChildPage> {
                         );
                       }
                       if (state.getCategoriesLoadStatus == LoadStatus.success) {
-                        return GridView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: state.categoriesList?.length,
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 16,
-                            maxCrossAxisExtent:
-                                MediaQuery.of(context).size.width / 2,
-                            childAspectRatio: 3 / 3.3,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                context.pushNamed(AppRouter.productList,
-                                    extra: state.categoriesList?[index]);
-                              },
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(20),
-                                    ),
-                                    child: CachedNetworkImage(
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      imageUrl:
-                                          state.categoriesList?[index].image ??
-                                              AppImages.imageDefault,
-                                      placeholder: (context, url) =>
-                                          const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                      errorWidget: (context, url, error) =>
-                                          Image.network(AppImages.imageDefault),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: Container(
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              AppColors.white.withOpacity(0.6),
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            state.categoriesList?[index].name ??
-                                                '',
-                                            style: AppTextStyle.blackS20W800,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                            '${state.categoriesList?[index].totalProduct} Product',
-                                            style: AppTextStyle.blackS18W500,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        );
+                        return _showListCategories(state.categoriesList ?? []);
                       } else if (state.getCategoriesLoadStatus ==
                           LoadStatus.failure) {
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('Something went wrong...'),
-                              ElevatedButton(
-                                  onPressed: () =>
-                                      _homeCubit.getAllCategories(),
-                                  child: const Text('Try again'))
-                            ],
-                          ),
+                        return ErrorLoadWidget(
+                          onPress: () => _homeCubit.getAllCategories(),
                         );
                       } else {
-                        return const Center(
-                          child: AppCircularProgressIndicator(
-                              color: AppColors.white),
-                        );
+                        return const LoadingGridViewWidget();
                       }
                     },
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _showListCategories(List<CategoryEntity> categoriesList) {
+    return GridView.builder(
+      physics: const BouncingScrollPhysics(),
+      itemCount: categoriesList.length,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
+        childAspectRatio: 3 / 3.3,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          onTap: () {
+            context.pushNamed(AppRouter.productList,
+                extra: categoriesList[index]);
+          },
+          child: ItemCategory(
+            categoryEntity: categoriesList[index],
+          ),
+        );
+      },
     );
   }
 }

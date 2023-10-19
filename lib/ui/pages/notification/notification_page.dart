@@ -2,15 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
-import 'package:ecommerce/models/entities/notification/notification_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/models/enums/max_time_ago.dart';
-import 'package:ecommerce/repositories/category_repository.dart';
 import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
-import 'package:ecommerce/ui/widget/list/empty_list_widget.dart';
+import 'package:ecommerce/ui/widgets/list/empty_list_widget.dart';
 import 'package:ecommerce/utils/time_ago.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,7 +73,7 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SvgPicture.asset(
-                      AppImages.back,
+                      AppImages.icBack,
                       height: 40,
                       width: 40,
                     ),
@@ -94,7 +92,7 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
                             ),
                           ]),
                       child: SvgPicture.asset(
-                        AppImages.about,
+                        AppImages.icMore,
                       ),
                     ),
                   ],

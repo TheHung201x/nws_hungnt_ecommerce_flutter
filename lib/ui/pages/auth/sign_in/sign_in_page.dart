@@ -7,10 +7,11 @@ import 'package:ecommerce/repositories/auth_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_cubit.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_navigator.dart';
-import 'package:ecommerce/ui/widget/buttons/app_button.dart';
-import 'package:ecommerce/ui/widget/buttons/app_icon_button.dart';
-import 'package:ecommerce/ui/widget/textfields/app_email_text_field.dart';
-import 'package:ecommerce/ui/widget/textfields/app_password_text_field.dart';
+import 'package:ecommerce/ui/widgets/buttons/app_button.dart';
+import 'package:ecommerce/ui/widgets/buttons/app_icon_button.dart';
+import 'package:ecommerce/ui/widgets/logo/app_logo.dart';
+import 'package:ecommerce/ui/widgets/textfields/app_email_text_field.dart';
+import 'package:ecommerce/ui/widgets/textfields/app_password_text_field.dart';
 import 'package:ecommerce/utils/hide_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +53,11 @@ class _SignInChildPageState extends State<SignInChildPage> {
   late ObscureTextController obscurePasswordController;
   late CheckIconValidateController checkIconController;
   final _formKey = GlobalKey<FormState>();
+
+  /*
+   HasCheckIcon : Mặc đinh false (ko xuất hiện) icon validate ✅, khi người dùng nhập vào textfield => onchange : HasCheckIcon = true
+   Lúc này icon check khi validate mới xuất hiện.
+  */
   bool hasCheckIcon = false;
 
   @override
@@ -62,6 +68,16 @@ class _SignInChildPageState extends State<SignInChildPage> {
     _signInCubit = BlocProvider.of<SignInCubit>(context);
     obscurePasswordController = ObscureTextController(obscureText: false);
     checkIconController = CheckIconValidateController(check: false);
+  }
+
+  @override
+  void dispose() {
+    emailTextController.dispose();
+    passwordTextController.dispose();
+    _signInCubit.close();
+    obscurePasswordController.dispose();
+    checkIconController.dispose();
+    super.dispose();
   }
 
   @override
@@ -84,134 +100,161 @@ class _SignInChildPageState extends State<SignInChildPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                  margin: const EdgeInsets.symmetric(vertical: 40),
-                  height: showingKeyboard ? 0 : 100,
-                  child: Image.asset(AppImages.logoFashion)),
-              ListTile(
-                  title: Text(
-                    'Welcome!',
-                    style: AppTextStyle.blackS18Bold,
-                  ),
-                  subtitle: Text(
-                    'please login or sign up to continue our app',
-                    style: AppTextStyle.greyS14,
-                  ),
-                  contentPadding: EdgeInsets.zero),
-              const SizedBox(
-                height: 20,
-              ),
-              AppEmailTextField(
-                textEditingController: emailTextController,
-                hintText: 'Please enter email',
-                checkIconController: checkIconController,
-                onChanged: (_) {
-                  setState(() {
-                    hasCheckIcon = true;
-                  });
-                },
-                hasCheck: hasCheckIcon,
-              ),
+              AppLogo(showingKeyboard: showingKeyboard),
+              _titleLogin(),
+              const SizedBox(height: 20),
+              _textFieldEmailLogin(),
               const SizedBox(height: 10),
-              AppPasswordTextField(
-                textEditingController: passwordTextController,
-                obscureTextController: obscurePasswordController,
-                hintText: 'Please enter password',
-              ),
+              _textFieldPasswordLogin(),
               const SizedBox(height: 40),
-              BlocBuilder<SignInCubit, SignInState>(
-                builder: (context, state) {
-                  return AppButton(
-                    title: 'Login',
-                    onPressed: () => _signIn(),
-                    isEnable:
-                        state.signInStatus == LoadStatus.loading ? false : true,
-                    isLoading:
-                        state.signInStatus == LoadStatus.loading ? true : false,
-                    backgroundColor: AppColors.black,
-                    textStyle: AppTextStyle.whiteS16Bold,
-                    cornerRadius: 50,
-                  );
-                },
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                        child: Divider(
-                      color: AppColors.border,
-                      thickness: 1,
-                    )),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: Text('or', style: AppTextStyle.black),
-                    ),
-                    Expanded(
-                        child: Divider(
-                      color: AppColors.border,
-                      thickness: 1,
-                    )),
-                  ],
-                ),
-              ),
-              AppIconButton(
-                leadingIcon: Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Image.asset(
-                    'assets/image/ic_facebook.png',
-                    width: 20,
-                    height: 20,
-                  ),
-                ),
-                title: 'Continue with Facebook',
-                onPressed: () {},
-                backgroundColor: AppColors.buttonFacebook,
-                textStyle: AppTextStyle.whiteS16Bold,
-                cornerRadius: 50,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: AppIconButton(
-                  leadingIcon: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: SvgPicture.asset(
-                      'assets/vectors/ic_google.svg',
-                      width: 20,
-                      height: 20,
-                    ),
-                  ),
-                  title: 'Continue with Google',
-                  onPressed: () {},
-                  backgroundColor: AppColors.transparent,
-                  textStyle: AppTextStyle.greyA16Bold,
-                  cornerRadius: 50,
-                  // borderWidth: 1,
-                  // borderColor: AppColors.textWhite,
-                ),
-              ),
-              AppIconButton(
-                leadingIcon: Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: SvgPicture.asset(
-                    'assets/vectors/ic_apple.svg',
-                    width: 20,
-                    height: 20,
-                  ),
-                ),
-                title: 'Continue with Apple',
-                onPressed: () {},
-                backgroundColor: AppColors.white,
-                textStyle: AppTextStyle.greyA16Bold,
-                cornerRadius: 50,
-                // borderWidth: 1,
-                // borderColor: AppColors.textWhite,
-              ),
+              _buttonLogin(),
+              _textOrLogin(),
+              _loginWithFacebook(),
+              _loginWithGoogle(),
+              _loginWithApple(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _titleLogin() {
+    return ListTile(
+        title: Text(
+          'Welcome!',
+          style: AppTextStyle.blackS18Bold,
+        ),
+        subtitle: Text(
+          'please login or sign up to continue our app',
+          style: AppTextStyle.greyS14,
+        ),
+        contentPadding: EdgeInsets.zero);
+  }
+
+  Widget _textFieldEmailLogin() {
+    return AppEmailTextField(
+      textEditingController: emailTextController,
+      hintText: 'Please enter email',
+      checkIconController: checkIconController,
+      onChanged: (_) {
+        setState(() {
+          hasCheckIcon = true;
+        });
+      },
+      hasCheck: hasCheckIcon,
+    );
+  }
+
+  Widget _textFieldPasswordLogin() {
+    return AppPasswordTextField(
+      textEditingController: passwordTextController,
+      obscureTextController: obscurePasswordController,
+      hintText: 'Please enter password',
+    );
+  }
+
+  Widget _buttonLogin() {
+    return BlocBuilder<SignInCubit, SignInState>(
+      builder: (context, state) {
+        return AppButton(
+          title: 'Login',
+          onPressed: () => _signIn(),
+          isEnable: state.signInStatus == LoadStatus.loading ? false : true,
+          isLoading: state.signInStatus == LoadStatus.loading ? true : false,
+          backgroundColor: AppColors.black,
+          textStyle: AppTextStyle.whiteS16Bold,
+          cornerRadius: 50,
+        );
+      },
+    );
+  }
+
+  Widget _textOrLogin() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Divider(
+              color: AppColors.border,
+              thickness: 1,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4),
+            child: Text('or', style: AppTextStyle.black),
+          ),
+          Expanded(
+            child: Divider(
+              color: AppColors.border,
+              thickness: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _loginWithFacebook() {
+    return AppIconButton(
+      leadingIcon: Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: Image.asset(
+          AppImages.icFacebook,
+          width: 20,
+          height: 20,
+        ),
+      ),
+      title: 'Continue with Facebook',
+      onPressed: () {},
+      backgroundColor: AppColors.buttonFacebook,
+      textStyle: AppTextStyle.whiteS16Bold,
+      cornerRadius: 50,
+    );
+  }
+
+  Widget _loginWithGoogle() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: AppIconButton(
+        leadingIcon: Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: SvgPicture.asset(
+            AppImages.icGoogle,
+            width: 20,
+            height: 20,
+          ),
+        ),
+        title: 'Continue with Google',
+        onPressed: () {},
+        backgroundColor: AppColors.transparent,
+        textStyle: AppTextStyle.greyA16Bold,
+        cornerRadius: 50,
+        // borderWidth: 1,
+        // borderColor: AppColors.textWhite,
+      ),
+    );
+  }
+
+  Widget _loginWithApple() {
+    return AppIconButton(
+      leadingIcon: Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: SvgPicture.asset(
+          AppImages.icApple,
+          width: 20,
+          height: 20,
+        ),
+      ),
+      title: 'Continue with Apple',
+      onPressed: () {},
+      backgroundColor: AppColors.white,
+      textStyle: AppTextStyle.greyA16Bold,
+      cornerRadius: 50,
+      // borderWidth: 1,
+      // borderColor: AppColors.textWhite,
     );
   }
 

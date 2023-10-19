@@ -15,7 +15,7 @@ class AppBarProductDetail extends StatelessWidget {
         GestureDetector(
           onTap: context.pop,
           child: SvgPicture.asset(
-            AppImages.back,
+            AppImages.icBack,
             height: 40,
             width: 40,
           ),
@@ -27,7 +27,7 @@ class AppBarProductDetail extends StatelessWidget {
               color: AppColors.white, shape: BoxShape.circle),
           padding: const EdgeInsets.all(8),
           child: SvgPicture.asset(
-            AppImages.bag,
+            AppImages.icBag,
             height: 40,
             width: 40,
           ),

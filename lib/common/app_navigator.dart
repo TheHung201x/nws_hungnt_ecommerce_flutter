@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/router/router_config.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -34,11 +35,22 @@ class AppNavigator {
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+          ),
+          title: Text(
+            title,
+            style: AppTextStyle.blackS20W800,
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(message),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(message, style: AppTextStyle.greyA16),
               ],
             ),
           ),
@@ -69,8 +81,10 @@ class AppNavigator {
   /// Show error flushbar
   void showErrorFlushbar({required String message}) {
     Flushbar(
+      margin: const EdgeInsets.all(10),
+      borderRadius: BorderRadius.circular(10),
       message: message,
-      flushbarStyle: FlushbarStyle.GROUNDED,
+      flushbarStyle: FlushbarStyle.FLOATING,
       flushbarPosition: FlushbarPosition.TOP,
       icon: const Icon(
         Icons.error_outline,
@@ -85,8 +99,10 @@ class AppNavigator {
 
   void showSuccessFlushbar({required String message}) {
     Flushbar(
+      margin: const EdgeInsets.all(10),
+      borderRadius: BorderRadius.circular(10),
       message: message,
-      flushbarStyle: FlushbarStyle.GROUNDED,
+      flushbarStyle: FlushbarStyle.FLOATING,
       flushbarPosition: FlushbarPosition.TOP,
       icon: const Icon(
         Icons.check_circle_outline,

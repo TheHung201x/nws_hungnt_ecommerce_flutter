@@ -8,11 +8,10 @@ import 'package:ecommerce/ui/pages/profile/profile_cubit.dart';
 import 'package:ecommerce/ui/pages/profile/profile_navigator.dart';
 import 'package:ecommerce/ui/pages/profile/profile_state.dart';
 import 'package:ecommerce/ui/pages/profile/widgets/icon_other.dart';
-import 'package:ecommerce/ui/widget/app_circular_progress_indicator.dart';
-import 'package:ecommerce/ui/widget/buttons/app_icon_button.dart';
-import 'package:ecommerce/ui/widget/list/error_list_widget.dart';
-import 'package:ecommerce/ui/widget/shimmer/app_shimmer.dart';
-import 'package:ecommerce/ui/widget/textfields/app_text_field.dart';
+import 'package:ecommerce/ui/widgets/buttons/app_icon_button.dart';
+import 'package:ecommerce/ui/widgets/list/error_list_widget.dart';
+import 'package:ecommerce/ui/widgets/shimmer/app_shimmer.dart';
+import 'package:ecommerce/ui/widgets/textfields/app_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -132,7 +131,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                                         Radius.circular(10),
                                       ),
                                     ),
-                                    child: SvgPicture.asset(AppImages.pen),
+                                    child: SvgPicture.asset(AppImages.icPen),
                                   ),
                                 )
                               ],
@@ -185,9 +184,9 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                                       Container(
                                         width: 14,
                                         height: 14,
-                                        padding: EdgeInsets.all(2),
+                                        padding: const EdgeInsets.all(2),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                                          borderRadius: const BorderRadius.all(Radius.circular(10)),
                                           border: Border.all(
 
                                           color: AppColors.white,
@@ -196,7 +195,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                                         child: Container(
                                           width: 10,
                                           height: 10,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: AppColors.white,
                                           ),
@@ -227,7 +226,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                                         width: 14,
                                         height: 14,
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                                             border: Border.all(
                                               color: AppColors.greyD,
                                             )
@@ -291,27 +290,27 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                             Radius.circular(20),
                           ),
                         ),
-                        child: Column(
+                        child: const Column(
                           children: [
                             IconOtherInProfile(
-                              linkImg: AppImages.language,
+                              linkImg: AppImages.icLanguage,
                               title: 'Language',
                               isSwitch: false,
                               isText: true,
                             ),
                             IconOtherInProfile(
-                                linkImg: AppImages.notification,
+                                linkImg: AppImages.icNotification,
                                 title: 'Notification',
                                 isSwitch: true,
                                 isText: false),
                             IconOtherInProfile(
-                              linkImg: AppImages.darkMode,
+                              linkImg: AppImages.icDarkMode,
                               title: 'Dark Mode',
                               isSwitch: true,
                               isText: true,
                             ),
                             IconOtherInProfile(
-                              linkImg: AppImages.help,
+                              linkImg: AppImages.icHelp,
                               title: 'Help Center',
                               isSwitch: false,
                               isText: false,
@@ -323,7 +322,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                         leadingIcon: Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: SvgPicture.asset(
-                            AppImages.logOut,
+                            AppImages.icLogOut,
                             width: 20,
                             height: 20,
                           ),
@@ -333,10 +332,10 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                         backgroundColor: AppColors.black,
                         onPressed: () {
                           _navigator.showSimpleDialog(
-                              title: 'Are you sure you want to log out?',
+                              title: 'Log out',
+                              message: 'Are you sure you want to log out?',
                               onConfirm: () {
                                 _profileCubit.signOut();
-                                print("state ${state.signOutStatus}");
                               },
                               onCancel: () => _navigator.pop());
                         },

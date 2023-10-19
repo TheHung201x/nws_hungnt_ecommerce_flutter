@@ -2,7 +2,7 @@ import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_navigator.dart';
-import 'package:ecommerce/ui/widget/buttons/app_button.dart';
+import 'package:ecommerce/ui/widgets/buttons/app_button.dart';
 import 'package:flutter/material.dart';
 
 class SignUpSuccessPage extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class IconOtherInProfile extends StatelessWidget {
-  IconOtherInProfile(
+  const IconOtherInProfile(
       {Key? key,
       required this.linkImg,
       required this.title,
