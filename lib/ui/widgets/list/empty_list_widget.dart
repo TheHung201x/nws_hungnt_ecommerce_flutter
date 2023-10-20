@@ -1,3 +1,4 @@
+import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ class EmptyListWidget extends StatelessWidget {
   const EmptyListWidget({
     Key? key,
     this.text = 'No data',
-    this.linkImage = '',
+    this.linkImage = AppImages.imageDefault,
     this.onRefresh,
   }) : super(key: key);
 
@@ -18,6 +19,7 @@ class EmptyListWidget extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: onRefresh ?? _onRefreshData,
       child: ListView.builder(
+        shrinkWrap: true,
         itemBuilder: (context, index) {
           return Column(
             children: [

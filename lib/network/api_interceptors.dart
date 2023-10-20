@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce/database/secure_storage_helper.dart';
 import 'package:ecommerce/network/api_util.dart';
 import 'package:ecommerce/router/router_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
 class ApiInterceptors extends QueuedInterceptorsWrapper {
@@ -29,11 +30,11 @@ class ApiInterceptors extends QueuedInterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     final statusCode = err.response?.statusCode;
-    // final path = err.requestOptions.path;
+    final path = err.requestOptions.path;
     final uri = err.requestOptions.uri;
     final RequestOptions request = err.requestOptions;
-    // logger.e(
-    //     "⚠️ ERROR[$statusCode] => PATH: $path \n Response: ${err.response?.data}");
+    debugPrint(
+        "⚠️ ERROR[$statusCode] => PATH: $path \n Response: ${err.response?.data}");
     switch (statusCode) {
       case 401:
         final savedToken = await SecureStorageHelper.instance.getToken();

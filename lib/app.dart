@@ -67,10 +67,9 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<AppCubit>(
             create: (context) {
               return AppCubit(
-                  userRepository:
-                      RepositoryProvider.of<UserRepository>(context),
-                  authRepository:
-                      RepositoryProvider.of<AuthRepository>(context));
+                userRepository: RepositoryProvider.of<UserRepository>(context),
+                authRepository: RepositoryProvider.of<AuthRepository>(context),
+              );
             },
           ),
         ],

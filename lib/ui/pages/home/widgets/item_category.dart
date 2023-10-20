@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 class ItemCategory extends StatelessWidget {
   final CategoryEntity categoryEntity;
 
-  const ItemCategory(
-      {Key? key, required this.categoryEntity})
+  const ItemCategory({Key? key, required this.categoryEntity})
       : super(key: key);
 
   @override
@@ -23,12 +22,11 @@ class ItemCategory extends StatelessWidget {
           ),
           child: CachedNetworkImage(
             height: MediaQuery.of(context).size.height,
-            imageUrl:
-            categoryEntity.image,
-            placeholder: (context, url) =>
-                const AppShimmer(),
+            width: MediaQuery.of(context).size.width,
+            imageUrl: categoryEntity.image,
+            placeholder: (context, url) => const AppShimmer(),
             errorWidget: (context, url, error) =>
-                Image.network(AppImages.imageDefault),
+                Image.network(AppImages.imageDefaultNetwork),
             fit: BoxFit.cover,
           ),
         ),
@@ -39,8 +37,9 @@ class ItemCategory extends StatelessWidget {
           child: Container(
             height: 60,
             decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(0.6),
-                borderRadius: BorderRadius.circular(20)),
+              color: AppColors.white.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

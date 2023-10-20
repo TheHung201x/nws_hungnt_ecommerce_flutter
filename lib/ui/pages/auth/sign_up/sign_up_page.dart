@@ -192,7 +192,10 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
           Checkbox(
             value: isCheckBox,
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              borderRadius: BorderRadius.all(
+                Radius.circular(5.0),
+              ),
+            ),
             onChanged: (newValue) {
               setState(() {
                 isCheckBox = !isCheckBox;
@@ -230,8 +233,11 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   void _signUp() {
     if (_formKey.currentState!.validate()) {
       hideKeyboard(context);
-      _signUpCubit.signUp(userNameTextController.text, emailTextController.text,
-          passwordTextController.text);
+      _signUpCubit.signUp(
+        userNameTextController.text,
+        emailTextController.text,
+        passwordTextController.text,
+      );
     }
   }
 }

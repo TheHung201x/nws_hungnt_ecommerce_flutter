@@ -44,8 +44,9 @@ class _QuantityProductDetailState extends State<QuantityProductDetail> {
               child: Row(
                 children: [
                   GestureDetector(
-                      onTap: () => _productDetailCubit.decrement(),
-                      child: const Icon(Icons.remove)),
+                    onTap: () => _productDetailCubit.decrement(),
+                    child: const Icon(Icons.remove),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Text(

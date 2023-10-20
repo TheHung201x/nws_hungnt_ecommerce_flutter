@@ -1,5 +1,5 @@
 class AppDimens {
-  AppDimens._(); // this basically makes it so you can instantiate this class
+  AppDimens._();
   //TextFontSize
   static const double fontSmaller = 11.0;
   static const double fontMaxSmall = 10.0;

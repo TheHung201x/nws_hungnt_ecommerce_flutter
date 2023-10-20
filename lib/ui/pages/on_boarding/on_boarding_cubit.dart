@@ -5,9 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'on_boarding_state.dart';
 
 class OnBoardingCubit extends Cubit<OnBoardingState> {
-  OnBoardingCubit() : super(OnBoardingState());
+  OnBoardingCubit()
+      : super(
+          OnBoardingState(),
+        );
 
-  void setFlag () async{
+  void setFlag() async {
     SharedPreferencesHelper.setOnboard();
   }
 }

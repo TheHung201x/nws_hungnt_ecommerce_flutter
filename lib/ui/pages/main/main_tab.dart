@@ -63,8 +63,9 @@ extension MainTabExtension on MainTab {
   Widget _isActive(String title, String urlAsset) {
     return Container(
       decoration: BoxDecoration(
-          color: AppColors.backgroundTabBar,
-          borderRadius: BorderRadius.circular(30)),
+        color: AppColors.backgroundTabBar,
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: Row(
         children: [
           Container(

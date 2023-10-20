@@ -44,12 +44,6 @@ class AppTextField extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         onChanged: onChanged,
         autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   if (value == null || value.isEmpty) {
-        //     return 'Please enter username';
-        //   }
-        //   return null;
-        // },
       ),
     );
   }

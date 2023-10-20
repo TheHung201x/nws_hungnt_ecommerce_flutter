@@ -12,20 +12,27 @@ class SignUpCubit extends Cubit<SignUpState> {
   final AuthRepository authRepository;
 
   SignUpCubit({required this.navigator, required this.authRepository})
-      : super(const SignUpState());
+      : super(
+          const SignUpState(),
+        );
 
   void signUp(String userName, String email, String password) async {
-
-    emit(state.copyWith(signUpStatus: LoadStatus.loading));
+    emit(
+      state.copyWith(signUpStatus: LoadStatus.loading),
+    );
     try {
       await authRepository.signUp(userName, email, password);
-      Future.delayed(const Duration(seconds: 1), (){
-        emit(state.copyWith(signUpStatus: LoadStatus.success));
+      Future.delayed(const Duration(seconds: 1), () {
+        emit(
+          state.copyWith(signUpStatus: LoadStatus.success),
+        );
         navigator.openSignUpSuccess();
       });
     } catch (err) {
       debugPrint(' err :$err');
-      emit(state.copyWith(signUpStatus: LoadStatus.failure));
+      emit(
+        state.copyWith(signUpStatus: LoadStatus.failure),
+      );
       navigator.showErrorFlushbar(message: 'Sign Up failure');
     }
   }

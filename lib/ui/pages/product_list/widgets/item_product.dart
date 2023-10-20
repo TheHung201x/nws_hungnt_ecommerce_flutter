@@ -29,7 +29,7 @@ class ItemProduct extends StatelessWidget {
                   imageUrl: productEntity.images[0],
                   placeholder: (context, url) => const AppShimmer(),
                   errorWidget: (context, url, error) =>
-                      Image.network(AppImages.imageDefault),
+                      Image.network(AppImages.imageDefaultNetwork),
                   fit: BoxFit.cover,
                 ),
                 Positioned(
@@ -52,7 +52,8 @@ class ItemProduct extends StatelessWidget {
           productEntity.title,
           style: AppTextStyle.blackS18Bold,
           maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          overflow: TextOverflow.clip,
+          textAlign: TextAlign.center,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
@@ -60,7 +61,8 @@ class ItemProduct extends StatelessWidget {
             productEntity.description,
             style: AppTextStyle.greyS12W800,
             maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.clip,
+            textAlign: TextAlign.center,
           ),
         ),
         Text(

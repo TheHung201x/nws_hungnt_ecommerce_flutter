@@ -19,8 +19,8 @@ class CategoryRepositoryImpl extends CategoryRepository {
         categoryList.map((e) => apiClient.getTotalProductByIdCategory(e.id));
 
     final productCountingList = await Future.wait(getTotalProduct);
-    for (int index = 0; index < categoryList.length; index++) {
-      categoryList[index].totalProduct = productCountingList[index];
+    for (int i = 0; i < categoryList.length; i++) {
+      categoryList[i].totalProduct = productCountingList[i];
     }
     categoryList = categoryList.where((element) => element.totalProduct != 0).toList();
     return categoryList;

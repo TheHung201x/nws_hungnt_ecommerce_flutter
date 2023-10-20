@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/models/entities/product/product_entity.dart';
+import 'package:ecommerce/ui/widgets/shimmer/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class ImageProductDetail extends StatelessWidget {
@@ -21,9 +22,9 @@ class ImageProductDetail extends StatelessWidget {
           imageUrl: productEntity.images[index],
           fit: BoxFit.cover,
           placeholder: (context, url) =>
-              const Center(child: CircularProgressIndicator()),
+              const AppShimmer(),
           errorWidget: (context, url, error) =>
-              Image.network(AppImages.imageDefault),
+              Image.network(AppImages.imageDefaultNetwork),
         );
       },
     );

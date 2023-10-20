@@ -1,6 +1,7 @@
 class AppImages {
   // Image
-  static const imageDefault = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6xiTpb6Tyc-CTn4FJmXyNBuPze14R-qIJNIDHj2uQbidXRFY1Otr27ZQd69L5_drFaDY&usqp=CAU';
+  static const imageDefaultNetwork = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6xiTpb6Tyc-CTn4FJmXyNBuPze14R-qIJNIDHj2uQbidXRFY1Otr27ZQd69L5_drFaDY&usqp=CAU';
+  static const imageDefault = 'assets/image/image_default.png';
   static const splashScreen = 'assets/image/splash_screen.png';
   static const logoFashion = 'assets/image/logo_fashion.png';
   static const authScreen = 'assets/image/auth_screen.png';
@@ -9,7 +10,9 @@ class AppImages {
   static const onBoarding3 = 'assets/image/on_boarding_3.jpg';
   static const success = 'assets/image/success.png';
   static const oops = 'assets/image/oops.png';
+  static const searchNotFound = 'assets/image/search_not_found.png';
   static const emptyCart = 'assets/image/empty_cart.png';
+  static const emptyNotification = 'assets/image/notifications.png';
 
   // Icons
   static const icFacebook = 'assets/image/ic_facebook.png';

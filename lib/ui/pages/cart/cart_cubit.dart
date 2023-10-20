@@ -15,7 +15,9 @@ class CartCubit extends Cubit<CartState> {
   CartCubit({
     required this.cartRepository,
     required this.appNavigator,
-  }) : super(const CartState());
+  }) : super(
+          const CartState(),
+        );
 
   Future<void> addToCart(CartEntity cartEntity, BuildContext context) async {
     emit(
@@ -34,7 +36,9 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> getAllCart(int id) async {
-    emit(state.copyWith(addToCartStatus: LoadStatus.loading));
+    emit(
+      state.copyWith(addToCartStatus: LoadStatus.loading),
+    );
     try {
       final cartList = await cartRepository.getAllCart(id);
       int totalAllPrice = 0;
@@ -55,7 +59,9 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> deleteAllCart(int id) async {
-    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
+    emit(
+      state.copyWith(getAllCartStatus: LoadStatus.loading),
+    );
     try {
       await cartRepository.deleteAllCart(id);
       Future.delayed(const Duration(seconds: 2), () {
@@ -74,12 +80,16 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void getCart(List<CartEntity> cartList) {
-    emit(state.copyWith(cartList: cartList));
+    emit(
+      state.copyWith(cartList: cartList),
+    );
   }
 
   void increment(int index, int price) {
-    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
-    var list = [...state.cartList];
+    emit(
+      state.copyWith(getAllCartStatus: LoadStatus.loading),
+    );
+    var list = state.cartList;
     var quantity = state.cartList[index].quantity;
     var totalPrice = state.cartList[index].totalPrice;
     var totalAllPrice = state.totalAllPrice;
@@ -97,7 +107,9 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void decrement(int index, int price) {
-    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
+    emit(
+      state.copyWith(getAllCartStatus: LoadStatus.loading),
+    );
     var list = state.cartList;
     var quantity = state.cartList[index].quantity;
     var totalPrice = state.cartList[index].totalPrice;

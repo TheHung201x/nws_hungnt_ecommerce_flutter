@@ -11,10 +11,14 @@ class ProductListCubit extends Cubit<ProductListState> {
   final ProductRepository productRepository;
 
   ProductListCubit({required this.productRepository})
-      : super(const ProductListState());
+      : super(
+          const ProductListState(),
+        );
 
   void getProductsListByIdCategory(int idCategory) async {
-    emit(state.copyWith(getProductsLoadStatus: LoadStatus.loading));
+    emit(
+      state.copyWith(getProductsLoadStatus: LoadStatus.loading),
+    );
     try {
       final result =
           await productRepository.getProductsByIdCategory(id: idCategory);
@@ -22,7 +26,9 @@ class ProductListCubit extends Cubit<ProductListState> {
           getProductsLoadStatus: LoadStatus.success, productList: result));
     } catch (err) {
       debugPrint(' err :$err');
-      emit(state.copyWith(getProductsLoadStatus: LoadStatus.failure));
+      emit(
+        state.copyWith(getProductsLoadStatus: LoadStatus.failure),
+      );
     }
   }
 }

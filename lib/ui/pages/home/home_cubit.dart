@@ -11,19 +11,28 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final CategoryRepository categoryRepository;
 
-  HomeCubit({required this.categoryRepository}) : super(const HomeState());
+  HomeCubit({required this.categoryRepository})
+      : super(
+          const HomeState(),
+        );
 
   void getAllCategories() async {
-    emit(state.copyWith(getCategoriesLoadStatus: LoadStatus.loading));
+    emit(
+      state.copyWith(getCategoriesLoadStatus: LoadStatus.loading),
+    );
     try {
       final result = await categoryRepository.getCategories();
-      emit(state.copyWith(
-        getCategoriesLoadStatus: LoadStatus.success,
-        categoriesList: result,
-        categoriesCopyList: result,
-      ));
+      emit(
+        state.copyWith(
+          getCategoriesLoadStatus: LoadStatus.success,
+          categoriesList: result,
+          categoriesCopyList: result,
+        ),
+      );
     } catch (err) {
-      emit(state.copyWith(getCategoriesLoadStatus: LoadStatus.failure));
+      emit(
+        state.copyWith(getCategoriesLoadStatus: LoadStatus.failure),
+      );
       debugPrint(' err :$err');
     }
   }
@@ -47,15 +56,19 @@ class HomeCubit extends Cubit<HomeState> {
             categoriesList: filteredList,
             searchStatus: SearchStatus.success));
       } else if (filteredList!.isEmpty) {
-        emit(state.copyWith(
-            getCategoriesLoadStatus: LoadStatus.success,
-            categoriesList: [],
-            searchStatus: SearchStatus.notFound));
+        emit(
+          state.copyWith(
+              getCategoriesLoadStatus: LoadStatus.success,
+              categoriesList: [],
+              searchStatus: SearchStatus.notFound),
+        );
       } else {
-        emit(state.copyWith(
-            getCategoriesLoadStatus: LoadStatus.success,
-            categoriesList: categoriesList,
-            searchStatus: SearchStatus.success));
+        emit(
+          state.copyWith(
+              getCategoriesLoadStatus: LoadStatus.success,
+              categoriesList: categoriesList,
+              searchStatus: SearchStatus.success),
+        );
       }
     });
   }

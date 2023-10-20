@@ -34,7 +34,8 @@ class ProductDetailPage extends StatelessWidget {
         BlocProvider(
           create: (context) {
             return ProductDetailCubit(
-                appNavigator: AppNavigator(context: context));
+              appNavigator: AppNavigator(context: context),
+            );
           },
         ),
         BlocProvider(
@@ -42,8 +43,9 @@ class ProductDetailPage extends StatelessWidget {
             final cartRepository =
                 RepositoryProvider.of<CartRepository>(context);
             return CartCubit(
-                cartRepository: cartRepository,
-                appNavigator: AppNavigator(context: context));
+              cartRepository: cartRepository,
+              appNavigator: AppNavigator(context: context),
+            );
           },
         ),
       ],

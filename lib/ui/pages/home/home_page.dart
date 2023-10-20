@@ -1,3 +1,4 @@
+import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/entities/category/category_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
@@ -8,6 +9,7 @@ import 'package:ecommerce/ui/pages/home/home_cubit.dart';
 import 'package:ecommerce/ui/pages/home/widgets/appbar_home.dart';
 import 'package:ecommerce/ui/pages/home/widgets/item_category.dart';
 import 'package:ecommerce/ui/pages/home/widgets/search_categories.dart';
+import 'package:ecommerce/ui/pages/home/widgets/search_category_not_found.dart';
 import 'package:ecommerce/ui/widgets/list/error_load_widget.dart';
 import 'package:ecommerce/ui/widgets/list/loading_gridview_widget.dart';
 import 'package:flutter/material.dart';
@@ -74,9 +76,8 @@ class _HomeChildPageState extends State<HomeChildPage> {
                     },
                     builder: (context, state) {
                       if (state.searchStatus == SearchStatus.notFound) {
-                        return Center(
-                          child: Text('Category Not Found...',
-                              style: AppTextStyle.blackS16),
+                        return const Center(
+                          child: SearchCategoryNotFound(),
                         );
                       }
                       if (state.getCategoriesLoadStatus == LoadStatus.success) {

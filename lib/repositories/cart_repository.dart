@@ -4,7 +4,8 @@ import 'package:ecommerce/models/entities/cart/cart_entity.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class CartRepository {
-  Future<void> addToCart({required CartEntity cartEntity, required BuildContext context});
+  Future<void> addToCart(
+      {required CartEntity cartEntity, required BuildContext context});
 
   Future<List<CartEntity>> getAllCart(int id);
 
@@ -13,16 +14,16 @@ abstract class CartRepository {
 
 class CartRepositoryImpl extends CartRepository {
   @override
-  Future<void> addToCart({required CartEntity cartEntity, required BuildContext context}) async {
+  Future<void> addToCart(
+      {required CartEntity cartEntity, required BuildContext context}) async {
     final CollectionReference cartCollection =
         FirebaseFirestore.instance.collection('Cart');
     final navigator = AppNavigator(context: context);
     try {
-      await cartCollection
-          .add(cartEntity.toJson())
-          .then((value){
-        navigator.showSuccessFlushbar(message: 'You have added the product to your cart');
-      }).catchError((error){
+      await cartCollection.add(cartEntity.toJson()).then((value) {
+        navigator.showSuccessFlushbar(
+            message: 'You have added the product to your cart');
+      }).catchError((error) {
         navigator.showErrorFlushbar(message: 'Adding product to cart failed');
       });
     } catch (e) {
@@ -45,7 +46,6 @@ class CartRepositoryImpl extends CartRepository {
         ).toList();
       },
     );
-
     return cartList;
   }
 

@@ -54,6 +54,7 @@ class AuthRepositoryImpl extends AuthRepository {
         'name': name,
         'email': email,
         'password': password,
+        // set avatar default
         'avatar':
             'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png'
       },

@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class IconOtherInProfile extends StatelessWidget {
-  const IconOtherInProfile(
-      {Key? key,
-      required this.linkImg,
-      required this.title,
-      required this.isSwitch, required this.isText,
-      })
-      : super(key: key);
+  const IconOtherInProfile({
+    Key? key,
+    required this.linkImg,
+    required this.title,
+    required this.isSwitch,
+    required this.isText,
+  }) : super(key: key);
   final String linkImg;
   final String title;
   final bool isSwitch;
@@ -33,35 +33,42 @@ class IconOtherInProfile extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 14),
                 padding: const EdgeInsets.all(14),
                 decoration: const BoxDecoration(
-                    color: AppColors.backgroundTabBar,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                  color: AppColors.backgroundTabBar,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
                 child: SvgPicture.asset(
                   linkImg,
                 ),
               ),
-              Text(title,style: AppTextStyle.blackS16W600),
+              Text(title, style: AppTextStyle.blackS16W600),
             ],
           ),
           !isSwitch
               ? Row(
-                children: [
-                  isText ? const Text('English') : const SizedBox.shrink(),
-                  const SizedBox(width: 10,),
-                  const Icon(Icons.chevron_right),
-                ],
-              )
+                  children: [
+                    isText ? const Text('English') : const SizedBox.shrink(),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Icon(Icons.chevron_right),
+                  ],
+                )
               : Row(
-                children: [
-                  isText ? const Text('off') : const SizedBox.shrink(),
-                  const SizedBox(width: 4,),
-                  CupertinoSwitch(
-                  value: hasSwitch,
-                  activeColor: AppColors.black,
-                  onChanged: (bool value) {
-                    // hasSwitch = !hasSwitch;
-                  }),
-                ],
-              ),
+                  children: [
+                    isText ? const Text('off') : const SizedBox.shrink(),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    CupertinoSwitch(
+                        value: hasSwitch,
+                        activeColor: AppColors.black,
+                        onChanged: (bool value) {
+                          // hasSwitch = !hasSwitch;
+                        }),
+                  ],
+                ),
         ],
       ),
     );

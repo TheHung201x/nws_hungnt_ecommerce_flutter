@@ -45,7 +45,11 @@ class AppRouter {
 
   // GoRouter configuration
   static final _routes = <RouteBase>[
-    GoRoute(path: splash, builder: (context, state) => const SplashPage()),
+    GoRoute(
+      path: splash,
+      builder: (context, state) => const SplashPage(),
+    ),
+    // Dùng chung bottombar navigation
     ShellRoute(
       navigatorKey: shellNavigatorKey,
       pageBuilder: (context, state, child) {

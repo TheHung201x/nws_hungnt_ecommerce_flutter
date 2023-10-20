@@ -9,7 +9,9 @@ class MainCubit extends Cubit<MainState> {
   final MainNavigator navigator;
 
   void switchTap(int index) {
-    emit(state.copyWith(selectedIndex: index));
+    emit(
+      state.copyWith(selectedIndex: index),
+    );
     navigator.changePage(index);
   }
 }

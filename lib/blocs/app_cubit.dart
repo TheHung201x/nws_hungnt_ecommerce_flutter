@@ -32,34 +32,44 @@ class AppCubit extends Cubit<AppState> {
       );
     }
   }
-  void fetchProfile() {
-    emit(state.copyWith(fetchProfileStatus: LoadStatus.loading));
-  }
 
   Future<void> updateProfile(UserEntity user) async {
-    emit(state.copyWith(updateProfileStatus: LoadStatus.loading));
+    emit(
+      state.copyWith(updateProfileStatus: LoadStatus.loading),
+    );
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(
+        const Duration(seconds: 2),
+      );
       final result = await userRepository.updateProfile(userEntity: user);
-      emit(state.copyWith(
-        user: result,
-        updateProfileStatus: LoadStatus.success,
-      ));
+      emit(
+        state.copyWith(
+          user: result,
+          updateProfileStatus: LoadStatus.success,
+        ),
+      );
     } catch (e) {
       debugPrint(e.toString());
-      emit(state.copyWith(signOutStatus: LoadStatus.failure));
+      emit(
+        state.copyWith(signOutStatus: LoadStatus.failure),
+      );
     }
   }
 
-  ///Sign Out
   Future<void> signOut() async {
-    emit(state.copyWith(signOutStatus: LoadStatus.loading));
+    emit(
+      state.copyWith(signOutStatus: LoadStatus.loading),
+    );
     try {
       await authRepository.removeToken();
-      emit(state.removeUser().copyWith(signOutStatus: LoadStatus.success));
+      emit(
+        state.removeUser().copyWith(signOutStatus: LoadStatus.success),
+      );
     } catch (e) {
       debugPrint(e.toString());
-      emit(state.copyWith(signOutStatus: LoadStatus.failure));
+      emit(
+        state.copyWith(signOutStatus: LoadStatus.failure),
+      );
     }
   }
 }

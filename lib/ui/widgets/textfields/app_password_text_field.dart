@@ -1,16 +1,11 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
-import 'package:ecommerce/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ObscureTextController extends ValueNotifier<bool> {
   ObscureTextController({bool obscureText = true}) : super(obscureText);
 
   bool get date => value;
-
-  set date(bool obscureText) {
-    value = obscureText;
-  }
 }
 
 class AppPasswordTextField extends StatelessWidget {

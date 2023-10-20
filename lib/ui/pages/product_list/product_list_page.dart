@@ -67,8 +67,7 @@ class _ProductListChildPageState extends State<ProductListChildPage> {
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    _productListCubit
-                        .getProductsListByIdCategory(widget.idCategory);
+                    _productListCubit.getProductsListByIdCategory(widget.idCategory);
                   },
                   child: BlocBuilder<ProductListCubit, ProductListState>(
                     builder: (context, state) {

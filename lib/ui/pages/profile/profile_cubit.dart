@@ -15,15 +15,16 @@ class ProfileCubit extends Cubit<ProfileState> {
   }) : super(const ProfileState());
 
   Future<void> getUser() async {
-    emit(state.copyWith(userStatus: LoadStatus.loading),);
+    emit(
+      state.copyWith(userStatus: LoadStatus.loading),
+    );
     try {
       if (appCubit.state.user != null) {
         emit(state.copyWith(
           user: appCubit.state.user,
           userStatus: LoadStatus.success,
         ));
-      }
-      else{
+      } else {
         emit(state.copyWith(userStatus: LoadStatus.failure));
       }
     } catch (e) {
@@ -38,7 +39,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       await appCubit.signOut();
       Future.delayed(const Duration(seconds: 3), () {
-        emit(state.copyWith(signOutStatus: LoadStatus.success));
+        emit(
+          state.copyWith(signOutStatus: LoadStatus.success),
+        );
         navigator.openLoginPage();
       });
     } catch (e) {

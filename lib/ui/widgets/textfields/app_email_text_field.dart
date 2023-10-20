@@ -7,10 +7,6 @@ class CheckIconValidateController extends ValueNotifier<bool> {
   CheckIconValidateController({bool check = false}) : super(check);
 
   bool get date => value;
-
-  // set date(bool check) {
-  //   value = check;
-  // }
 }
 
 class AppEmailTextField extends StatelessWidget {

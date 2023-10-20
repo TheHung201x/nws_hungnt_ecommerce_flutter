@@ -7,8 +7,8 @@ class LoadingRowWidget extends StatelessWidget {
   final double height;
 
   static const _defaultPadding = EdgeInsets.symmetric(
-    horizontal: 20,
-    vertical: 6,
+    horizontal: 6,
+    vertical: 10,
   );
 
   const LoadingRowWidget({
@@ -31,12 +31,13 @@ class LoadingRowWidget extends StatelessWidget {
           baseColor: Colors.grey[350]!,
           highlightColor: Colors.grey[100]!,
           child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-              )),
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );

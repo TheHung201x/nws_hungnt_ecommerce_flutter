@@ -63,6 +63,8 @@ String getTimeAgo(String date,
 
   return formatDate(date, showTime);
 }
+
 String formatDate(String date, bool showTime) =>
-    DateFormat('${showTime ? 'HH:mm, ' : ''}dd/MM/yyyy')
-        .format(DateTime.parse(date));
+    DateFormat('${showTime ? 'HH:mm, ' : ''}dd/MM/yyyy').format(
+      DateTime.parse(date),
+    );

@@ -9,10 +9,14 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
   final AppNavigator appNavigator;
 
   ProductDetailCubit({required this.appNavigator})
-      : super(const ProductDetailState());
+      : super(
+          const ProductDetailState(),
+        );
 
   void getQuantityAndTotalPrice(int price) {
-    emit(state.copyWith(price: price, totalPrice: price));
+    emit(
+      state.copyWith(price: price, totalPrice: price),
+    );
   }
 
   void increment() {
@@ -45,10 +49,14 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
   }
 
   void chooseSizeProduct(String size) {
-    emit(state.copyWith(size: size));
+    emit(
+      state.copyWith(size: size),
+    );
   }
 
   void chooseColorProduct(int color) {
-    emit(state.copyWith(color: color));
+    emit(
+      state.copyWith(color: color),
+    );
   }
 }
