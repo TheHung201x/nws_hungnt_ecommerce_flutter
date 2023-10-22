@@ -1,8 +1,10 @@
+import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/ui/pages/main/main_cubit.dart';
 import 'package:ecommerce/ui/pages/main/main_navigator.dart';
-import 'package:ecommerce/ui/pages/main/main_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key, required this.child}) : super(key: key);
@@ -29,15 +31,23 @@ class _MainPage extends StatefulWidget {
 
 class _MainPageState extends State<_MainPage> {
   late List<Widget> pageList;
+  late MainCubit _mainCubit;
 
-  final tabs = [
-    MainTab.home,
-    MainTab.cart,
-    MainTab.notification,
-    MainTab.profile,
+  var currentIndex = 0;
+
+  List<String> listOfStrings = [
+    'Home',
+    'Cart',
+    'Notifi',
+    'Profile',
   ];
 
-  late MainCubit _mainCubit;
+  List<String> listOfIcons = [
+    "assets/icon_bottom_navigation/home.svg",
+    "assets/icon_bottom_navigation/cart.svg",
+    "assets/icon_bottom_navigation/notification.svg",
+    "assets/icon_bottom_navigation/profile.svg",
+  ];
 
   @override
   void initState() {
@@ -48,63 +58,127 @@ class _MainPageState extends State<_MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.child,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(30),
-            topLeft: Radius.circular(30),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 10.0,
-              spreadRadius: 2.0,
-            ),
-          ],
-        ),
-        child: _buildBottomNavigationBar(),
-      ),
-    );
+        body: widget.child, bottomNavigationBar: _buildBottomNavigationBar());
   }
 
   Widget _buildBottomNavigationBar() {
-    final theme = Theme.of(context);
-    return BlocConsumer<MainCubit, MainState>(
-      bloc: _mainCubit,
-      listenWhen: (prev, current) {
-        return prev.selectedIndex != current.selectedIndex;
-      },
-      listener: (context, state) {
-        // pageController.jumpToPage(state.selectedIndex);
-      },
-      buildWhen: (prev, current) {
-        return prev.selectedIndex != current.selectedIndex;
-      },
-      builder: (context, state) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(30),
-            topLeft: Radius.circular(30),
+    double displayWidth = MediaQuery.of(context).size.width;
+    return Container(
+      height: displayWidth * .165,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
           ),
-          child: BottomNavigationBar(
-            unselectedFontSize: 0,
-            selectedFontSize: 0,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            backgroundColor: theme.appBarTheme.backgroundColor,
-            elevation: 8,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: state.selectedIndex,
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: theme.indicatorColor,
-            items: tabs.map((e) => e.tab).toList(),
-            onTap: (index) {
+        ],
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
+      ),
+      child: Center(
+        child: ListView.builder(
+          itemCount: 4,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) => InkWell(
+            onTap: () {
+              currentIndex = index;
               _mainCubit.switchTap(index);
+              HapticFeedback.lightImpact();
             },
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: Stack(
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(seconds: 2),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  width: index == currentIndex
+                      ? displayWidth * .32
+                      : displayWidth * .18,
+                  child: AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    height: index == currentIndex ? displayWidth * .12 : 0,
+                    width: index == currentIndex ? displayWidth * .32 : 0,
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: index == currentIndex
+                          ? Colors.grey.withOpacity(.2)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                ),
+                AnimatedContainer(
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      Row(
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                            width:
+                                index == currentIndex ? displayWidth * .15 : 0,
+                          ),
+                          AnimatedOpacity(
+                            opacity: index == currentIndex ? 1 : 0,
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                            child: Text(
+                              index == currentIndex ? listOfStrings[index] : '',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                            width:
+                                index == currentIndex ? displayWidth * .03 : 20,
+                          ),
+                          index == currentIndex
+                              ? Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: const BoxDecoration(
+                                      color: Colors.black,
+                                      shape: BoxShape.circle),
+                                  child: SvgPicture.asset(
+                                    listOfIcons[index],
+                                    height: 20,
+                                    width: 20,
+                                    color: AppColors.white,
+                                  ),
+                                )
+                              : SvgPicture.asset(
+                                  listOfIcons[index],
+                                  height: 20,
+                                  width: 20,
+                                ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 

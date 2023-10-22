@@ -3,6 +3,7 @@ import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/entities/notification/notification_entity.dart';
 import 'package:ecommerce/models/enums/max_time_ago.dart';
+import 'package:ecommerce/ui/widgets/shimmer/app_shimmer.dart';
 import 'package:ecommerce/utils/time_ago.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +25,7 @@ class ItemNotification extends StatelessWidget {
               height: 60,
               width: 60,
               imageUrl: notificationEntity.image,
-              placeholder: (context, url) =>
-                  const Center(child: CircularProgressIndicator(),),
+              placeholder: (context, url) => const AppShimmer(),
               errorWidget: (context, url, error) =>
                   Image.network(AppImages.imageDefaultNetwork),
               fit: BoxFit.cover,

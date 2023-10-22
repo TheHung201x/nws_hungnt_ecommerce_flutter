@@ -8,7 +8,7 @@ class AppBarHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 40),
+      padding: const EdgeInsets.only(top: 10, bottom: 40),
       child: SvgPicture.asset(
         AppImages.icBack,
         height: 40,

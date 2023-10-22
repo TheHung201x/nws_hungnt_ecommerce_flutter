@@ -175,6 +175,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
 
   Widget _groupOptions() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 30),
