@@ -38,7 +38,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(signOutStatus: LoadStatus.loading));
     try {
       await appCubit.signOut();
-      Future.delayed(const Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 2), () {
         emit(
           state.copyWith(signOutStatus: LoadStatus.success),
         );

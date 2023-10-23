@@ -93,6 +93,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
   Widget buildBodyWidget() {
     final showingKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Container(
+      color: AppColors.white,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
         child: Form(
@@ -158,6 +159,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
     return BlocBuilder<SignInCubit, SignInState>(
       builder: (context, state) {
         return AppButton(
+          height: 50,
           title: 'Login',
           onPressed: () => _signIn(),
           isEnable: state.signInStatus == LoadStatus.loading ? false : true,
@@ -219,6 +221,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: AppIconButton(
+        height: 50,
         leadingIcon: Padding(
           padding: const EdgeInsets.only(right: 10),
           child: SvgPicture.asset(
@@ -229,17 +232,18 @@ class _SignInChildPageState extends State<SignInChildPage> {
         ),
         title: 'Continue with Google',
         onPressed: () {},
-        backgroundColor: AppColors.transparent,
+        backgroundColor: AppColors.white,
         textStyle: AppTextStyle.greyA16Bold,
         cornerRadius: 50,
-        // borderWidth: 1,
-        // borderColor: AppColors.textWhite,
+        borderWidth: 1,
+        borderColor: AppColors.border.withOpacity(0.8),
       ),
     );
   }
 
   Widget _loginWithApple() {
     return AppIconButton(
+      height: 50,
       leadingIcon: Padding(
         padding: const EdgeInsets.only(right: 10),
         child: SvgPicture.asset(
@@ -253,8 +257,8 @@ class _SignInChildPageState extends State<SignInChildPage> {
       backgroundColor: AppColors.white,
       textStyle: AppTextStyle.greyA16Bold,
       cornerRadius: 50,
-      // borderWidth: 1,
-      // borderColor: AppColors.textWhite,
+      borderWidth: 1,
+      borderColor: AppColors.border.withOpacity(0.8),
     );
   }
 

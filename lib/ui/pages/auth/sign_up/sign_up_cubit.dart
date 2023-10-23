@@ -36,4 +36,8 @@ class SignUpCubit extends Cubit<SignUpState> {
       navigator.showErrorFlushbar(message: 'Sign Up failure');
     }
   }
+
+  void checkboxAgree(bool check){
+    emit(state.copyWith(checkBoxAgreeSignUp: check));
+  }
 }

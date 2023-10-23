@@ -52,7 +52,6 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   late ObscureTextController obscureConfirmPasswordController;
 
   final _formKey = GlobalKey<FormState>();
-  bool isCheckBox = false;
   bool hasCheckIconEmail = false;
   bool hasCheckIconUserName = false;
 
@@ -95,10 +94,14 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   }
 
   Widget buildBodyWidget() {
-    final showingKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
+    final showingKeyboard = MediaQuery
+        .of(context)
+        .viewInsets
+        .bottom != 0;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Form(
           key: _formKey,
           child: Column(
@@ -189,17 +192,19 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
         children: [
-          Checkbox(
-            value: isCheckBox,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
-              ),
-            ),
-            onChanged: (newValue) {
-              setState(() {
-                isCheckBox = !isCheckBox;
-              });
+          BlocBuilder<SignUpCubit, SignUpState>(
+            builder: (context, state) {
+              return Checkbox(
+                value: state.checkBoxAgreeSignUp,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5.0),
+                  ),
+                ),
+                onChanged: (newValue) {
+                  _signUpCubit.checkboxAgree(newValue!);
+                },
+              );
             },
           ),
           Expanded(
@@ -220,7 +225,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
         return AppButton(
           title: 'Sign Up',
           onPressed: () => _signUp(),
-          isEnable: state.signUpStatus == LoadStatus.loading ? false : true,
+          isEnable: (state.signUpStatus == LoadStatus.loading || state.checkBoxAgreeSignUp == false) ? false : true,
           isLoading: state.signUpStatus == LoadStatus.loading ? true : false,
           backgroundColor: AppColors.black,
           textStyle: AppTextStyle.whiteS16Bold,
@@ -231,6 +236,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   }
 
   void _signUp() {
+    print('abc ${_formKey.currentState!.validate()}');
     if (_formKey.currentState!.validate()) {
       hideKeyboard(context);
       _signUpCubit.signUp(
