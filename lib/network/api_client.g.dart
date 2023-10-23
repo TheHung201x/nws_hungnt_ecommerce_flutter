@@ -79,7 +79,7 @@ class _ApiClient implements ApiClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<CategoryEntity>>(Options(
       method: 'GET',
@@ -88,7 +88,7 @@ class _ApiClient implements ApiClient {
     )
             .compose(
               _dio.options,
-              '/categories?offset=0&limit=10',
+              '/categories?offset',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -104,11 +104,11 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<List<ProductEntity>> getProductByIdCategory(int id) async {
+  Future<List<ProductEntity>> getProductsByIdCategory(int id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<ProductEntity>>(Options(
       method: 'GET',
@@ -117,7 +117,39 @@ class _ApiClient implements ApiClient {
     )
             .compose(
               _dio.options,
-              '/categories/${id}/products',
+              '/categories/${id}/products?offset=0&limit=10',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => ProductEntity.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<List<ProductEntity>> getProductsLimitByIdCategory(
+    int id,
+    int limit,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<ProductEntity>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/categories/${id}/products?offset=0&limit=${limit}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -137,7 +169,7 @@ class _ApiClient implements ApiClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<ProductEntity>>(Options(
       method: 'GET',
@@ -166,7 +198,7 @@ class _ApiClient implements ApiClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<UserEntity>(Options(
       method: 'GET',

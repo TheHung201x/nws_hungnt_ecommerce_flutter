@@ -35,14 +35,14 @@ class _MainPageState extends State<_MainPage> {
 
   var currentIndex = 0;
 
-  List<String> listOfStrings = [
+  List<String> nameListOfTab = [
     'Home',
     'Cart',
     'Notifi',
     'Profile',
   ];
 
-  List<String> listOfIcons = [
+  List<String> iconsListOfTab = [
     "assets/icon_bottom_navigation/home.svg",
     "assets/icon_bottom_navigation/cart.svg",
     "assets/icon_bottom_navigation/notification.svg",
@@ -58,7 +58,9 @@ class _MainPageState extends State<_MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: widget.child, bottomNavigationBar: _buildBottomNavigationBar());
+      body: widget.child,
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
   }
 
   Widget _buildBottomNavigationBar() {
@@ -133,7 +135,7 @@ class _MainPageState extends State<_MainPage> {
                             duration: const Duration(seconds: 1),
                             curve: Curves.fastLinearToSlowEaseIn,
                             child: Text(
-                              index == currentIndex ? listOfStrings[index] : '',
+                              index == currentIndex ? nameListOfTab[index] : '',
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
@@ -158,14 +160,14 @@ class _MainPageState extends State<_MainPage> {
                                       color: Colors.black,
                                       shape: BoxShape.circle),
                                   child: SvgPicture.asset(
-                                    listOfIcons[index],
-                                    height: 20,
-                                    width: 20,
+                                    iconsListOfTab[index],
+                                    height: 18,
+                                    width: 18,
                                     color: AppColors.white,
                                   ),
                                 )
                               : SvgPicture.asset(
-                                  listOfIcons[index],
+                                  iconsListOfTab[index],
                                   height: 20,
                                   width: 20,
                                 ),

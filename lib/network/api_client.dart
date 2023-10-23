@@ -20,14 +20,21 @@ abstract class ApiClient {
   Future<UserEntity> authSignUp(@Body() Map<String, dynamic> body);
 
   // Get all categories
-  @GET("/categories?offset=0&limit=10")
+  @GET("/categories?offset")
   Future<List<CategoryEntity>> getAllCategories();
 
-  // Get list product by idCategory
-  @GET("/categories/{id}/products")
-  Future<List<ProductEntity>> getProductByIdCategory(
+  // Get list products by idCategory
+  @GET("/categories/{id}/products?offset=0&limit=10")
+  Future<List<ProductEntity>> getProductsByIdCategory(
     @Path('id') int id,
   );
+
+  // Get list products by idCategory limit
+  @GET("/categories/{id}/products?offset=0&limit={limit}")
+  Future<List<ProductEntity>> getProductsLimitByIdCategory(
+      @Path('id') int id,
+      @Path('limit') int limit,
+      );
 
   // Get totalProducts by idCategory
   @GET("/categories/{id}/products")

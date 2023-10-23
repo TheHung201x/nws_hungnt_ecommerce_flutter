@@ -17,7 +17,7 @@ CartEntity _$CartEntityFromJson(Map<String, dynamic> json) => CartEntity(
 Map<String, dynamic> _$CartEntityToJson(CartEntity instance) =>
     <String, dynamic>{
       'idUser': instance.idUser,
-      'productEntity': instance.productEntity.toJson(),
+      'productEntity': instance.productEntity,
       'image': instance.image,
       'totalPrice': instance.totalPrice,
       'quantity': instance.quantity,

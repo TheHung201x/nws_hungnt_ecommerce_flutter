@@ -31,4 +31,22 @@ class ProductListCubit extends Cubit<ProductListState> {
       );
     }
   }
+
+  void loadMoreProductsList(int idCategory, int limit) async {
+    if (state.getProductsLoadStatus != LoadStatus.success) {
+      return;
+    }
+    emit(state.copyWith(getProductsLoadStatus: LoadStatus.loadingMore));
+    try {
+      final result =
+      await productRepository.loadMoreProductsList(id: idCategory, limit: limit);
+      emit(state.copyWith(
+          getProductsLoadStatus: LoadStatus.success, productList: result));
+    } catch (err) {
+      debugPrint(' err :$err');
+      emit(
+        state.copyWith(getProductsLoadStatus: LoadStatus.failure),
+      );
+    }
+  }
 }

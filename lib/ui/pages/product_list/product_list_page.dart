@@ -45,12 +45,29 @@ class ProductListChildPage extends StatefulWidget {
 
 class _ProductListChildPageState extends State<ProductListChildPage> {
   late ProductListCubit _productListCubit;
+  late ScrollController _scrollController;
+  int limit = 0;
 
   @override
   void initState() {
     _productListCubit = BlocProvider.of<ProductListCubit>(context);
     _productListCubit.getProductsListByIdCategory(widget.idCategory);
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     super.initState();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      loadMoreProducts();
+    }
+  }
+
+  void loadMoreProducts() {
+    limit += 10;
+    _productListCubit.loadMoreProductsList(widget.idCategory, limit);
   }
 
   @override
@@ -67,21 +84,24 @@ class _ProductListChildPageState extends State<ProductListChildPage> {
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    _productListCubit.getProductsListByIdCategory(widget.idCategory);
+                    _productListCubit
+                        .getProductsListByIdCategory(widget.idCategory);
                   },
                   child: BlocBuilder<ProductListCubit, ProductListState>(
                     builder: (context, state) {
-                      if (state.getProductsLoadStatus == LoadStatus.success) {
-                        final productList = state.productList ?? [];
-                        return _showListProduct(productList);
+                      if (state.getProductsLoadStatus == LoadStatus.loading) {
+                        return const LoadingGridViewWidget();
                       } else if (state.getProductsLoadStatus ==
                           LoadStatus.failure) {
                         return ErrorLoadWidget(
-                          onPress: () => _productListCubit
-                              .getProductsListByIdCategory(widget.idCategory),
+                          onPress: () =>
+                              _productListCubit.getProductsListByIdCategory(
+                            widget.idCategory,
+                          ),
                         );
                       } else {
-                        return const LoadingGridViewWidget();
+                        final productList = state.productList ?? [];
+                        return _showListProduct(productList, state);
                       }
                     },
                   ),
@@ -94,25 +114,33 @@ class _ProductListChildPageState extends State<ProductListChildPage> {
     );
   }
 
-  Widget _showListProduct(List<ProductEntity> productList) {
-    return GridView.builder(
-      physics: const BouncingScrollPhysics(),
-      itemCount: productList.length,
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
-        maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
-        childAspectRatio: 3 / 5,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            context.pushNamed(AppRouter.productDetail,
-                extra: productList[index]);
-          },
-          child: ItemProduct(productEntity: productList[index]),
-        );
-      },
+  Widget _showListProduct(
+      List<ProductEntity> productList, ProductListState state) {
+    return Column(
+      children: [
+        Expanded(
+          child: GridView.builder(
+            controller: _scrollController,
+            physics: const BouncingScrollPhysics(),
+            itemCount: productList.length,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
+              childAspectRatio: 3 / 5,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {
+                  context.pushNamed(AppRouter.productDetail,
+                      extra: productList[index]);
+                },
+                child: ItemProduct(productEntity: productList[index]),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

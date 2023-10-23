@@ -4,6 +4,9 @@ import 'package:ecommerce/network/api_util.dart';
 
 abstract class ProductRepository {
   Future<List<ProductEntity>?> getProductsByIdCategory({required int id});
+
+  Future<List<ProductEntity>?> loadMoreProductsList(
+      {required int id,required int limit});
 }
 
 class ProductRepositoryImpl extends ProductRepository {
@@ -15,8 +18,15 @@ class ProductRepositoryImpl extends ProductRepository {
   Future<List<ProductEntity>?> getProductsByIdCategory(
       {required int id}) async {
     final appService = ApiUtil.apiClient;
-    final productList = await appService.getProductByIdCategory(id);
+    final productList = await appService.getProductsByIdCategory(id);
     return productList;
   }
 
+  @override
+  Future<List<ProductEntity>?> loadMoreProductsList(
+      {required int id,required int limit}) async {
+    final appService = ApiUtil.apiClient;
+    final productList = await appService.getProductsLimitByIdCategory(id, limit);
+    return productList;
+  }
 }
