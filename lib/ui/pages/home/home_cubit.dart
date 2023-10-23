@@ -11,15 +11,10 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final CategoryRepository categoryRepository;
 
-  HomeCubit({required this.categoryRepository})
-      : super(
-          const HomeState(),
-        );
+  HomeCubit({required this.categoryRepository}) : super(const HomeState());
 
   void getAllCategories() async {
-    emit(
-      state.copyWith(getCategoriesLoadStatus: LoadStatus.loading),
-    );
+    emit(state.copyWith(getCategoriesLoadStatus: LoadStatus.loading));
     try {
       final result = await categoryRepository.getCategories();
       emit(
@@ -45,16 +40,21 @@ class HomeCubit extends Cubit<HomeState> {
     );
     List<CategoryEntity>? categoriesList = state.categoriesCopyList;
     List<CategoryEntity>? filteredList = categoriesList
-        ?.where((category) =>
-            category.name.toLowerCase().contains(search.toLowerCase()))
+        ?.where(
+          (category) =>
+              category.name.toLowerCase().contains(search.toLowerCase()),
+        )
         .toList();
 
     Future.delayed(const Duration(milliseconds: 200), () {
       if (search.isNotEmpty && filteredList!.isNotEmpty) {
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             getCategoriesLoadStatus: LoadStatus.success,
             categoriesList: filteredList,
-            searchStatus: SearchStatus.success));
+            searchStatus: SearchStatus.success,
+          ),
+        );
       } else if (filteredList!.isEmpty) {
         emit(
           state.copyWith(

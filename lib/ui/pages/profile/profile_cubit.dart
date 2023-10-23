@@ -15,9 +15,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }) : super(const ProfileState());
 
   Future<void> getUser() async {
-    emit(
-      state.copyWith(userStatus: LoadStatus.loading),
-    );
+    emit(state.copyWith(userStatus: LoadStatus.loading));
     try {
       if (appCubit.state.user != null) {
         emit(state.copyWith(

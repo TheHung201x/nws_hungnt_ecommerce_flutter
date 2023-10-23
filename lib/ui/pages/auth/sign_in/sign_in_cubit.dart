@@ -24,9 +24,7 @@ class SignInCubit extends Cubit<SignInState> {
       : super(const SignInState());
 
   void signIn(String email, String pass) async {
-    emit(
-      state.copyWith(signInStatus: LoadStatus.loading),
-    );
+    emit(state.copyWith(signInStatus: LoadStatus.loading));
 
     try {
       final result = await authRepository.signIn(email, pass);
@@ -43,16 +41,12 @@ class SignInCubit extends Cubit<SignInState> {
       } else {
         navigator.showErrorFlushbar(
             message: 'An error occurred, please try again');
-        emit(
-          state.copyWith(signInStatus: LoadStatus.failure),
-        );
+        emit(state.copyWith(signInStatus: LoadStatus.failure));
       }
     } catch (err) {
       navigator.showErrorFlushbar(message: 'Incorrect Email or Password');
       debugPrint(' err :$err');
-      emit(
-        state.copyWith(signInStatus: LoadStatus.failure),
-      );
+      emit(state.copyWith(signInStatus: LoadStatus.failure));
     }
   }
 }

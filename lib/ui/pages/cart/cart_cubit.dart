@@ -15,19 +15,13 @@ class CartCubit extends Cubit<CartState> {
   CartCubit({
     required this.cartRepository,
     required this.appNavigator,
-  }) : super(
-          const CartState(),
-        );
+  }) : super(const CartState());
 
   Future<void> addToCart(CartEntity cartEntity, BuildContext context) async {
-    emit(
-      state.copyWith(addToCartStatus: LoadStatus.loading),
-    );
+    emit(state.copyWith(addToCartStatus: LoadStatus.loading));
     try {
       await cartRepository.addToCart(cartEntity: cartEntity, context: context);
-      emit(
-        state.copyWith(addToCartStatus: LoadStatus.success),
-      );
+      emit(state.copyWith(addToCartStatus: LoadStatus.success));
     } catch (e) {
       emit(
         state.copyWith(addToCartStatus: LoadStatus.failure),
@@ -52,16 +46,12 @@ class CartCubit extends Cubit<CartState> {
             totalAllPrice: totalAllPrice),
       );
     } catch (e) {
-      emit(
-        state.copyWith(getAllCartStatus: LoadStatus.failure, cartList: []),
-      );
+      emit(state.copyWith(getAllCartStatus: LoadStatus.failure, cartList: []));
     }
   }
 
   Future<void> deleteAllCart(int id) async {
-    emit(
-      state.copyWith(getAllCartStatus: LoadStatus.loading),
-    );
+    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
     try {
       await cartRepository.deleteAllCart(id);
       Future.delayed(const Duration(seconds: 2), () {
@@ -80,15 +70,11 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void getCart(List<CartEntity> cartList) {
-    emit(
-      state.copyWith(cartList: cartList),
-    );
+    emit(state.copyWith(cartList: cartList));
   }
 
   void increment(int index, int price) {
-    emit(
-      state.copyWith(getAllCartStatus: LoadStatus.loading),
-    );
+    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
     var list = state.cartList;
     var quantity = state.cartList[index].quantity;
     var totalPrice = state.cartList[index].totalPrice;
@@ -107,9 +93,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void decrement(int index, int price) {
-    emit(
-      state.copyWith(getAllCartStatus: LoadStatus.loading),
-    );
+    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
     var list = state.cartList;
     var quantity = state.cartList[index].quantity;
     var totalPrice = state.cartList[index].totalPrice;

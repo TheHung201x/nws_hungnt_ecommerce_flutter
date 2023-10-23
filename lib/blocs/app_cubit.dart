@@ -27,9 +27,7 @@ class AppCubit extends Cubit<AppState> {
         ),
       );
     } catch (e) {
-      emit(
-        state.copyWith(getProfileStatus: LoadStatus.failure),
-      );
+      emit(state.copyWith(getProfileStatus: LoadStatus.failure));
     }
   }
 
