@@ -11,7 +11,8 @@ class AppTextStyle {
   //s14
   static final blackS14 = black.copyWith(fontSize: 14);
   static final blackS15 = black.copyWith(fontSize: 15);
-  static final blackS14Opacity = black.copyWith(fontSize: 14,color: Colors.black.withOpacity(0.9));
+  static final blackS14Opacity =
+      black.copyWith(fontSize: 14, color: Colors.black.withOpacity(0.9));
   static final blackS14Bold = blackS14.copyWith(fontWeight: FontWeight.bold);
   static final blackS14W800 = blackS14.copyWith(fontWeight: FontWeight.w800);
 
@@ -62,10 +63,12 @@ class AppTextStyle {
   static const greyA =
       TextStyle(color: Color(0xFFAAAAAA), fontFamily: 'Poppins');
   static final greyA12 = greyA.copyWith(fontSize: 12);
-  static final greyA12Blod = greyA.copyWith(fontSize: 12, fontWeight: FontWeight.bold);
+  static final greyA12Blod =
+      greyA.copyWith(fontSize: 12, fontWeight: FontWeight.bold);
   static final greyA14 = greyA.copyWith(fontSize: 14);
   static final greyA16 = greyA.copyWith(fontSize: 16);
-  static final greyA16Bold = greyA.copyWith(fontSize: 16, fontWeight: FontWeight.bold);
+  static final greyA16Bold =
+      greyA.copyWith(fontSize: 16, fontWeight: FontWeight.bold);
   static final greyABold = greyA.copyWith(fontWeight: FontWeight.bold);
 
   //s12

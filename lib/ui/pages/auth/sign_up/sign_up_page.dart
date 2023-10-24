@@ -94,10 +94,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   }
 
   Widget buildBodyWidget() {
-    final showingKeyboard = MediaQuery
-        .of(context)
-        .viewInsets
-        .bottom != 0;
+    final showingKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
@@ -225,7 +222,10 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
         return AppButton(
           title: 'Sign Up',
           onPressed: () => _signUp(),
-          isEnable: (state.signUpStatus == LoadStatus.loading || state.checkBoxAgreeSignUp == false) ? false : true,
+          isEnable: (state.signUpStatus == LoadStatus.loading ||
+                  state.checkBoxAgreeSignUp == false)
+              ? false
+              : true,
           isLoading: state.signUpStatus == LoadStatus.loading ? true : false,
           backgroundColor: AppColors.black,
           textStyle: AppTextStyle.whiteS16Bold,
@@ -236,7 +236,6 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   }
 
   void _signUp() {
-    print('abc ${_formKey.currentState!.validate()}');
     if (_formKey.currentState!.validate()) {
       hideKeyboard(context);
       _signUpCubit.signUp(

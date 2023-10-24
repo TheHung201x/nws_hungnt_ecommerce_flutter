@@ -1,7 +1,1 @@
-enum SearchStatus {
-  initial,
-  loading,
-  success,
-  notFound
-}
-
+enum SearchStatus { initial, loading, success, notFound }

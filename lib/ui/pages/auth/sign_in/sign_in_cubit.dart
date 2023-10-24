@@ -23,7 +23,7 @@ class SignInCubit extends Cubit<SignInState> {
       required this.appCubit})
       : super(const SignInState());
 
-  void signIn(String email, String pass) async {
+  Future<void> signIn(String email, String pass) async {
     emit(state.copyWith(signInStatus: LoadStatus.loading));
 
     try {

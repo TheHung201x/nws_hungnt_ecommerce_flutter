@@ -30,20 +30,21 @@ class AppTextField extends StatelessWidget {
         focusNode: focusNode,
         style: AppTextStyle.blackS14,
         decoration: InputDecoration(
-            hintText: hintText,
-            labelStyle: AppTextStyle.blackS16Bold,
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.border),
-            ),
-            focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.border),
-            ),
-            contentPadding: const EdgeInsets.only(bottom: 4, left: 14),
+          hintText: hintText,
+          labelStyle: AppTextStyle.blackS16Bold,
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: AppColors.border),
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: AppColors.border),
+          ),
+          contentPadding: const EdgeInsets.only(bottom: 4, left: 14),
           isDense: true,
         ),
         keyboardType: TextInputType.emailAddress,
         onChanged: onChanged,
-        autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
+        autovalidateMode:
+            autoValidateMode ?? AutovalidateMode.onUserInteraction,
       ),
     );
   }

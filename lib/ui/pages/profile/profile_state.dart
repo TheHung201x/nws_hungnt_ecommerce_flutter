@@ -27,8 +27,8 @@ class ProfileState extends Equatable {
 
   @override
   List<Object?> get props => [
-    signOutStatus,
-    user,
-    userStatus,
-  ];
+        signOutStatus,
+        user,
+        userStatus,
+      ];
 }

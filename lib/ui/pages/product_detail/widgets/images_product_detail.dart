@@ -21,8 +21,7 @@ class ImageProductDetail extends StatelessWidget {
         return CachedNetworkImage(
           imageUrl: productEntity.images[index],
           fit: BoxFit.cover,
-          placeholder: (context, url) =>
-              const AppShimmer(),
+          placeholder: (context, url) => const AppShimmer(),
           errorWidget: (context, url, error) =>
               Image.network(AppImages.imageDefaultNetwork),
         );

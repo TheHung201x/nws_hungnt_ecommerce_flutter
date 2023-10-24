@@ -22,11 +22,11 @@ class NotificationRepositoryImpl extends NotificationRepository {
         if (kDebugMode) {
           print("Notification Added");
         }
-      }).catchError((error){
+      }).catchError((error) {
         if (kDebugMode) {
           print("Failed to add Notification: $error");
-
-        }});
+        }
+      });
       return '200';
     } catch (e) {
       return 'lỗi: $e';
@@ -40,7 +40,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
     await Future.delayed(const Duration(seconds: 2));
     await db
         .collection("Notification")
-        .where('idUser', isEqualTo: id)
+        .where('idUser', isEqualTo: id).orderBy('createAt',descending: true)
         .get()
         .then(
       (querySnapshot) {

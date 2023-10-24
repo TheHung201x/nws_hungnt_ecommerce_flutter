@@ -14,20 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotificationPage extends StatelessWidget {
-  const NotificationPage({
-    Key? key,
-  }) : super(key: key);
+  const NotificationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return NotificationCubit(
-            notificationRepository:
-                RepositoryProvider.of<NotificationRepository>(context),);
-      },
-      child: const NotificationChildPage(),
-    );
+    return const NotificationChildPage();
   }
 }
 
@@ -54,7 +45,6 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
 
   void getUser() async {
     userEntity = await userRepository.getProfile();
-    _notificationCubit.getAllNotifications(userEntity.id);
   }
 
   @override
@@ -86,9 +76,10 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
                 ? RefreshIndicator(
                     onRefresh: () async {
                       await _notificationCubit
-                          .getAllNotifications(userEntity.id);
+                          .getAllNotifications();
                     },
                     child: ListView.separated(
+                      shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       itemCount: listNotification.length,
                       itemBuilder: (context, index) {
@@ -119,7 +110,7 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
         text: 'No Notifications Yet',
         linkImage: AppImages.emptyNotification,
         onRefresh: () async {
-          await _notificationCubit.getAllNotifications(userEntity.id);
+          await _notificationCubit.getAllNotifications();
         },
       ),
     );

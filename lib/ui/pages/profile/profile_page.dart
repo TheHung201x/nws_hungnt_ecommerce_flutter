@@ -24,11 +24,9 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        final appCubit = RepositoryProvider.of<AppCubit>(context);
         return ProfileCubit(
-          appCubit: appCubit,
-          navigator: ProfileNavigator(context: context),
-        );
+            appCubit: RepositoryProvider.of<AppCubit>(context),
+            navigator: ProfileNavigator(context: context));
       },
       child: const ProfileChildPage(),
     );

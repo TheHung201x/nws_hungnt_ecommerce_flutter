@@ -9,7 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class EditAvatarUserProfile extends StatelessWidget {
   final String avatarUser;
 
-  const EditAvatarUserProfile({Key? key, required this.avatarUser}) : super(key: key);
+  const EditAvatarUserProfile({Key? key, required this.avatarUser})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

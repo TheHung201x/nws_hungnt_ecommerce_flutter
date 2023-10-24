@@ -1,5 +1,6 @@
 import 'package:ecommerce/models/entities/category/category_entity.dart';
 import 'package:ecommerce/models/entities/product/product_entity.dart';
+import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/ui/pages/auth/auth_page.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_page.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_page.dart';
@@ -94,7 +95,7 @@ class AppRouter {
       name: productDetail,
       path: '/$productDetail',
       builder: (context, state) => ProductDetailPage(
-        productEntity: state.extra as ProductEntity,
+        idProduct: state.extra as int,
       ),
     ),
     GoRoute(
@@ -119,7 +120,8 @@ class AppRouter {
       parentNavigatorKey: rootNavigationKey,
       name: signUpSuccess,
       path: "/$signUpSuccess",
-      builder: (context, state) => const SignUpSuccessPage(),
+      builder: (context, state) =>
+          SignUpSuccessPage(userEntity: state.extra as UserEntity),
     ),
     GoRoute(
       parentNavigatorKey: rootNavigationKey,

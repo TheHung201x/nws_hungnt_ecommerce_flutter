@@ -17,7 +17,7 @@ class AppCubit extends Cubit<AppState> {
     required this.authRepository,
   }) : super(const AppState());
 
-  Future<void> getProfile() async {
+  Future<UserEntity> getProfile() async {
     try {
       final result = await userRepository.getProfile();
       emit(
@@ -26,9 +26,11 @@ class AppCubit extends Cubit<AppState> {
           getProfileStatus: LoadStatus.success,
         ),
       );
+      return result;
     } catch (e) {
       emit(state.copyWith(getProfileStatus: LoadStatus.failure));
     }
+    return UserEntity();
   }
 
   Future<void> updateProfile(UserEntity user) async {
@@ -60,9 +62,7 @@ class AppCubit extends Cubit<AppState> {
     );
     try {
       await authRepository.removeToken();
-      emit(
-        state.removeUser().copyWith(signOutStatus: LoadStatus.success),
-      );
+      emit(state.removeUser().copyWith(signOutStatus: LoadStatus.success));
     } catch (e) {
       debugPrint(e.toString());
       emit(

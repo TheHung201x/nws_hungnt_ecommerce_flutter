@@ -1,12 +1,11 @@
+import 'dart:developer';
+
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
-import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/entities/notification/notification_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
-import 'package:ecommerce/repositories/cart_repository.dart';
-import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:ecommerce/ui/pages/cart/widgets/appbar_cart.dart';
@@ -21,33 +20,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({
-    Key? key,
-  }) : super(key: key);
+  const CartPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) {
-            return CartCubit(
-              cartRepository: RepositoryProvider.of<CartRepository>(context),
-              appNavigator: AppNavigator(context: context),
-            );
-          },
-        ),
-        BlocProvider(
-          create: (context) {
-            return NotificationCubit(
-              notificationRepository:
-                  RepositoryProvider.of<NotificationRepository>(context),
-            );
-          },
-        )
-      ],
-      child: const CartChildPage(),
-    );
+    return const CartChildPage();
   }
 }
 
@@ -66,9 +43,9 @@ class _CartChildPageState extends State<CartChildPage> {
 
   @override
   void initState() {
+    userEntity = UserEntity();
     _notificationCubit = BlocProvider.of<NotificationCubit>(context);
     userRepository = RepositoryProvider.of<UserRepository>(context);
-    userEntity = UserEntity();
     _cartCubit = BlocProvider.of<CartCubit>(context);
     getUser();
     super.initState();
@@ -76,7 +53,6 @@ class _CartChildPageState extends State<CartChildPage> {
 
   void getUser() async {
     userEntity = await userRepository.getProfile();
-    _cartCubit.getAllCart(userEntity.id);
   }
 
   @override
@@ -112,75 +88,79 @@ class _CartChildPageState extends State<CartChildPage> {
   Widget _showListCart() {
     return SizedBox(
       height: MediaQuery.of(context).size.height / 2,
-      child: BlocBuilder<CartCubit, CartState>(
-        builder: (context, state) {
-          if (state.getAllCartStatus == LoadStatus.success) {
-            final listCart = state.cartList;
-            return RefreshIndicator(
-              onRefresh: () async {
-                _cartCubit.getAllCart(userEntity.id);
-              },
-              child: listCart.isNotEmpty
-                  ? ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: listCart.length,
-                      itemBuilder: (context, index) {
-                        _cartCubit.getCart(listCart);
-                        return Container(
-                          height: 100,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0,
-                                offset: const Offset(0, 10),
-                              ),
-                            ],
-                            borderRadius: BorderRadius.circular(13),
+      child: BlocBuilder<CartCubit, CartState>(buildWhen: (previous, current) {
+        return previous.getAllCartStatus != current.getAllCartStatus ||
+            previous.cartList != current.cartList;
+      }, builder: (context, state) {
+        if (state.getAllCartStatus == LoadStatus.loading) {
+          return const LoadingListWidget();
+        }
+        if (state.getAllCartStatus == LoadStatus.failure) {
+          return ErrorListWidget(
+            onRefresh: () => _cartCubit.getAllCart(),
+          );
+        }
+        final listCart = state.cartList;
+        log("ABC ${listCart.length}");
+        return listCart.isNotEmpty
+            ? RefreshIndicator(
+                onRefresh: () async {
+                  _cartCubit.getAllCart();
+                },
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: listCart.length,
+                  itemBuilder: (context, index) {
+                    _cartCubit.getCart(listCart);
+                    return Container(
+                      height: 100,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10.0,
+                            spreadRadius: 2.0,
+                            offset: const Offset(0, 10),
                           ),
-                          child: ItemCart(
-                            cartEntity: listCart[index],
-                            index: index,
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 15,
-                        );
-                      },
-                    )
-                  : _emptyListCart(),
-            );
-          } else if (state.getAllCartStatus == LoadStatus.failure) {
-            return ErrorListWidget(
-              onRefresh: () => _cartCubit.getAllCart(userEntity.id),
-            );
-          } else {
-            return const LoadingListWidget();
-          }
-        },
-      ),
+                        ],
+                        borderRadius: BorderRadius.circular(13),
+                      ),
+                      child: ItemCart(
+                        cartEntity: listCart[index],
+                        index: index,
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 15,
+                    );
+                  },
+                ),
+              )
+            : _emptyListCart();
+      }),
     );
   }
 
   Widget _emptyListCart() {
-    return Center(
-      child: EmptyListWidget(
-        text: 'No products in the cart',
-        linkImage: AppImages.emptyCart,
-        onRefresh: () async {
-          await _cartCubit.getAllCart(userEntity.id);
-        },
-      ),
+    return EmptyListWidget(
+      text: 'No products in the cart',
+      linkImage: AppImages.emptyCart,
+      onRefresh: () async {
+        await _cartCubit.getAllCart();
+      },
     );
   }
 
   Widget _totalAllPriceAndCheckout() {
     return BlocBuilder<CartCubit, CartState>(
+      buildWhen: (previous, current) {
+        return previous.getAllCartStatus != current.getAllCartStatus;
+      },
       builder: (context, state) {
         return Column(
           children: [
@@ -240,6 +220,6 @@ class _CartChildPageState extends State<CartChildPage> {
         createAt: '${DateTime.now()}',
         image: userEntity.avatar);
 
-    _notificationCubit.addNewNotification(notificationEntity);
+    _notificationCubit.addNewNotification(notificationEntity).then((value) => _notificationCubit.getAllNotifications());
   }
 }

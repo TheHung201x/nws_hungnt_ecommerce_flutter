@@ -1,4 +1,5 @@
 import 'package:ecommerce/blocs/app_cubit.dart';
+import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/network/api_client.dart';
 import 'package:ecommerce/network/api_util.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
@@ -8,6 +9,9 @@ import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/product_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/router/router_config.dart';
+import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
+import 'package:ecommerce/ui/pages/home/home_cubit.dart';
+import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,6 +74,32 @@ class _MyAppState extends State<MyApp> {
                 userRepository: RepositoryProvider.of<UserRepository>(context),
                 authRepository: RepositoryProvider.of<AuthRepository>(context),
               );
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              final categoryRepo =
+                  RepositoryProvider.of<CategoryRepository>(context);
+              return HomeCubit(categoryRepository: categoryRepo)
+                ..getAllCategories();
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return CartCubit(
+                cartRepository: RepositoryProvider.of<CartRepository>(context),
+                userRepository: RepositoryProvider.of<UserRepository>(context),
+                appNavigator: AppNavigator(context: context),
+              )..getAllCart();
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return NotificationCubit(
+                notificationRepository:
+                    RepositoryProvider.of<NotificationRepository>(context),
+                userRepository: RepositoryProvider.of<UserRepository>(context),
+              )..getAllNotifications();
             },
           ),
         ],

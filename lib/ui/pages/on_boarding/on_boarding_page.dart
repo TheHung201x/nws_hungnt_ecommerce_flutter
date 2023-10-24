@@ -9,9 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingPage extends StatelessWidget {
-  const OnBoardingPage({
-    Key? key,
-  }) : super(key: key);
+  const OnBoardingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

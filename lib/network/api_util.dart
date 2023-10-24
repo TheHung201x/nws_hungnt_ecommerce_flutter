@@ -27,7 +27,6 @@ class ApiUtil {
     return apiClient;
   }
 
-
 // static Future<TokenEntity?> onRefreshToken(String? token) async {
 //   if (token == null) return null;
 //   final dio = Dio();

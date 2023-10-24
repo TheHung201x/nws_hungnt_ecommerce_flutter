@@ -7,7 +7,7 @@ class SignInNavigator extends AppNavigator {
   SignInNavigator({required BuildContext context}) : super(context: context);
 
   void openHomePage() {
-    Future.delayed(const Duration(seconds: 3),(){
+    Future.delayed(const Duration(seconds: 3), () {
       GoRouter.of(context).goNamed(AppRouter.home);
     });
   }

@@ -1,6 +1,7 @@
 class AppImages {
   // Image
-  static const imageDefaultNetwork = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6xiTpb6Tyc-CTn4FJmXyNBuPze14R-qIJNIDHj2uQbidXRFY1Otr27ZQd69L5_drFaDY&usqp=CAU';
+  static const imageDefaultNetwork =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6xiTpb6Tyc-CTn4FJmXyNBuPze14R-qIJNIDHj2uQbidXRFY1Otr27ZQd69L5_drFaDY&usqp=CAU';
   static const imageDefault = 'assets/image/image_default.png';
   static const splashScreen = 'assets/image/splash_screen.png';
   static const logoFashion = 'assets/image/logo_fashion.png';

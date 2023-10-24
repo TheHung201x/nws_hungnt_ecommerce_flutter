@@ -27,8 +27,7 @@ class _SearchCategoriesState extends State<SearchCategories> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
-      padding:
-      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
         color: const Color(0xFFF3F4F6),

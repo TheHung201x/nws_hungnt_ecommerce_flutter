@@ -13,17 +13,17 @@ class AppUserNameTextField extends StatelessWidget {
   final AutovalidateMode? autoValidateMode;
   final bool? hasCheck;
 
-  const AppUserNameTextField({
-    Key? key,
-    required this.textEditingController,
-    required this.checkIconController,
-    this.onChanged,
-    this.labelText = "Username",
-    this.hintText,
-    this.focusNode,
-    this.autoValidateMode,
-    this.hasCheck = false
-  }) : super(key: key);
+  const AppUserNameTextField(
+      {Key? key,
+      required this.textEditingController,
+      required this.checkIconController,
+      this.onChanged,
+      this.labelText = "Username",
+      this.hintText,
+      this.focusNode,
+      this.autoValidateMode,
+      this.hasCheck = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,19 +49,19 @@ class AppUserNameTextField extends StatelessWidget {
               valueListenable: checkIconController,
               child: Container(),
               builder: (context, bool obscureText, child) {
-                return hasCheck == true ? Icon(
-                  obscureText
-                      ? Icons.check_circle_rounded
-                      : Icons.cancel,
-                  color: AppColors.black,
-                  size: 20,
-                ) : const SizedBox.shrink();
+                return hasCheck == true
+                    ? Icon(
+                        obscureText ? Icons.check_circle_rounded : Icons.cancel,
+                        color: AppColors.black,
+                        size: 20,
+                      )
+                    : const SizedBox.shrink();
               },
-            )
-        ),
+            )),
         keyboardType: TextInputType.emailAddress,
         onChanged: onChanged,
-        autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
+        autovalidateMode:
+            autoValidateMode ?? AutovalidateMode.onUserInteraction,
         validator: (value) {
           if (value == null || value.isEmpty) {
             checkIconController.value = false;

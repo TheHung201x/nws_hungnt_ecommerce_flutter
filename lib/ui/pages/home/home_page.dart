@@ -1,9 +1,6 @@
-import 'package:ecommerce/common/app_images.dart';
-import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/entities/category/category_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/models/enums/search_status.dart';
-import 'package:ecommerce/repositories/category_repository.dart';
 import 'package:ecommerce/router/router_config.dart';
 import 'package:ecommerce/ui/pages/home/home_cubit.dart';
 import 'package:ecommerce/ui/pages/home/widgets/appbar_home.dart';
@@ -17,19 +14,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({
-    Key? key,
-  }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        final categoryRepo = RepositoryProvider.of<CategoryRepository>(context);
-        return HomeCubit(categoryRepository: categoryRepo);
-      },
-      child: const HomeChildPage(),
-    );
+    return const HomeChildPage();
   }
 }
 
@@ -47,7 +36,6 @@ class _HomeChildPageState extends State<HomeChildPage> {
   @override
   void initState() {
     _homeCubit = BlocProvider.of<HomeCubit>(context);
-    _homeCubit.getAllCategories();
     searchController = TextEditingController();
     super.initState();
   }

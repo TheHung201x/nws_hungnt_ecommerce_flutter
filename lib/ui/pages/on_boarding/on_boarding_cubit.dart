@@ -7,7 +7,7 @@ part 'on_boarding_state.dart';
 class OnBoardingCubit extends Cubit<OnBoardingState> {
   OnBoardingCubit() : super(OnBoardingState());
 
-  void setFlag() async {
+  Future<void> setFlag() async {
     SharedPreferencesHelper.setOnboard();
   }
 }

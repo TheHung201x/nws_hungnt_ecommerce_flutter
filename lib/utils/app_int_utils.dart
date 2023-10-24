@@ -7,5 +7,4 @@ extension IntExtension on int {
     String formattedPrice = formatter.format(this);
     return formattedPrice;
   }
-
 }

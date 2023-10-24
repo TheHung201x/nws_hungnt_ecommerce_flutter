@@ -1,6 +1,6 @@
 part of 'main_cubit.dart';
 
-class MainState extends Equatable{
+class MainState extends Equatable {
   final int selectedIndex;
 
   const MainState({
@@ -17,6 +17,6 @@ class MainState extends Equatable{
 
   @override
   List<Object?> get props => [
-    selectedIndex,
-  ];
+        selectedIndex,
+      ];
 }

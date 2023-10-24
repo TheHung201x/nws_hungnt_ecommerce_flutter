@@ -44,7 +44,7 @@ class ItemCategory extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  categoryEntity.name ?? '',
+                  categoryEntity.name,
                   style: AppTextStyle.blackS20W800,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

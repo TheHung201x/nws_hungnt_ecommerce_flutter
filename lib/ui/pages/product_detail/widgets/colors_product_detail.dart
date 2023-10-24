@@ -20,6 +20,7 @@ class _AppColorsProductDetailState extends State<AppColorsProductDetail> {
     _productDetailCubit = BlocProvider.of<ProductDetailCubit>(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -62,12 +63,12 @@ class _AppColorsProductDetailState extends State<AppColorsProductDetail> {
                         shape: BoxShape.circle),
                     child: state.color == listColors[index]
                         ? Icon(
-                      Icons.check,
-                      size: 16,
-                      color: state.color == 0xFF000000
-                          ? AppColors.white
-                          : AppColors.black,
-                    )
+                            Icons.check,
+                            size: 16,
+                            color: state.color == 0xFF000000
+                                ? AppColors.white
+                                : AppColors.black,
+                          )
                         : const SizedBox.shrink(),
                   ),
                 );

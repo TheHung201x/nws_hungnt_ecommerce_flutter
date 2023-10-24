@@ -27,7 +27,9 @@ class ProductListPage extends StatelessWidget {
         return ProductListCubit(productRepository: productRepo);
       },
       child: ProductListChildPage(
-          idCategory: categoryEntity.id, nameCategory: categoryEntity.name),
+        idCategory: categoryEntity.id,
+        nameCategory: categoryEntity.name,
+      ),
     );
   }
 }
@@ -133,7 +135,7 @@ class _ProductListChildPageState extends State<ProductListChildPage> {
               return GestureDetector(
                 onTap: () {
                   context.pushNamed(AppRouter.productDetail,
-                      extra: productList[index]);
+                      extra: productList[index].id);
                 },
                 child: ItemProduct(productEntity: productList[index]),
               );

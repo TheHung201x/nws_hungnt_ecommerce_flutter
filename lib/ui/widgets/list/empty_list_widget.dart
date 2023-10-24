@@ -19,7 +19,6 @@ class EmptyListWidget extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: onRefresh ?? _onRefreshData,
       child: ListView.builder(
-        shrinkWrap: true,
         itemBuilder: (context, index) {
           return Column(
             children: [
@@ -28,7 +27,9 @@ class EmptyListWidget extends StatelessWidget {
                 height: 80,
                 width: 80,
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Text(
                 text,
                 style: AppTextStyle.greyS18W800,

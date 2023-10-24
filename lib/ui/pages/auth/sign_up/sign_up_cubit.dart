@@ -1,3 +1,4 @@
+import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_navigator.dart';
@@ -14,13 +15,13 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit({required this.navigator, required this.authRepository})
       : super(const SignUpState());
 
-  void signUp(String userName, String email, String password) async {
+  Future<void> signUp(String userName, String email, String password) async {
     emit(state.copyWith(signUpStatus: LoadStatus.loading));
     try {
-      await authRepository.signUp(userName, email, password);
+      final result = await authRepository.signUp(userName, email, password);
       Future.delayed(const Duration(seconds: 1), () {
-        emit(state.copyWith(signUpStatus: LoadStatus.success));
-        navigator.openSignUpSuccess();
+        emit(state.copyWith(signUpStatus: LoadStatus.success,));
+        navigator.openSignUpSuccess(result!);
       });
     } catch (err) {
       debugPrint(' err :$err');

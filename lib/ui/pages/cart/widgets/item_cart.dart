@@ -37,7 +37,7 @@ class _ItemCartState extends State<ItemCart> {
         GestureDetector(
           onTap: () {
             context.pushNamed(AppRouter.productDetail,
-                extra: widget.cartEntity.productEntity);
+                extra: widget.cartEntity.productEntity.id);
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),

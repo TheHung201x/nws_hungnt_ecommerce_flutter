@@ -1,6 +1,6 @@
 part of 'sign_in_cubit.dart';
 
-class SignInState extends Equatable{
+class SignInState extends Equatable {
   final String? email;
   final String? password;
   final LoadStatus signInStatus;
@@ -13,10 +13,10 @@ class SignInState extends Equatable{
 
   @override
   List<Object?> get props => [
-    signInStatus,
-    email,
-    password,
-  ];
+        signInStatus,
+        email,
+        password,
+      ];
 
   SignInState copyWith({
     LoadStatus? signInStatus,
@@ -30,4 +30,3 @@ class SignInState extends Equatable{
     );
   }
 }
-

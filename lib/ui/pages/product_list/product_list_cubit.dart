@@ -13,7 +13,7 @@ class ProductListCubit extends Cubit<ProductListState> {
   ProductListCubit({required this.productRepository})
       : super(const ProductListState());
 
-  void getProductsListByIdCategory(int idCategory) async {
+  Future<void> getProductsListByIdCategory(int idCategory) async {
     emit(state.copyWith(getProductsLoadStatus: LoadStatus.loading));
     try {
       final result =
@@ -28,7 +28,7 @@ class ProductListCubit extends Cubit<ProductListState> {
     }
   }
 
-  void loadMoreProductsList(int idCategory, int limit) async {
+  Future<void> loadMoreProductsList(int idCategory, int limit) async {
     if (state.getProductsLoadStatus != LoadStatus.success) {
       return;
     }

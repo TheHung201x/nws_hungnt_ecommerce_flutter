@@ -29,12 +29,18 @@ abstract class ApiClient {
     @Path('id') int id,
   );
 
+  // Get product detail by id
+  @GET("/products/{id}")
+  Future<ProductEntity> getProductDetailById(
+    @Path('id') int id,
+  );
+
   // Get list products by idCategory limit
   @GET("/categories/{id}/products?offset=0&limit={limit}")
   Future<List<ProductEntity>> getProductsLimitByIdCategory(
-      @Path('id') int id,
-      @Path('limit') int limit,
-      );
+    @Path('id') int id,
+    @Path('limit') int limit,
+  );
 
   // Get totalProducts by idCategory
   @GET("/categories/{id}/products")

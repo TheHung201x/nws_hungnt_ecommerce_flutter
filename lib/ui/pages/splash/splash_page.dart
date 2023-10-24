@@ -15,7 +15,8 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return SplashCubit(navigator: SplashNavigator(context: context),
+        return SplashCubit(
+          navigator: SplashNavigator(context: context),
           authRepo: RepositoryProvider.of<AuthRepository>(context),
           appCubit: RepositoryProvider.of<AppCubit>(context),
         );

@@ -39,7 +39,10 @@ class TitleAndRatingProductDetail extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Text('(320 Review)',style: AppTextStyle.blackS14,)
+              Text(
+                '(320 Review)',
+                style: AppTextStyle.blackS14,
+              )
             ],
           ),
         ],

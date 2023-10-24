@@ -16,13 +16,13 @@ class ProductEntity {
   @JsonKey()
   List<String> images;
 
-  ProductEntity(
-      {this.id = 0,
-      this.title = "",
-      this.price = 0,
-      this.description = "",
-      this.images = const [],
-      });
+  ProductEntity({
+    this.id = 0,
+    this.title = "",
+    this.price = 0,
+    this.description = "",
+    this.images = const [],
+  });
 
   factory ProductEntity.fromJson(Map<String, dynamic> json) =>
       _$ProductEntityFromJson(json);

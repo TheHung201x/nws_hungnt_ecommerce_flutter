@@ -1,6 +1,8 @@
 import 'package:ecommerce/models/entities/notification/notification_entity.dart';
+import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/notification_repository.dart';
+import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,9 +10,12 @@ part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
   final NotificationRepository notificationRepository;
+  final UserRepository userRepository;
 
-  NotificationCubit({required this.notificationRepository})
-      : super(const NotificationState());
+  NotificationCubit({
+    required this.notificationRepository,
+    required this.userRepository,
+  }) : super(const NotificationState());
 
   Future<void> addNewNotification(NotificationEntity notificationEntity) async {
     emit(state.copyWith(addNewNotificationStatus: LoadStatus.loading));
@@ -23,11 +28,12 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
   }
 
-  Future<void> getAllNotifications(int id) async {
+  Future<void> getAllNotifications() async {
     emit(state.copyWith(getAllNotificationsStatus: LoadStatus.loading));
     try {
+      UserEntity? userEntity = await userRepository.getProfile();
       final notificationList =
-          await notificationRepository.getAllNotifications(id);
+          await notificationRepository.getAllNotifications(userEntity.id);
       emit(
         state.copyWith(
           getAllNotificationsStatus: LoadStatus.success,

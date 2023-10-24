@@ -1,6 +1,6 @@
 part of 'product_list_cubit.dart';
 
-class ProductListState extends Equatable{
+class ProductListState extends Equatable {
   final LoadStatus getProductsLoadStatus;
   final List<ProductEntity>? productList;
 
@@ -18,7 +18,7 @@ class ProductListState extends Equatable{
   }) {
     return ProductListState(
         getProductsLoadStatus:
-        getProductsLoadStatus ?? this.getProductsLoadStatus,
+            getProductsLoadStatus ?? this.getProductsLoadStatus,
         productList: productList ?? this.productList);
   }
 }

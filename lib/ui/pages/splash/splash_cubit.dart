@@ -21,10 +21,10 @@ class SplashCubit extends Cubit<SplashState> {
     required this.appCubit,
   }) : super(const SplashState());
 
-  void checkLogin() async {
+  Future<void> checkLogin() async {
     await Future.delayed(const Duration(seconds: 2));
     final token = await authRepo.getToken();
-    if (token == null || token.accessToken =="") {
+    if (token == null || token.accessToken == "") {
       if (await SharedPreferencesHelper.isOnboardCompleted()) {
         navigator.openAuthPage();
       } else {
@@ -36,7 +36,7 @@ class SplashCubit extends Cubit<SplashState> {
         await appCubit.getProfile();
         navigator.openHomePage();
       } catch (error, s) {
-       debugPrint('error $error - $s');
+        debugPrint('error $error - $s');
         //Check 401
         // ignore: deprecated_member_use
         if (error is DioError) {
@@ -58,5 +58,4 @@ class SplashCubit extends Cubit<SplashState> {
       }
     }
   }
-
 }

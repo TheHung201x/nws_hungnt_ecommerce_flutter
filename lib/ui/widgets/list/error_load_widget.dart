@@ -17,8 +17,7 @@ class ErrorLoadWidget extends StatelessWidget {
           height: 200,
           width: 200,
         ),
-        Text('Something went wrong...',
-            style: AppTextStyle.blackS16W600),
+        Text('Something went wrong...', style: AppTextStyle.blackS16W600),
         const SizedBox(
           height: 20,
         ),
