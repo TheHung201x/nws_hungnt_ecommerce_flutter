@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/ui/widgets/shimmer/app_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -62,7 +63,7 @@ class EditAvatarUserProfile extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Text('Upload Image', style: AppTextStyle.blackS16W600)
+          Text(S.current.upload_image, style: AppTextStyle.blackS16W600)
         ],
       ),
     );

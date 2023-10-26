@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class ObscureTextController extends ValueNotifier<bool> {
@@ -87,14 +88,14 @@ class AppPasswordTextField extends StatelessWidget {
                         autoValidateMode ?? AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter password';
+                        return S.current.validate_password_empty;
                       }
                       if (value.length < 4) {
-                        return 'Password must be longer than or equal to 4 characters';
+                        return S.current.validate_password_invalid;
                       }
                       if (textTempEditingController != null &&
                           textTempEditingController?.text != value) {
-                        return 'Password and Confirm Password don\'t match';
+                        return S.current.validate_confirm_password;
                       }
                       return null;
                     },
@@ -128,7 +129,7 @@ class AppPasswordTextField extends StatelessWidget {
                 autoValidateMode ?? AutovalidateMode.onUserInteraction,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter password';
+                return S.current.validate_password_empty;
               }
               return null;
             },

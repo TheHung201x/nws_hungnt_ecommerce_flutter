@@ -1,3 +1,4 @@
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/enums/max_time_ago.dart';
 import 'package:intl/intl.dart';
 
@@ -10,7 +11,7 @@ String getTimeAgo(String date,
   if (different.inDays > 365) {
     if (maxAgoType != MaxAgoType.year) return formatDate(date, showTime);
 
-    return "${(different.inDays / 365).floor()} ${(different.inDays / 365).floor() == 1 ? "year" : "years"} ago";
+    return "${(different.inDays / 365).floor()} ${(different.inDays / 365).floor() == 1 ? S.current.year : S.current.years} ${S.current.ago}";
   }
 
   if (different.inDays > 30) {
@@ -18,7 +19,7 @@ String getTimeAgo(String date,
       return formatDate(date, showTime);
     }
 
-    return "${(different.inDays / 30).floor()} ${(different.inDays / 30).floor() == 1 ? "month" : "months"} ago";
+    return "${(different.inDays / 30).floor()} ${(different.inDays / 30).floor() == 1 ?  S.current.month :  S.current.months} ${S.current.ago}";
   }
 
   if (different.inDays > 7) {
@@ -26,7 +27,7 @@ String getTimeAgo(String date,
       return formatDate(date, showTime);
     }
 
-    return "${(different.inDays / 7).floor()} ${(different.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
+    return "${(different.inDays / 7).floor()} ${(different.inDays / 7).floor() == 1 ?  S.current.week :  S.current.weeks } ${S.current.ago}";
   }
 
   if (different.inDays > 0) {
@@ -34,7 +35,7 @@ String getTimeAgo(String date,
       return formatDate(date, showTime);
     }
 
-    return "${different.inDays} ${different.inDays == 1 ? "day" : "days"} ago";
+    return "${different.inDays} ${different.inDays == 1 ? S.current.day : S.current.days} ${S.current.ago}";
   }
 
   if (different.inHours > 0) {
@@ -42,7 +43,7 @@ String getTimeAgo(String date,
       return formatDate(date, showTime);
     }
 
-    return "${different.inHours} ${different.inHours == 1 ? "hourss" : "hours"} ago";
+    return "${different.inHours} ${different.inHours == 1 ? S.current.hour : S.current.hours} ${S.current.ago}";
   }
 
   if (different.inMinutes > 0) {
@@ -50,7 +51,7 @@ String getTimeAgo(String date,
       return formatDate(date, showTime);
     }
 
-    return "${different.inMinutes} ${different.inMinutes == 1 ? "minute" : "minutes"} ago";
+    return "${different.inMinutes} ${different.inMinutes == 1 ? S.current.minute :  S.current.minutes} ${S.current.ago}";
   }
 
   if (different.inMinutes == 0) {
@@ -58,7 +59,7 @@ String getTimeAgo(String date,
       return formatDate(date, showTime);
     }
 
-    return 'just now';
+    return S.current.just_now;
   }
 
   return formatDate(date, showTime);

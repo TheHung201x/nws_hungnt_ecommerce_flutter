@@ -2,8 +2,8 @@ import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/cart/cart_entity.dart';
-import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/product_repository.dart';
@@ -153,58 +153,59 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
 
   Widget _totalPriceAndBtnAddToCart() {
     return BlocBuilder<ProductDetailCubit, ProductDetailState>(
-      builder: (context, state) {
+      builder: (context, stateProductDetail) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Total Price',
-                    style: AppTextStyle.greyS12,
-                  ),
-                  Text(
-                    '\$${state.totalPrice.formatPrice}',
-                    style: AppTextStyle.blackS18Bold,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            BlocListener<CartCubit, CartState>(
-              listener: (context, state) {
-               if(state.getAllCartStatus == LoadStatus.success){
-
-               }
-              },
-              child: AppIconButton(
-                width: MediaQuery.of(context).size.width / 2,
-                isContentCenter: true,
-                backgroundColor: AppColors.black,
-                title: 'Add to cart',
-                onPressed: () {
-                  final cartEntity = CartEntity(
-                      userEntity.id,
-                      state.productEntity!,
-                      state.productEntity!.images[0],
-                      state.totalPrice,
-                      state.quantity);
-                  _cartCubit.addToCart(cartEntity).then((_) => _cartCubit.getAllCart());
-                },
-                cornerRadius: 30,
-                leadingIcon: Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: SvgPicture.asset(
-                    AppImages.icBag,
-                    color: AppColors.white,
-                    width: 20,
-                    height: 20,
-                  ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  S.current.total_price_product,
+                  style: AppTextStyle.greyS12,
                 ),
-              ),
+                Text(
+                  '\$${stateProductDetail.totalPrice.formatPrice}',
+                  style: AppTextStyle.blackS18Bold,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+            BlocBuilder<CartCubit, CartState>(
+              builder: (context, stateCart) {
+                return AppIconButton(
+                  width: MediaQuery.of(context).size.width / 2,
+                  isContentCenter: true,
+                  backgroundColor: AppColors.black,
+                  title: S.current.add_to_cart,
+                  isLoading: stateCart.addToCartStatus == LoadStatus.loading
+                      ? true
+                      : false,
+                  onPressed: () {
+                    final cartEntity = CartEntity(
+                        userEntity.id,
+                        stateProductDetail.productEntity!,
+                        stateProductDetail.productEntity!.images[0],
+                        stateProductDetail.totalPrice,
+                        stateProductDetail.quantity);
+                    _cartCubit.addToCart(cartEntity).then(
+                          (_) => _cartCubit.getAllCart(),
+                        );
+                  },
+                  cornerRadius: 30,
+                  leadingIcon: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: SvgPicture.asset(
+                      AppImages.icBag,
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.white, BlendMode.srcIn),
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                );
+              },
             )
           ],
         );

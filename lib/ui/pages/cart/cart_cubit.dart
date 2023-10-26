@@ -23,14 +23,15 @@ class CartCubit extends Cubit<CartState> {
   }) : super(const CartState());
 
   Future<void> addToCart(CartEntity cartEntity) async {
-    emit(state.copyWith(getAllCartStatus: LoadStatus.loading));
+    emit(state.copyWith(addToCartStatus: LoadStatus.loading));
     try {
-      // await Future.delayed(const Duration(seconds: 3));
       await cartRepository.addToCart(cartEntity: cartEntity,);
-      emit(state.copyWith(getAllCartStatus: LoadStatus.success));
+      emit(state.copyWith(addToCartStatus: LoadStatus.success));
+      appNavigator.showSuccessFlushbar(message: 'Product added to cart successfully');
     } catch (e) {
       log("Error", error: e);
-      emit(state.copyWith(getAllCartStatus: LoadStatus.failure));
+      emit(state.copyWith(addToCartStatus: LoadStatus.failure));
+      appNavigator.showErrorFlushbar(message: 'Add to cart failed. Please try again');
     }
   }
 

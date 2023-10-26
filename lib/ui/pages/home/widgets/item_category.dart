@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/category/category_entity.dart';
 import 'package:ecommerce/ui/widgets/shimmer/app_shimmer.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class ItemCategory extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  '${categoryEntity.totalProduct} Product',
+                  '${categoryEntity.totalProduct} ${S.current.product}',
                   style: AppTextStyle.blackS18W500,
                 ),
               ],

@@ -1,5 +1,7 @@
 import 'package:ecommerce/blocs/app_cubit.dart';
+import 'package:ecommerce/blocs/setting/app_setting_cubit.dart';
 import 'package:ecommerce/common/app_navigator.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/network/api_client.dart';
 import 'package:ecommerce/network/api_util.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
@@ -12,8 +14,11 @@ import 'package:ecommerce/router/router_config.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:ecommerce/ui/pages/home/home_cubit.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
+import 'package:ecommerce/ui/pages/profile/profile_cubit.dart';
+import 'package:ecommerce/ui/pages/profile/profile_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -76,6 +81,9 @@ class _MyAppState extends State<MyApp> {
               );
             },
           ),
+          BlocProvider<AppSettingCubit>(create: (context) {
+            return AppSettingCubit();
+          }),
           BlocProvider(
             create: (context) {
               final categoryRepo =
@@ -102,10 +110,32 @@ class _MyAppState extends State<MyApp> {
               )..getAllNotifications();
             },
           ),
+          BlocProvider(
+            create: (context) {
+              return ProfileCubit(
+                appCubit: RepositoryProvider.of<AppCubit>(context),
+              )..getUser();
+            },
+          ),
         ],
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: AppRouter.router,
+        child: BlocBuilder<AppSettingCubit, AppSettingState>(
+          buildWhen: (previous, current) {
+            return previous.locale != current.locale;
+          },
+          builder: (context, state) {
+            return MaterialApp.router(
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                S.delegate,
+              ],
+              locale: state.locale,
+              supportedLocales: S.delegate.supportedLocales,
+              debugShowCheckedModeBanner: false,
+              routerConfig: AppRouter.router,
+            );
+          },
         ),
       ),
     );

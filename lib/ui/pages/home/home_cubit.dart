@@ -13,7 +13,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit({required this.categoryRepository}) : super(const HomeState());
 
-  void getAllCategories() async {
+  Future<void> getAllCategories() async {
     emit(state.copyWith(getCategoriesLoadStatus: LoadStatus.loading));
     try {
       final result = await categoryRepository.getCategories();

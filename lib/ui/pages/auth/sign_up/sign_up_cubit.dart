@@ -1,4 +1,3 @@
-import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_navigator.dart';

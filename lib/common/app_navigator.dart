@@ -66,7 +66,7 @@ class AppNavigator {
                 : const SizedBox(),
             textCancel != null
                 ? TextButton(
-                    child: const Text('No'),
+                    child: Text(textCancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

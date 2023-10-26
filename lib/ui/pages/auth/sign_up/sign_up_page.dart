@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_cubit.dart';
@@ -126,11 +127,11 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
   Widget _titleSignUp() {
     return ListTile(
         title: Text(
-          'Sign Up',
+          S.current.sign_up,
           style: AppTextStyle.blackS18Bold,
         ),
         subtitle: Text(
-          'Create an new account',
+          S.current.sub_title_sign_up,
           style: AppTextStyle.greyS14,
         ),
         contentPadding: EdgeInsets.zero);
@@ -138,6 +139,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
 
   Widget _textFieldUserNameSignUp() {
     return AppUserNameTextField(
+      labelText: S.current.username,
       textEditingController: userNameTextController,
       checkIconController: checkIconUserNameController,
       onChanged: (_) {
@@ -146,7 +148,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
         });
       },
       hasCheck: hasCheckIconUserName,
-      hintText: 'Please enter username',
+      hintText: S.current.validate_username_empty,
     );
   }
 
@@ -154,7 +156,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
     return AppEmailTextField(
       textEditingController: emailTextController,
       checkIconController: checkIconEmailController,
-      hintText: 'Please enter email',
+      hintText: S.current.validate_email_empty,
       onChanged: (_) {
         setState(() {
           hasCheckIconEmail = true;
@@ -166,21 +168,22 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
 
   Widget _textFieldPasswordSignUp() {
     return AppPasswordTextField(
+      labelText: S.current.password,
       hasObscure: true,
       textEditingController: passwordTextController,
       obscureTextController: obscurePasswordController,
-      hintText: 'Please enter password',
+      hintText: S.current.validate_password_empty,
     );
   }
 
   Widget _textFieldConfirmPasswordSignUp() {
     return AppPasswordTextField(
       hasObscure: true,
-      labelText: 'Confirm Password',
+      labelText: S.current.confirm_password,
       textTempEditingController: passwordTextController,
       textEditingController: confirmPasswordTextController,
       obscureTextController: obscureConfirmPasswordController,
-      hintText: 'Please enter confirm password',
+      hintText: S.current.validate_password_empty,
     );
   }
 
@@ -206,7 +209,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
           ),
           Expanded(
             child: Text(
-              'By creating an account you have to agree with our them & condication',
+              S.current.title_checkbox_agree_sign_up,
               style: AppTextStyle.greySA12,
               maxLines: 2,
             ),
@@ -220,7 +223,7 @@ class _SignUpChildPageState extends State<SignUpChildPage> {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return AppButton(
-          title: 'Sign Up',
+          title: S.current.sign_up,
           onPressed: () => _signUp(),
           isEnable: (state.signUpStatus == LoadStatus.loading ||
                   state.checkBoxAgreeSignUp == false)

@@ -1,8 +1,11 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
+import 'package:ecommerce/router/router_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class IconOtherInProfile extends StatelessWidget {
   const IconOtherInProfile({
@@ -48,7 +51,14 @@ class IconOtherInProfile extends StatelessWidget {
           !isSwitch
               ? Row(
                   children: [
-                    isText ? const Text('English') : const SizedBox.shrink(),
+                    isText
+                        ? GestureDetector(
+                            onTap: () => context.pushNamed(AppRouter.language),
+                            child: Text(
+                              S.current.current_language,
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                     const SizedBox(
                       width: 10,
                     ),
@@ -62,11 +72,12 @@ class IconOtherInProfile extends StatelessWidget {
                       width: 4,
                     ),
                     CupertinoSwitch(
-                        value: hasSwitch,
-                        activeColor: AppColors.black,
-                        onChanged: (bool value) {
-                          // hasSwitch = !hasSwitch;
-                        }),
+                      value: hasSwitch,
+                      activeColor: AppColors.black,
+                      onChanged: (bool value) {
+                        // hasSwitch = !hasSwitch;
+                      },
+                    ),
                   ],
                 ),
         ],

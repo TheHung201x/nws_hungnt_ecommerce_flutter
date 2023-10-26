@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/notification/notification_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
@@ -87,71 +86,74 @@ class _CartChildPageState extends State<CartChildPage> {
 
   Widget _showListCart() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 2,
-      child: BlocBuilder<CartCubit, CartState>(buildWhen: (previous, current) {
-        return previous.getAllCartStatus != current.getAllCartStatus ||
-            previous.cartList != current.cartList;
-      }, builder: (context, state) {
-        if (state.getAllCartStatus == LoadStatus.loading) {
-          return const LoadingListWidget();
-        }
-        if (state.getAllCartStatus == LoadStatus.failure) {
-          return ErrorListWidget(
-            onRefresh: () => _cartCubit.getAllCart(),
-          );
-        }
-        final listCart = state.cartList;
-        log("ABC ${listCart.length}");
-        return listCart.isNotEmpty
-            ? RefreshIndicator(
-                onRefresh: () async {
-                  _cartCubit.getAllCart();
-                },
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: listCart.length,
-                  itemBuilder: (context, index) {
-                    _cartCubit.getCart(listCart);
-                    return Container(
-                      height: 100,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10.0,
-                            spreadRadius: 2.0,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(13),
-                      ),
-                      child: ItemCart(
-                        cartEntity: listCart[index],
-                        index: index,
-                      ),
-                    );
+      height: MediaQuery.of(context).size.height / 2 + 30,
+      child: BlocBuilder<CartCubit, CartState>(
+        buildWhen: (previous, current) {
+          return previous.getAllCartStatus != current.getAllCartStatus ||
+              previous.cartList != current.cartList;
+        },
+        builder: (context, state) {
+          if (state.getAllCartStatus == LoadStatus.loading) {
+            return const LoadingListWidget();
+          }
+          if (state.getAllCartStatus == LoadStatus.failure) {
+            return ErrorListWidget(
+              onRefresh: () => _cartCubit.getAllCart(),
+            );
+          }
+          final listCart = state.cartList;
+          return listCart.isNotEmpty
+              ? RefreshIndicator(
+                  onRefresh: () async {
+                    await Future.delayed(const Duration(seconds: 1));
+                    _cartCubit.getAllCart();
                   },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      height: 15,
-                    );
-                  },
-                ),
-              )
-            : _emptyListCart();
-      }),
+                  child: ListView.separated(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: listCart.length,
+                    itemBuilder: (context, index) {
+                      _cartCubit.getCart(listCart);
+                      return Container(
+                        height: 100,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10.0,
+                              spreadRadius: 2.0,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(13),
+                        ),
+                        child: ItemCart(
+                          cartEntity: listCart[index],
+                          index: index,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 15,
+                      );
+                    },
+                  ),
+                )
+              : _emptyListCart();
+        },
+      ),
     );
   }
 
   Widget _emptyListCart() {
     return EmptyListWidget(
-      text: 'No products in the cart',
+      text: S.current.empty_in_cart,
       linkImage: AppImages.emptyCart,
       onRefresh: () async {
-        await _cartCubit.getAllCart();
+        await Future.delayed(const Duration(seconds: 1));
+        _cartCubit.getAllCart();
       },
     );
   }
@@ -168,7 +170,7 @@ class _CartChildPageState extends State<CartChildPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Total (${state.cartList.length} item)',
+                  '${S.current.total} (${state.cartList.length} ${S.current.item})',
                   style: AppTextStyle.greyS14,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -187,7 +189,7 @@ class _CartChildPageState extends State<CartChildPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.black,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // <-- Radius
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 onPressed: state.cartList.isEmpty ? null : () => checkOut(),
@@ -197,7 +199,7 @@ class _CartChildPageState extends State<CartChildPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        'Proceed to Checkout',
+                        S.current.proceed_to_checkout,
                         style: AppTextStyle.whiteS16,
                       ),
                     ),
@@ -220,6 +222,8 @@ class _CartChildPageState extends State<CartChildPage> {
         createAt: '${DateTime.now()}',
         image: userEntity.avatar);
 
-    _notificationCubit.addNewNotification(notificationEntity).then((value) => _notificationCubit.getAllNotifications());
+    _notificationCubit
+        .addNewNotification(notificationEntity)
+        .then((value) => _notificationCubit.getAllNotifications());
   }
 }

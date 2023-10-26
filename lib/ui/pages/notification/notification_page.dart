@@ -1,8 +1,8 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
-import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
 import 'package:ecommerce/ui/pages/notification/widgets/appbar_notitfication.dart';
@@ -69,14 +69,18 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
   Widget _showListNotification() {
     return Expanded(
       child: BlocBuilder<NotificationCubit, NotificationState>(
+        buildWhen: (previous, current) {
+          return previous.getAllNotificationsStatus !=
+              current.getAllNotificationsStatus;
+        },
         builder: (context, state) {
           if (state.getAllNotificationsStatus == LoadStatus.success) {
             final listNotification = state.notificationList;
             return listNotification.isNotEmpty
                 ? RefreshIndicator(
                     onRefresh: () async {
-                      await _notificationCubit
-                          .getAllNotifications();
+                      await Future.delayed(const Duration(seconds: 1));
+                      _notificationCubit.getAllNotifications();
                     },
                     child: ListView.separated(
                       shrinkWrap: true,
@@ -105,14 +109,13 @@ class _NotificationChildPageState extends State<NotificationChildPage> {
   }
 
   Widget _emptyListNotifications() {
-    return Center(
-      child: EmptyListWidget(
-        text: 'No Notifications Yet',
-        linkImage: AppImages.emptyNotification,
-        onRefresh: () async {
-          await _notificationCubit.getAllNotifications();
-        },
-      ),
+    return EmptyListWidget(
+      text: S.current.empty_notifications,
+      linkImage: AppImages.emptyNotification,
+      onRefresh: () async {
+        await Future.delayed(const Duration(seconds: 1));
+        _notificationCubit.getAllNotifications();
+      },
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -71,11 +72,11 @@ class AppEmailTextField extends StatelessWidget {
         validator: (value) {
           if (value == null || value.isEmpty) {
             checkIconController.value = false;
-            return 'Please enter email';
+            return S.current.validate_email_empty;
           }
           if (!Utils.isEmail(value)) {
             checkIconController.value = false;
-            return "Email invalid";
+            return S.current.validate_email_invalid;
           }
           checkIconController.value = true;
           return null;

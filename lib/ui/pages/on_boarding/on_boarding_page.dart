@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/ui/pages/on_boarding/on_boarding_cubit.dart';
 import 'package:ecommerce/ui/pages/on_boarding/widgets/item_onboarding.dart';
 import 'package:flutter/material.dart';
@@ -35,15 +36,15 @@ class _OnBoardingChildPageState extends State<OnBoardingChildPage> {
 
   List<Map<String, dynamic>> onboardingList = [
     {
-      'title': '20% Discount \nNew Arrival Product',
+      'title': S.current.onboarding_title_01,
       'image': AppImages.onBoarding1
     },
     {
-      'title': 'Take Advantage \nOf The Ofter Shopping',
+      'title': S.current.onboarding_title_02,
       'image': AppImages.onBoarding2
     },
     {
-      'title': 'All Types Offers \nWithin Your Reach',
+      'title': S.current.onboarding_title_03,
       'image': AppImages.onBoarding3
     },
   ];

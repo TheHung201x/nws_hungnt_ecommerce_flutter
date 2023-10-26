@@ -1,6 +1,7 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/ui/widgets/buttons/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -29,7 +30,7 @@ class AuthPage extends StatelessWidget {
                 child: Column(
                   children: [
                     AppButton(
-                      title: 'Login',
+                      title: S.current.login,
                       onPressed: () => context.push('/signIn'),
                       backgroundColor: AppColors.white,
                       textStyle: AppTextStyle.blackS16Bold,
@@ -39,7 +40,7 @@ class AuthPage extends StatelessWidget {
                       height: 14,
                     ),
                     AppButton(
-                      title: 'Sign Up',
+                      title: S.current.sign_up,
                       onPressed: () => context.push('/signUp'),
                       backgroundColor: AppColors.transparent,
                       textStyle: AppTextStyle.whiteS16Bold,

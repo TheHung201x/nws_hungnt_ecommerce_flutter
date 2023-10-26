@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,7 +41,7 @@ class TitleAndRatingProductDetail extends StatelessWidget {
                 width: 10,
               ),
               Text(
-                '(320 Review)',
+                '(320 ${S.current.review})',
                 style: AppTextStyle.blackS14,
               )
             ],

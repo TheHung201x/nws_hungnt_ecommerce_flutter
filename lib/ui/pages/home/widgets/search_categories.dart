@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/ui/pages/home/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,7 +59,7 @@ class _SearchCategoriesState extends State<SearchCategories> {
                     borderSide: BorderSide.none,
                   ),
                   contentPadding: EdgeInsets.zero,
-                  hintText: 'Search Category',
+                  hintText: S.current.search_categories,
                   hintStyle: AppTextStyle.greyA14,
                 ),
               ),

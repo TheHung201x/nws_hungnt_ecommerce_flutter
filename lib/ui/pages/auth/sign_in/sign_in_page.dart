@@ -2,6 +2,7 @@ import 'package:ecommerce/blocs/app_cubit.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
@@ -123,11 +124,11 @@ class _SignInChildPageState extends State<SignInChildPage> {
   Widget _titleLogin() {
     return ListTile(
         title: Text(
-          'Welcome!',
+          S.current.title_login,
           style: AppTextStyle.blackS18Bold,
         ),
         subtitle: Text(
-          'please login or sign up to continue our app',
+          S.current.sub_title_login,
           style: AppTextStyle.greyS14,
         ),
         contentPadding: EdgeInsets.zero);
@@ -136,7 +137,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
   Widget _textFieldEmailLogin() {
     return AppEmailTextField(
       textEditingController: emailTextController,
-      hintText: 'Please enter email',
+      hintText: S.current.validate_email_empty,
       checkIconController: checkIconController,
       onChanged: (_) {
         setState(() {
@@ -151,7 +152,8 @@ class _SignInChildPageState extends State<SignInChildPage> {
     return AppPasswordTextField(
       textEditingController: passwordTextController,
       obscureTextController: obscurePasswordController,
-      hintText: 'Please enter password',
+      hintText: S.current.validate_password_empty,
+      labelText: S.current.password,
     );
   }
 
@@ -160,7 +162,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
       builder: (context, state) {
         return AppButton(
           height: 50,
-          title: 'Login',
+          title: S.current.login,
           onPressed: () => _signIn(),
           isEnable: state.signInStatus == LoadStatus.loading ? false : true,
           isLoading: state.signInStatus == LoadStatus.loading ? true : false,
@@ -173,22 +175,22 @@ class _SignInChildPageState extends State<SignInChildPage> {
   }
 
   Widget _textOrLogin() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          const Expanded(
             child: Divider(
               color: AppColors.border,
               thickness: 1,
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4),
-            child: Text('or', style: AppTextStyle.black),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Text(S.current.or, style: AppTextStyle.black),
           ),
-          Expanded(
+          const Expanded(
             child: Divider(
               color: AppColors.border,
               thickness: 1,
@@ -209,7 +211,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
           height: 20,
         ),
       ),
-      title: 'Continue with Facebook',
+      title: S.current.login_with_facebook,
       onPressed: () {},
       backgroundColor: AppColors.buttonFacebook,
       textStyle: AppTextStyle.whiteS16Bold,
@@ -230,7 +232,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
             height: 20,
           ),
         ),
-        title: 'Continue with Google',
+        title: S.current.login_with_google,
         onPressed: () {},
         backgroundColor: AppColors.white,
         textStyle: AppTextStyle.greyA16Bold,
@@ -252,7 +254,7 @@ class _SignInChildPageState extends State<SignInChildPage> {
           height: 20,
         ),
       ),
-      title: 'Continue with Apple',
+      title: S.current.login_with_apple,
       onPressed: () {},
       backgroundColor: AppColors.white,
       textStyle: AppTextStyle.greyA16Bold,

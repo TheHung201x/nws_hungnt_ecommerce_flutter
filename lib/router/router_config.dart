@@ -1,5 +1,4 @@
 import 'package:ecommerce/models/entities/category/category_entity.dart';
-import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/ui/pages/auth/auth_page.dart';
 import 'package:ecommerce/ui/pages/auth/sign_in/sign_in_page.dart';
@@ -7,6 +6,7 @@ import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_page.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_success_page.dart';
 import 'package:ecommerce/ui/pages/cart/cart_page.dart';
 import 'package:ecommerce/ui/pages/home/home_page.dart';
+import 'package:ecommerce/ui/pages/language/language_page.dart';
 import 'package:ecommerce/ui/pages/main/main_page.dart';
 import 'package:ecommerce/ui/pages/notification/notification_page.dart';
 import 'package:ecommerce/ui/pages/on_boarding/on_boarding_page.dart';
@@ -43,6 +43,7 @@ class AppRouter {
   static const String cart = "cart";
   static const String notifi = "notifi";
   static const String profile = "profile";
+  static const String language = "language";
 
   // GoRouter configuration
   static final _routes = <RouteBase>[
@@ -128,6 +129,12 @@ class AppRouter {
       name: onBoarding,
       path: "/$onBoarding",
       builder: (context, state) => const OnBoardingPage(),
+    ),
+    GoRoute(
+      parentNavigatorKey: rootNavigationKey,
+      name: language,
+      path: "/$language",
+      builder: (context, state) => const LanguagePage(),
     ),
   ];
 }

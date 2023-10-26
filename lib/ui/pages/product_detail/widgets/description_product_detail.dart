@@ -1,4 +1,5 @@
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class DescriptionProductDetail extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Description',
+          S.current.description_product,
           style: AppTextStyle.blackS18Bold,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

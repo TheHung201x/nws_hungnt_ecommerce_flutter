@@ -1,7 +1,8 @@
-import 'package:ecommerce/blocs/app_cubit.dart';
+import 'package:ecommerce/blocs/setting/app_setting_cubit.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/ui/pages/profile/profile_cubit.dart';
 import 'package:ecommerce/ui/pages/profile/profile_navigator.dart';
@@ -22,14 +23,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return ProfileCubit(
-            appCubit: RepositoryProvider.of<AppCubit>(context),
-            navigator: ProfileNavigator(context: context));
-      },
-      child: const ProfileChildPage(),
-    );
+    return const ProfileChildPage();
   }
 }
 
@@ -50,7 +44,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
   @override
   void initState() {
     _profileCubit = BlocProvider.of<ProfileCubit>(context);
-    _profileCubit.getUser();
+    // _profileCubit.getUser();
     _nameController = TextEditingController();
     _ageController = TextEditingController();
     _emailController = TextEditingController();
@@ -60,6 +54,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
 
   @override
   void dispose() {
+    _profileCubit.close();
     _nameController.dispose();
     _ageController.dispose();
     _emailController.dispose();
@@ -71,46 +66,51 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: BlocBuilder<ProfileCubit, ProfileState>(
+        body: BlocBuilder<AppSettingCubit, AppSettingState>(
+          buildWhen: (previous, current) => previous.locale != current.locale,
           builder: (context, state) {
-            if (state.userStatus == LoadStatus.failure) {
-              return ErrorListWidget(
-                onRefresh: () => _profileCubit.getUser(),
-              );
-            } else if (state.userStatus == LoadStatus.success) {
-              _nameController.text = state.user?.name ?? '';
-              _emailController.text = state.user?.email ?? '';
-              _ageController.text = '20 Year';
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 100,
+            return BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state.userStatus == LoadStatus.failure) {
+                  return ErrorListWidget(
+                    onRefresh: () => _profileCubit.getUser(),
+                  );
+                } else if (state.userStatus == LoadStatus.success) {
+                  _nameController.text = state.user?.name ?? '';
+                  _emailController.text = state.user?.email ?? '';
+                  _ageController.text = '20 ${S.current.year}';
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 100,
+                          ),
+                          EditAvatarUserProfile(
+                            avatarUser: state.user?.avatar ?? '',
+                          ),
+                          _nameUser(),
+                          const GenderUserProfile(),
+                          _ageUser(),
+                          _emailUser(),
+                          _groupOptions(),
+                          _buttonLogout(),
+                        ],
                       ),
-                      EditAvatarUserProfile(
-                        avatarUser: state.user?.avatar ?? '',
-                      ),
-                      _nameUser(),
-                      const GenderUserProfile(),
-                      _ageUser(),
-                      _emailUser(),
-                      _groupOptions(),
-                      _buttonLogout(),
-                    ],
-                  ),
-                ),
-              );
-            } else if (state.signOutStatus == LoadStatus.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return const AppShimmer();
-            }
+                    ),
+                  );
+                } else if (state.signOutStatus == LoadStatus.loading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return const AppShimmer();
+                }
+              },
+            );
           },
         ),
       ),
@@ -123,13 +123,13 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
       child: Row(
         children: [
           Text(
-            'Name',
+            S.current.name,
             style: AppTextStyle.greyABold,
           ),
           const Spacer(),
           AppTextField(
             textEditingController: _nameController,
-            hintText: 'Name',
+            hintText: S.current.name,
           )
         ],
       ),
@@ -142,13 +142,13 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
       child: Row(
         children: [
           Text(
-            'Age',
+            S.current.age,
             style: AppTextStyle.greyABold,
           ),
           const Spacer(),
           AppTextField(
             textEditingController: _ageController,
-            hintText: 'Age',
+            hintText: S.current.age,
           )
         ],
       ),
@@ -178,7 +178,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
         Padding(
           padding: const EdgeInsets.only(top: 30),
           child: Text(
-            'Settings',
+            S.current.settings,
             style: AppTextStyle.blackS20W800,
           ),
         ),
@@ -191,28 +191,28 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
               Radius.circular(20),
             ),
           ),
-          child: const Column(
+          child: Column(
             children: [
               IconOtherInProfile(
                 linkImg: AppImages.icLanguage,
-                title: 'Language',
+                title: S.current.language,
                 isSwitch: false,
                 isText: true,
               ),
               IconOtherInProfile(
                   linkImg: AppImages.icNotification,
-                  title: 'Notification',
+                  title: S.current.notifi,
                   isSwitch: true,
                   isText: false),
               IconOtherInProfile(
                 linkImg: AppImages.icDarkMode,
-                title: 'Dark Mode',
+                title: S.current.dark_mode,
                 isSwitch: true,
                 isText: true,
               ),
               IconOtherInProfile(
                 linkImg: AppImages.icHelp,
-                title: 'Help Center',
+                title: S.current.help_center,
                 isSwitch: false,
                 isText: false,
               ),
@@ -233,7 +233,7 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
           height: 20,
         ),
       ),
-      title: 'Log Out',
+      title: S.current.log_out,
       isContentCenter: true,
       backgroundColor: AppColors.black,
       onPressed: () => logOut(),
@@ -242,10 +242,13 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
 
   void logOut() {
     _navigator.showSimpleDialog(
-      title: 'Log out',
-      message: 'Are you sure you want to log out?',
-      onConfirm: () {
-        _profileCubit.signOut();
+      title: S.current.log_out,
+      message: S.current.confirm_log_out,
+      textConfirm: S.current.yes,
+      textCancel: S.current.no,
+      onConfirm: () async {
+        await _profileCubit.signOut();
+        _navigator.openAuthPage();
       },
       onCancel: () => _navigator.pop(),
     );

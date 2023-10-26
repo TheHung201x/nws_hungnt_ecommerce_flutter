@@ -2,6 +2,7 @@ import 'package:ecommerce/blocs/app_cubit.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
@@ -33,7 +34,7 @@ class SignUpSuccessPage extends StatelessWidget {
           appCubit: appCubit,
         );
       },
-      child:  SignUpSuccessChildPage(userEntity: userEntity),
+      child: SignUpSuccessChildPage(userEntity: userEntity),
     );
   }
 }
@@ -75,12 +76,12 @@ class _SignUpSuccessChildPageState extends State<SignUpSuccessChildPage> {
               padding: const EdgeInsets.only(top: 30, bottom: 200),
               child: ListTile(
                   title: Text(
-                    'Successful!',
+                    S.current.title_success,
                     style: AppTextStyle.blackS24Bold,
                     textAlign: TextAlign.center,
                   ),
                   subtitle: Text(
-                    'You have successfully registered in \nour app and start working in it',
+                    S.current.sub_title_success,
                     style: AppTextStyle.greyS14,
                     textAlign: TextAlign.center,
                   ),
@@ -89,18 +90,17 @@ class _SignUpSuccessChildPageState extends State<SignUpSuccessChildPage> {
             BlocBuilder<SignInCubit, SignInState>(
               builder: (context, state) {
                 return AppButton(
-                  title: 'Start shopping',
+                  title: S.current.start_shopping,
                   cornerRadius: 30,
                   backgroundColor: AppColors.black,
-                  onPressed: () =>
-                      _signInCubit.signIn(
-                        widget.userEntity.email,
-                        widget.userEntity.password,
-                      ),
+                  onPressed: () => _signInCubit.signIn(
+                    widget.userEntity.email,
+                    widget.userEntity.password,
+                  ),
                   isEnable:
-                  state.signInStatus == LoadStatus.loading ? false : true,
+                      state.signInStatus == LoadStatus.loading ? false : true,
                   isLoading:
-                  state.signInStatus == LoadStatus.loading ? true : false,
+                      state.signInStatus == LoadStatus.loading ? true : false,
                   textStyle: AppTextStyle.whiteS16Bold,
                 );
               },

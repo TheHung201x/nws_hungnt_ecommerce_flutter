@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class GenderUserProfile extends StatelessWidget {
@@ -10,7 +11,7 @@ class GenderUserProfile extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'Gender',
+          S.current.gender,
           style: AppTextStyle.greyABold,
         ),
         const Spacer(),
@@ -57,7 +58,7 @@ class GenderUserProfile extends StatelessWidget {
             ),
           ),
           Text(
-            'Male',
+            S.current.male,
             style: AppTextStyle.whiteS12Bold,
           )
         ],
@@ -93,7 +94,7 @@ class GenderUserProfile extends StatelessWidget {
             ),
           ),
           Text(
-            'Female',
+            S.current.female,
             style: AppTextStyle.greyA12Blod,
           )
         ],

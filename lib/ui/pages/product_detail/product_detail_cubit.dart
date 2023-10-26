@@ -1,4 +1,5 @@
 import 'package:ecommerce/common/app_navigator.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/product_repository.dart';
@@ -56,7 +57,7 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
         ),
       );
       appNavigator.showErrorFlushbar(
-          message: 'Cannot decrease the quantity anymore');
+          message: S.current.decrease_error);
     }
   }
 

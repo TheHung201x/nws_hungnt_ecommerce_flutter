@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/ui/widgets/textfields/app_email_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +66,7 @@ class AppUserNameTextField extends StatelessWidget {
         validator: (value) {
           if (value == null || value.isEmpty) {
             checkIconController.value = false;
-            return 'Please enter username';
+            return S.current.validate_username_empty;
           }
           checkIconController.value = true;
           return null;

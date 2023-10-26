@@ -1,5 +1,6 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/product/product_entity.dart';
 import 'package:ecommerce/ui/pages/product_detail/product_detail_cubit.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class _QuantityProductDetailState extends State<QuantityProductDetail> {
               height: 10,
             ),
             Text(
-              'Available in stock',
+              S.current.available_in_stock,
               style: AppTextStyle.blackS12W800,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

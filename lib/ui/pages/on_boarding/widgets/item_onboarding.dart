@@ -1,4 +1,5 @@
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class ItemOnboarding extends StatelessWidget {
@@ -45,8 +46,8 @@ class ItemOnboarding extends StatelessWidget {
               style: AppTextStyle.blackS24Bold,
             ),
           ),
-          subtitle: const Text(
-            "Publish up your selfies to make yourself \nmore beautiful with this app",
+          subtitle: Text(
+            S.current.onboarding_sub_title,
             style: AppTextStyle.grey,
           ),
         )

@@ -18,26 +18,29 @@ class EmptyListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: onRefresh ?? _onRefreshData,
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Image.asset(
-                linkImage,
-                height: 80,
-                width: 80,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                text,
-                style: AppTextStyle.greyS18W800,
-              ),
-            ],
-          );
-        },
-        itemCount: 1,
+      child: ListView(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  linkImage,
+                  height: 80,
+                  width: 80,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  text,
+                  style: AppTextStyle.greyS18W800,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

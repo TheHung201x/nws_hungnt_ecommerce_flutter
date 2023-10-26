@@ -90,6 +90,9 @@ class _ProductListChildPageState extends State<ProductListChildPage> {
                         .getProductsListByIdCategory(widget.idCategory);
                   },
                   child: BlocBuilder<ProductListCubit, ProductListState>(
+                    buildWhen: (previous, current) {
+                      return previous.getProductsLoadStatus != current.getProductsLoadStatus;
+                    },
                     builder: (context, state) {
                       if (state.getProductsLoadStatus == LoadStatus.loading) {
                         return const LoadingGridViewWidget();

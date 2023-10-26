@@ -13,7 +13,8 @@ class AppImages {
   static const oops = 'assets/image/oops.png';
   static const searchNotFound = 'assets/image/search_not_found.png';
   static const emptyCart = 'assets/image/empty_cart.png';
-  static const emptyNotification = 'assets/image/notifications.png';
+  static const emptyNotification = 'assets/image/empty_notifications.png';
+  static const emptyCategory = 'assets/image/empty_category.png';
 
   // Icons
   static const icFacebook = 'assets/image/ic_facebook.png';

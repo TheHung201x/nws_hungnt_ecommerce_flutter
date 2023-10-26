@@ -1,4 +1,5 @@
 import 'package:ecommerce/blocs/app_cubit.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
@@ -36,15 +37,15 @@ class SignInCubit extends Cubit<SignInState> {
           print("my profile $myProfile");
         }
         emit(state.copyWith(signInStatus: LoadStatus.success));
-        navigator.showSuccessFlushbar(message: 'Login success');
+        navigator.showSuccessFlushbar(message: S.current.login_success);
         navigator.openHomePage();
       } else {
         navigator.showErrorFlushbar(
-            message: 'An error occurred, please try again');
+            message: S.current.login_error);
         emit(state.copyWith(signInStatus: LoadStatus.failure));
       }
     } catch (err) {
-      navigator.showErrorFlushbar(message: 'Incorrect Email or Password');
+      navigator.showErrorFlushbar(message: S.current.login_fail);
       debugPrint(' err :$err');
       emit(state.copyWith(signInStatus: LoadStatus.failure));
     }
