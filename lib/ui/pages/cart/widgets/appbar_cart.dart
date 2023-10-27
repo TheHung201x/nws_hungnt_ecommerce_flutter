@@ -1,6 +1,7 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
+import 'package:ecommerce/router/router_config.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,7 @@ class AppBarCart extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: context.pop,
+            onTap: ()=> context.goNamed(AppRouter.home),
             child: SvgPicture.asset(
               AppImages.icBack,
               height: 40,

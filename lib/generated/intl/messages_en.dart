@@ -76,6 +76,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login_with_google":
             MessageLookupByLibrary.simpleMessage("Continue with Google"),
         "male": MessageLookupByLibrary.simpleMessage("Male"),
+        "messenge_confirm_exit": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to exit?"),
         "minute": MessageLookupByLibrary.simpleMessage("minute"),
         "minutes": MessageLookupByLibrary.simpleMessage("minutes"),
         "month": MessageLookupByLibrary.simpleMessage("month"),
@@ -119,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "You have successfully registered in \nour app and start working in it"),
         "title_checkbox_agree_sign_up": MessageLookupByLibrary.simpleMessage(
             "By creating an account you have to agree with our them & condication"),
+        "title_confirm_exit": MessageLookupByLibrary.simpleMessage("Exit"),
         "title_login": MessageLookupByLibrary.simpleMessage("Welcome!"),
         "title_success": MessageLookupByLibrary.simpleMessage("Successful!"),
         "total": MessageLookupByLibrary.simpleMessage("total"),

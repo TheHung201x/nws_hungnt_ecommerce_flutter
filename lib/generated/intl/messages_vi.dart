@@ -77,6 +77,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login_with_google":
             MessageLookupByLibrary.simpleMessage("Tiếp tục với Google"),
         "male": MessageLookupByLibrary.simpleMessage("Nam"),
+        "messenge_confirm_exit":
+            MessageLookupByLibrary.simpleMessage("Bạn có muốn thoát ứng dụng?"),
         "minute": MessageLookupByLibrary.simpleMessage("phút"),
         "minutes": MessageLookupByLibrary.simpleMessage("phút"),
         "month": MessageLookupByLibrary.simpleMessage("tháng"),
@@ -120,6 +122,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Bạn đã đăng ký thành công trong ứng dụng của chúng tôi và bắt đầu làm việc trong đó"),
         "title_checkbox_agree_sign_up": MessageLookupByLibrary.simpleMessage(
             "Bằng cách tạo tài khoản, bạn đồng ý với điều khoản và điều kiện của chúng tôi"),
+        "title_confirm_exit":
+            MessageLookupByLibrary.simpleMessage("Thoát ứng dụng"),
         "title_login": MessageLookupByLibrary.simpleMessage("Chào mừng!"),
         "title_success": MessageLookupByLibrary.simpleMessage("Thành công!"),
         "total": MessageLookupByLibrary.simpleMessage("Tổng cộng"),

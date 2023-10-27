@@ -83,5 +83,7 @@
   "just_now": "just now",
   "ago": "ago",
   "off": "off",
-  "notification_close_app": "Click again to close the application"
+  "notification_close_app": "Click again to close the application",
+  "title_confirm_exit": "Exit",
+  "messenge_confirm_exit": "Are you sure you want to exit?"
 }

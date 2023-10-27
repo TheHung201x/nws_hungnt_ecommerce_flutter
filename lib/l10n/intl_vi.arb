@@ -83,5 +83,7 @@
   "just_now": "vừa xong",
   "ago": "trước",
   "off": "tắt",
-  "notification_close_app": "Nhấn lần nữa để đóng ứng dụng"
+  "notification_close_app": "Nhấn lần nữa để đóng ứng dụng",
+  "title_confirm_exit": "Thoát ứng dụng",
+  "messenge_confirm_exit": "Bạn có muốn thoát ứng dụng?"
 }

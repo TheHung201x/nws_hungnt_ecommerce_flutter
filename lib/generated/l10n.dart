@@ -899,6 +899,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Exit`
+  String get title_confirm_exit {
+    return Intl.message(
+      'Exit',
+      name: 'title_confirm_exit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to exit?`
+  String get messenge_confirm_exit {
+    return Intl.message(
+      'Are you sure you want to exit?',
+      name: 'messenge_confirm_exit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,7 +1,9 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
+import 'package:ecommerce/router/router_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class AppBarNotification extends StatelessWidget {
   const AppBarNotification({Key? key}) : super(key: key);
@@ -13,10 +15,13 @@ class AppBarNotification extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset(
-            AppImages.icBack,
-            height: 40,
-            width: 40,
+          GestureDetector(
+            onTap: () => context.goNamed(AppRouter.home),
+            child: SvgPicture.asset(
+              AppImages.icBack,
+              height: 40,
+              width: 40,
+            ),
           ),
           Container(
             height: 40,
