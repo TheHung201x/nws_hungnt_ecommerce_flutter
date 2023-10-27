@@ -24,6 +24,10 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add_to_cart":
             MessageLookupByLibrary.simpleMessage("Thêm vào giỏ hàng"),
+        "add_to_cart_failed": MessageLookupByLibrary.simpleMessage(
+            "Thêm vào giỏ hàng thất bại. \nVui lòng thử lại"),
+        "add_to_cart_success": MessageLookupByLibrary.simpleMessage(
+            "Thêm vào giỏ hàng thành công"),
         "age": MessageLookupByLibrary.simpleMessage("Tuổi"),
         "ago": MessageLookupByLibrary.simpleMessage("trước"),
         "available_in_stock": MessageLookupByLibrary.simpleMessage("Còn hàng"),
@@ -83,6 +87,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "not_found_categories": MessageLookupByLibrary.simpleMessage(
             "Không tìm thấy danh mục thể loại"),
         "notifi": MessageLookupByLibrary.simpleMessage("Thông báo"),
+        "notification_close_app": MessageLookupByLibrary.simpleMessage(
+            "Nhấn lần nữa để đóng ứng dụng"),
+        "off": MessageLookupByLibrary.simpleMessage("tắt"),
         "onboarding_sub_title": MessageLookupByLibrary.simpleMessage(
             "Đăng tải những bức ảnh tự sướng của bạn để trở nên xinh đẹp hơn với ứng dụng này"),
         "onboarding_title_01": MessageLookupByLibrary.simpleMessage(

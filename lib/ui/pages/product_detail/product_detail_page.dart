@@ -6,6 +6,7 @@ import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/cart/cart_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
+import 'package:ecommerce/repositories/cart_repository.dart';
 import 'package:ecommerce/repositories/product_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
@@ -31,13 +32,24 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return ProductDetailCubit(
-          appNavigator: AppNavigator(context: context),
-          productRepository: RepositoryProvider.of<ProductRepository>(context),
-        );
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            return ProductDetailCubit(
+              appNavigator: AppNavigator(context: context),
+              productRepository:
+                  RepositoryProvider.of<ProductRepository>(context),
+            );
+          },
+        ),
+        BlocProvider(
+          create: (context) => CartCubit(
+              cartRepository: RepositoryProvider.of<CartRepository>(context),
+              userRepository: RepositoryProvider.of<UserRepository>(context),
+              appNavigator: AppNavigator(context: context)),
+        ),
+      ],
       child: ProductDetailChildPage(idProduct: idProduct),
     );
   }

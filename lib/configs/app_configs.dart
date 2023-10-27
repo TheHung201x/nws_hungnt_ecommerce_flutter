@@ -6,7 +6,7 @@ class AppConfigs {
   static String get baseUrl => "https://api.escuelajs.co/api/v1";
 
   ///Local
-  static const appLocal = 'vi_VN';
-  static const appLanguage = 'vi';
+  static const appLocal = 'en_US';
+  static const appLanguage = 'en';
   static const defaultLocal = Locale.fromSubtags(languageCode: appLanguage);
 }

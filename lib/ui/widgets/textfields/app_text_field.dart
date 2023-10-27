@@ -23,7 +23,7 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 220,
+      width: 200,
       child: TextFormField(
         readOnly: true,
         controller: textEditingController,

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ecommerce/common/app_navigator.dart';
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/cart/cart_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
@@ -27,11 +28,11 @@ class CartCubit extends Cubit<CartState> {
     try {
       await cartRepository.addToCart(cartEntity: cartEntity,);
       emit(state.copyWith(addToCartStatus: LoadStatus.success));
-      appNavigator.showSuccessFlushbar(message: 'Product added to cart successfully');
+      appNavigator.showSuccessFlushbar(message: S.current.add_to_cart_success);
     } catch (e) {
       log("Error", error: e);
       emit(state.copyWith(addToCartStatus: LoadStatus.failure));
-      appNavigator.showErrorFlushbar(message: 'Add to cart failed. Please try again');
+      appNavigator.showErrorFlushbar(message: S.current.add_to_cart_failed);
     }
   }
 
@@ -109,7 +110,7 @@ class CartCubit extends Cubit<CartState> {
     } else {
       quantity = 1;
       appNavigator.showErrorFlushbar(
-          message: 'Cannot decrease the quantity anymore');
+          message: S.current.decrease_error);
     }
 
     totalPrice = quantity * price;

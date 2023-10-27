@@ -63,6 +63,8 @@
   "description_product": "Description",
   "total_price_product": "Total Price",
   "add_to_cart": "Add to cart",
+  "add_to_cart_success": "Product added to cart successfully",
+  "add_to_cart_failed": "Add to cart failed. Please try again",
   "decrease_error": "Cannot decrease the quantity anymore",
   "login_success": "Login success",
   "login_error": "An error occurred, please try again",
@@ -79,5 +81,7 @@
   "minute": "minute",
   "minutes": "minutes",
   "just_now": "just now",
-  "ago": "ago"
+  "ago": "ago",
+  "off": "off",
+  "notification_close_app": "Click again to close the application"
 }

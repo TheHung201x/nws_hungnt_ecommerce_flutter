@@ -1,3 +1,4 @@
+import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
 import 'package:ecommerce/repositories/auth_repository.dart';
 import 'package:ecommerce/ui/pages/auth/sign_up/sign_up_navigator.dart';
@@ -25,7 +26,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     } catch (err) {
       debugPrint(' err :$err');
       emit(state.copyWith(signUpStatus: LoadStatus.failure));
-      navigator.showErrorFlushbar(message: 'Sign Up failure');
+      navigator.showErrorFlushbar(message: S.current.login_error);
     }
   }
 

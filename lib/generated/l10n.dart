@@ -690,6 +690,26 @@ class S {
     );
   }
 
+  /// `Product added to cart successfully`
+  String get add_to_cart_success {
+    return Intl.message(
+      'Product added to cart successfully',
+      name: 'add_to_cart_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to cart failed. Please try again`
+  String get add_to_cart_failed {
+    return Intl.message(
+      'Add to cart failed. Please try again',
+      name: 'add_to_cart_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Cannot decrease the quantity anymore`
   String get decrease_error {
     return Intl.message(
@@ -855,6 +875,26 @@ class S {
     return Intl.message(
       'ago',
       name: 'ago',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `off`
+  String get off {
+    return Intl.message(
+      'off',
+      name: 'off',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click again to close the application`
+  String get notification_close_app {
+    return Intl.message(
+      'Click again to close the application',
+      name: 'notification_close_app',
       desc: '',
       args: [],
     );

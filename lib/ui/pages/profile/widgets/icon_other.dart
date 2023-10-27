@@ -45,7 +45,7 @@ class IconOtherInProfile extends StatelessWidget {
                   linkImg,
                 ),
               ),
-              Text(title, style: AppTextStyle.blackS16W600),
+              Text(title, style: AppTextStyle.blackS14Bold),
             ],
           ),
           !isSwitch
@@ -67,7 +67,7 @@ class IconOtherInProfile extends StatelessWidget {
                 )
               : Row(
                   children: [
-                    isText ? const Text('off') : const SizedBox.shrink(),
+                    isText ? Text(S.current.off) : const SizedBox.shrink(),
                     const SizedBox(
                       width: 4,
                     ),

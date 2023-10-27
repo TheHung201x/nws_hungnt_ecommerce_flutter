@@ -23,6 +23,10 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add_to_cart": MessageLookupByLibrary.simpleMessage("Add to cart"),
+        "add_to_cart_failed": MessageLookupByLibrary.simpleMessage(
+            "Add to cart failed. Please try again"),
+        "add_to_cart_success": MessageLookupByLibrary.simpleMessage(
+            "Product added to cart successfully"),
         "age": MessageLookupByLibrary.simpleMessage("Age"),
         "ago": MessageLookupByLibrary.simpleMessage("ago"),
         "available_in_stock":
@@ -82,6 +86,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "not_found_categories":
             MessageLookupByLibrary.simpleMessage("Categories Not Found"),
         "notifi": MessageLookupByLibrary.simpleMessage("Notifi"),
+        "notification_close_app": MessageLookupByLibrary.simpleMessage(
+            "Click again to close the application"),
+        "off": MessageLookupByLibrary.simpleMessage("off"),
         "onboarding_sub_title": MessageLookupByLibrary.simpleMessage(
             "Publish up your selfies to make yourself \nmore beautiful with this app"),
         "onboarding_title_01": MessageLookupByLibrary.simpleMessage(

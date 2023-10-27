@@ -16,7 +16,7 @@ class GenderUserProfile extends StatelessWidget {
         ),
         const Spacer(),
         SizedBox(
-          width: 220,
+          width: 200,
           child: Row(
             children: [
               _male(),

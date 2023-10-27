@@ -63,6 +63,8 @@
   "description_product": "Mô tả",
   "total_price_product": "Tổng giá",
   "add_to_cart": "Thêm vào giỏ hàng",
+  "add_to_cart_success": "Thêm vào giỏ hàng thành công",
+  "add_to_cart_failed": "Thêm vào giỏ hàng thất bại. \nVui lòng thử lại",
   "decrease_error": "Không thể giảm số lượng nữa",
   "login_success": "Đăng nhập thành công",
   "login_error": "Đã xảy ra lỗi, vui lòng thử lại",
@@ -79,5 +81,7 @@
   "minute": "phút",
   "minutes": "phút",
   "just_now": "vừa xong",
-  "ago": "trước"
+  "ago": "trước",
+  "off": "tắt",
+  "notification_close_app": "Nhấn lần nữa để đóng ứng dụng"
 }

@@ -48,6 +48,10 @@ class AppBarProductDetail extends StatelessWidget {
                 ),
               ),
               BlocBuilder<CartCubit, CartState>(
+                buildWhen: (previous, current) {
+                  return previous.getAllCartStatus != current.getAllCartStatus &&
+                      previous.cartList != current.cartList;
+                },
                 builder: (context, state) {
                   return state.cartList.isNotEmpty
                       ? Positioned(

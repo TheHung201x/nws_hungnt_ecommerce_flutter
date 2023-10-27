@@ -3,8 +3,7 @@ import 'package:ecommerce/models/entities/cart/cart_entity.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class CartRepository {
-  Future<void> addToCart(
-      {required CartEntity cartEntity});
+  Future<void> addToCart({required CartEntity cartEntity});
 
   Future<List<CartEntity>> getAllCart(int id);
 
@@ -13,20 +12,21 @@ abstract class CartRepository {
 
 class CartRepositoryImpl extends CartRepository {
   @override
-  Future<void> addToCart(
-      {required CartEntity cartEntity,}) async {
+  Future<void> addToCart({
+    required CartEntity cartEntity,
+  }) async {
     await Future.delayed(const Duration(seconds: 2));
     final CollectionReference cartCollection =
         FirebaseFirestore.instance.collection('Cart');
-      await cartCollection.add(cartEntity.toJson()).then((value) {
-        if(kDebugMode){
-          print('add to cart success');
-        }
-      }).catchError((error) {
-        if(kDebugMode){
-          print('add to cart fail');
-        }
-      });
+    await cartCollection.add(cartEntity.toJson()).then((value) {
+      if (kDebugMode) {
+        print('add to cart success');
+      }
+    }).catchError((error) {
+      if (kDebugMode) {
+        print('add to cart fail');
+      }
+    });
   }
 
   @override
