@@ -28,7 +28,7 @@ class ApiInterceptors extends QueuedInterceptorsWrapper {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
     final statusCode = err.response?.statusCode;
     final path = err.requestOptions.path;
     final uri = err.requestOptions.uri;

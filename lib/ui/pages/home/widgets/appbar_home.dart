@@ -30,6 +30,8 @@ class _AppBarHomeState extends State<AppBarHome> {
           appNavigator.showSimpleDialog(
             title: S.current.title_confirm_exit,
             message: S.current.messenge_confirm_exit,
+            textConfirm: S.current.yes,
+            textCancel: S.current.no,
             onConfirm: () => SystemNavigator.pop(),
           );
         },

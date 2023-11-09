@@ -32,6 +32,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "ago": MessageLookupByLibrary.simpleMessage("trước"),
         "available_in_stock": MessageLookupByLibrary.simpleMessage("Còn hàng"),
         "cart": MessageLookupByLibrary.simpleMessage("Giỏ hàng"),
+        "checkout_failed":
+            MessageLookupByLibrary.simpleMessage("Thanh toán thất bại"),
+        "checkout_success":
+            MessageLookupByLibrary.simpleMessage("Thanh toán thành công"),
         "confirm_log_out": MessageLookupByLibrary.simpleMessage(
             "Bạn có chắc chắn muốn đăng xuất?"),
         "confirm_password":

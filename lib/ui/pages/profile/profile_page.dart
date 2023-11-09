@@ -1,3 +1,4 @@
+import 'package:ecommerce/blocs/app_cubit.dart';
 import 'package:ecommerce/blocs/setting/app_setting_cubit.dart';
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
@@ -23,7 +24,18 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ProfileChildPage();
+    return
+      BlocProvider(
+        create: (context) {
+          return ProfileCubit(
+              appCubit: RepositoryProvider.of<AppCubit>(context),
+              profileNavigator: ProfileNavigator(context: context)
+          )
+            ..getUser();
+        },
+        child:
+        const ProfileChildPage(),
+      );
   }
 }
 
@@ -200,10 +212,11 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
                 isText: true,
               ),
               IconOtherInProfile(
-                  linkImg: AppImages.icNotification,
-                  title: S.current.notifi,
-                  isSwitch: true,
-                  isText: false),
+                linkImg: AppImages.icNotification,
+                title: S.current.notifi,
+                isSwitch: true,
+                isText: false,
+              ),
               IconOtherInProfile(
                 linkImg: AppImages.icDarkMode,
                 title: S.current.dark_mode,
@@ -246,9 +259,10 @@ class _ProfileChildPageState extends State<ProfileChildPage> {
       message: S.current.confirm_log_out,
       textConfirm: S.current.yes,
       textCancel: S.current.no,
-      onConfirm: () async {
-        await _profileCubit.signOut();
-        _navigator.openAuthPage();
+      onConfirm: () {
+        if (mounted) {
+          _profileCubit.handleSignOut();
+        }
       },
       onCancel: () => _navigator.pop(),
     );

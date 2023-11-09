@@ -26,8 +26,10 @@ class CartCubit extends Cubit<CartState> {
   Future<void> addToCart(CartEntity cartEntity) async {
     emit(state.copyWith(addToCartStatus: LoadStatus.loading));
     try {
-      await cartRepository.addToCart(cartEntity: cartEntity,);
-      emit(state.copyWith(addToCartStatus: LoadStatus.success));
+      await cartRepository.addToCart(
+        cartEntity: cartEntity,
+      );
+      emit(state.copyWith(addToCartStatus: LoadStatus.success, cartList: []));
       appNavigator.showSuccessFlushbar(message: S.current.add_to_cart_success);
     } catch (e) {
       log("Error", error: e);
@@ -67,16 +69,14 @@ class CartCubit extends Cubit<CartState> {
               getAllCartStatus: LoadStatus.success,
               totalAllPrice: 0),
         );
+        appNavigator.showSuccessFlushbar(message: S.current.checkout_success);
       });
     } catch (e) {
       emit(
         state.copyWith(getAllCartStatus: LoadStatus.failure),
       );
+      appNavigator.showSuccessFlushbar(message: S.current.checkout_failed);
     }
-  }
-
-  void getCart(List<CartEntity> cartList) {
-    emit(state.copyWith(cartList: cartList));
   }
 
   void increment(int index, int price) {
@@ -109,8 +109,7 @@ class CartCubit extends Cubit<CartState> {
       totalAllPrice -= price;
     } else {
       quantity = 1;
-      appNavigator.showErrorFlushbar(
-          message: S.current.decrease_error);
+      appNavigator.showErrorFlushbar(message: S.current.decrease_error);
     }
 
     totalPrice = quantity * price;

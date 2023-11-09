@@ -7,9 +7,11 @@ import 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final AppCubit appCubit;
+  final ProfileNavigator profileNavigator;
 
   ProfileCubit({
     required this.appCubit,
+    required this.profileNavigator,
   }) : super(const ProfileState());
 
   Future<void> getUser() async {
@@ -30,16 +32,20 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+
   Future<void> signOut() async {
     emit(state.copyWith(signOutStatus: LoadStatus.loading));
     try {
       await appCubit.signOut();
-      await Future.delayed(const Duration(seconds: 2));
-      emit(state.copyWith(signOutStatus: LoadStatus.success));
+      profileNavigator.openAuthPage();
     } catch (e) {
       emit(
         state.copyWith(signOutStatus: LoadStatus.failure),
       );
     }
+  }
+
+  void handleSignOut(){
+    signOut();
   }
 }

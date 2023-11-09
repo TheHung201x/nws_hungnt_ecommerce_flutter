@@ -32,22 +32,16 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  void searchCategories(String search) {
-    emit(
-      state.copyWith(
-          getCategoriesLoadStatus: LoadStatus.loading,
-          searchStatus: SearchStatus.loading),
-    );
-    List<CategoryEntity>? categoriesList = state.categoriesCopyList;
-    List<CategoryEntity>? filteredList = categoriesList
+  void searchCategories(String textSearch) {
+    emit(state.copyWith(searchStatus: SearchStatus.loading,));
+    List<CategoryEntity>? filteredList = state.categoriesCopyList
         ?.where(
           (category) =>
-              category.name.toLowerCase().contains(search.toLowerCase()),
+              category.name.toLowerCase().contains(textSearch.toLowerCase()),
         )
         .toList();
 
-    Future.delayed(const Duration(milliseconds: 200), () {
-      if (search.isNotEmpty && filteredList!.isNotEmpty) {
+      if (textSearch.isNotEmpty && filteredList!.isNotEmpty) {
         emit(
           state.copyWith(
             getCategoriesLoadStatus: LoadStatus.success,
@@ -66,10 +60,9 @@ class HomeCubit extends Cubit<HomeState> {
         emit(
           state.copyWith(
               getCategoriesLoadStatus: LoadStatus.success,
-              categoriesList: categoriesList,
+              categoriesList: state.categoriesCopyList,
               searchStatus: SearchStatus.success),
         );
       }
-    });
   }
 }

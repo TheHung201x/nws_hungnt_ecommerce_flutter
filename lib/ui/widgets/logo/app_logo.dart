@@ -7,9 +7,11 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 40),
-      height: showingKeyboard ? 0 : 100,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.fastOutSlowIn,
+        height: showingKeyboard ? 0 : 100,
+        margin: const EdgeInsets.symmetric(vertical: 40),
       child: Image.asset(AppImages.logoFashion),
     );
   }

@@ -21,14 +21,11 @@ class AppbarProductsList extends StatelessWidget {
               width: 40,
             ),
           ),
-          GestureDetector(
-            onTap: () => context.pop(),
-            child: SvgPicture.asset(
+          SvgPicture.asset(
               AppImages.icSearch,
               height: 20,
               width: 20,
             ),
-          ),
         ],
       ),
     );

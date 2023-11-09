@@ -6,8 +6,8 @@ class ProductDetailState extends Equatable {
   final String size;
   final int price;
   final int totalPrice;
-  final ProductEntity? productEntity;
   final LoadStatus getProductDetailStatus;
+  final ProductEntity? productEntity;
 
   const ProductDetailState({
     this.quantity = 1,

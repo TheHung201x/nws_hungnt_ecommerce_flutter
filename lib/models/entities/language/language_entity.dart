@@ -1,6 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:ecommerce/configs/app_configs.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
 
 part 'language_entity.g.dart';

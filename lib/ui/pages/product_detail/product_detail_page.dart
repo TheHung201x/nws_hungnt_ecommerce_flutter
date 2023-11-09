@@ -45,9 +45,10 @@ class ProductDetailPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CartCubit(
-              cartRepository: RepositoryProvider.of<CartRepository>(context),
-              userRepository: RepositoryProvider.of<UserRepository>(context),
-              appNavigator: AppNavigator(context: context)),
+            cartRepository: RepositoryProvider.of<CartRepository>(context),
+            userRepository: RepositoryProvider.of<UserRepository>(context),
+            appNavigator: AppNavigator(context: context),
+          ),
         ),
       ],
       child: ProductDetailChildPage(idProduct: idProduct),
@@ -201,9 +202,9 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
                         stateProductDetail.productEntity!.images[0],
                         stateProductDetail.totalPrice,
                         stateProductDetail.quantity);
-                    _cartCubit.addToCart(cartEntity).then(
-                          (_) => _cartCubit.getAllCart(),
-                        );
+                    _cartCubit
+                        .addToCart(cartEntity)
+                        .then((value) => _cartCubit.getAllCart());
                   },
                   cornerRadius: 30,
                   leadingIcon: Padding(

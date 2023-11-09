@@ -29,9 +29,9 @@ class CartState extends Equatable {
 
   @override
   List<Object?> get props => [
-        cartList,
         getAllCartStatus,
-        totalAllPrice,
         addToCartStatus,
+        cartList,
+        totalAllPrice,
       ];
 }

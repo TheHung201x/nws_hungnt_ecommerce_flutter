@@ -1,10 +1,12 @@
 import 'package:ecommerce/common/app_colors.dart';
 import 'package:ecommerce/common/app_images.dart';
+import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/models/entities/notification/notification_entity.dart';
 import 'package:ecommerce/models/entities/user/user_entity.dart';
 import 'package:ecommerce/models/enums/load_status.dart';
+import 'package:ecommerce/repositories/cart_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:ecommerce/ui/pages/cart/widgets/appbar_cart.dart';
@@ -23,7 +25,19 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CartChildPage();
+    return
+      BlocProvider(
+          create: (context) {
+            return CartCubit(
+              cartRepository: RepositoryProvider.of<CartRepository>(context),
+              userRepository: RepositoryProvider.of<UserRepository>(context),
+              appNavigator: AppNavigator(context: context),
+            )
+              ..getAllCart();
+          },
+          child:
+          const CartChildPage()
+      );
   }
 }
 
@@ -86,11 +100,14 @@ class _CartChildPageState extends State<CartChildPage> {
 
   Widget _showListCart() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 2 + 30,
+      height: MediaQuery
+          .of(context)
+          .size
+          .height / 2 + 30,
       child: BlocBuilder<CartCubit, CartState>(
+        bloc: _cartCubit,
         buildWhen: (previous, current) {
-          return previous.getAllCartStatus != current.getAllCartStatus ||
-              previous.cartList != current.cartList;
+          return previous.getAllCartStatus != current.getAllCartStatus;
         },
         builder: (context, state) {
           if (state.getAllCartStatus == LoadStatus.loading) {
@@ -104,43 +121,43 @@ class _CartChildPageState extends State<CartChildPage> {
           final listCart = state.cartList;
           return listCart.isNotEmpty
               ? RefreshIndicator(
-                  onRefresh: () async {
-                    await Future.delayed(const Duration(seconds: 1));
-                    _cartCubit.getAllCart();
-                  },
-                  child: ListView.separated(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: listCart.length,
-                    itemBuilder: (context, index) {
-                      _cartCubit.getCart(listCart);
-                      return Container(
-                        height: 100,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10.0,
-                              spreadRadius: 2.0,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(13),
-                        ),
-                        child: ItemCart(
-                          cartEntity: listCart[index],
-                          index: index,
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 15,
-                      );
-                    },
+            onRefresh: () async {
+              await Future.delayed(const Duration(seconds: 1));
+              _cartCubit.getAllCart();
+            },
+            child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: listCart.length,
+              itemBuilder: (context, index) {
+                // _cartCubit.getCart(listCart);
+                return Container(
+                  height: 100,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10.0,
+                        spreadRadius: 2.0,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(13),
                   ),
-                )
+                  child: ItemCart(
+                    cartEntity: listCart[index],
+                    index: index,
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(
+                  height: 15,
+                );
+              },
+            ),
+          )
               : _emptyListCart();
         },
       ),
@@ -160,6 +177,7 @@ class _CartChildPageState extends State<CartChildPage> {
 
   Widget _totalAllPriceAndCheckout() {
     return BlocBuilder<CartCubit, CartState>(
+      bloc: _cartCubit,
       buildWhen: (previous, current) {
         return previous.getAllCartStatus != current.getAllCartStatus;
       },
@@ -170,7 +188,8 @@ class _CartChildPageState extends State<CartChildPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${S.current.total} (${state.cartList.length} ${S.current.item})',
+                  '${S.current.total} (${state.cartList.length} ${S.current
+                      .item})',
                   style: AppTextStyle.greyS14,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

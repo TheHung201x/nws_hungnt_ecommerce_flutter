@@ -34,13 +34,16 @@ class HomeChildPage extends StatefulWidget {
 
 class _HomeChildPageState extends State<HomeChildPage> {
   late HomeCubit _homeCubit;
-  late TextEditingController searchController;
 
   @override
   void initState() {
     _homeCubit = BlocProvider.of<HomeCubit>(context);
-    searchController = TextEditingController();
     super.initState();
+  }
+  @override
+  void dispose() {
+    _homeCubit.close();
+    super.dispose();
   }
 
   @override
@@ -63,7 +66,9 @@ class _HomeChildPageState extends State<HomeChildPage> {
                   child: BlocBuilder<HomeCubit, HomeState>(
                     buildWhen: (previous, current) {
                       return previous.getCategoriesLoadStatus !=
-                              current.getCategoriesLoadStatus;
+                              current.getCategoriesLoadStatus ||
+                          previous.categoriesList != current.categoriesList ||
+                          previous.searchStatus != current.searchStatus;
                     },
                     builder: (context, state) {
                       if (state.searchStatus == SearchStatus.notFound) {

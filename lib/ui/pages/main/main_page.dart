@@ -16,10 +16,9 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MainCubit>(
-      create: (BuildContext context) =>
-          MainCubit(
-            navigator: MainNavigator(context: context),
-          ),
+      create: (BuildContext context) => MainCubit(
+        navigator: MainNavigator(context: context),
+      ),
       child: _MainPage(child: child),
     );
   }
@@ -74,10 +73,7 @@ class _MainPageState extends State<_MainPage> {
   }
 
   Widget _buildBottomNavigationBar() {
-    double displayWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double displayWidth = MediaQuery.of(context).size.width;
     return BlocBuilder<AppSettingCubit, AppSettingState>(
       buildWhen: (previous, current) {
         return previous.locale != current.locale;
@@ -111,112 +107,107 @@ class _MainPageState extends State<_MainPage> {
               itemCount: 4,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) =>
-                  InkWell(
-                    onTap: () {
-                      currentIndex = index;
-                      _mainCubit.switchTap(index);
-                      HapticFeedback.lightImpact();
-                    },
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    child: Stack(
-                      children: [
-                        AnimatedContainer(
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.fastLinearToSlowEaseIn,
-                          // Nếu ngôn ngữ là tiếng việt thì kéo dài width của background tab
-                          width: index == currentIndex
-                              ? (state.locale == locale
+              itemBuilder: (context, index) => InkWell(
+                onTap: () {
+                  currentIndex = index;
+                  _mainCubit.switchTap(index);
+                  HapticFeedback.lightImpact();
+                },
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Stack(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(seconds: 2),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      // Nếu ngôn ngữ là tiếng việt thì kéo dài width của background tab
+                      width: index == currentIndex
+                          ? (state.locale == locale
                               ? displayWidth * .40
                               : displayWidth * .32)
-                              : displayWidth * .18,
-                          child: AnimatedContainer(
-                            duration: const Duration(seconds: 1),
-                            curve: Curves.fastLinearToSlowEaseIn,
-                            height: index == currentIndex
-                                ? displayWidth * .12
-                                : 0,
-                            width: index == currentIndex
-                                ? displayWidth * .32
-                                : 0,
-                            margin: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: index == currentIndex
-                                  ? Colors.grey.withOpacity(.2)
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
+                          : displayWidth * .18,
+                      child: AnimatedContainer(
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        height: index == currentIndex ? displayWidth * .12 : 0,
+                        width: index == currentIndex ? displayWidth * .32 : 0,
+                        margin: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: index == currentIndex
+                              ? Colors.grey.withOpacity(.2)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(50),
                         ),
-                        AnimatedContainer(
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.fastLinearToSlowEaseIn,
-                          alignment: Alignment.center,
-                          child: Stack(
+                      ),
+                    ),
+                    AnimatedContainer(
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      alignment: Alignment.center,
+                      child: Stack(
+                        children: [
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  AnimatedContainer(
-                                    duration: const Duration(seconds: 1),
-                                    curve: Curves.fastLinearToSlowEaseIn,
-                                    width: index == currentIndex
-                                        ? displayWidth * .15
-                                        : 0,
-                                  ),
-                                  AnimatedOpacity(
-                                    opacity: index == currentIndex ? 1 : 0,
-                                    duration: const Duration(seconds: 1),
-                                    curve: Curves.fastLinearToSlowEaseIn,
-                                    child: Text(
-                                      index == currentIndex
-                                          ? nameListOfTab[index]
-                                          : '',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              AnimatedContainer(
+                                duration: const Duration(seconds: 1),
+                                curve: Curves.fastLinearToSlowEaseIn,
+                                width: index == currentIndex
+                                    ? displayWidth * .15
+                                    : 0,
                               ),
-                              Row(
-                                children: [
-                                  AnimatedContainer(
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.fastLinearToSlowEaseIn,
-                                    width: index == currentIndex
-                                        ? displayWidth * .03
-                                        : 20,
-                                  ),
+                              AnimatedOpacity(
+                                opacity: index == currentIndex ? 1 : 0,
+                                duration: const Duration(seconds: 1),
+                                curve: Curves.fastLinearToSlowEaseIn,
+                                child: Text(
                                   index == currentIndex
-                                      ? Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black,
-                                        shape: BoxShape.circle),
-                                    child: SvgPicture.asset(
-                                      iconsListOfTab[index],
-                                      height: 18,
-                                      width: 18,
-                                      colorFilter: const ColorFilter.mode(
-                                          AppColors.white, BlendMode.srcIn),
-                                    ),
-                                  )
-                                      : SvgPicture.asset(
-                                    iconsListOfTab[index],
-                                    height: 20,
-                                    width: 20,
+                                      ? nameListOfTab[index]
+                                      : '',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15,
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          Row(
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.fastLinearToSlowEaseIn,
+                                width: index == currentIndex
+                                    ? displayWidth * .03
+                                    : 20,
+                              ),
+                              index == currentIndex
+                                  ? Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: const BoxDecoration(
+                                          color: Colors.black,
+                                          shape: BoxShape.circle),
+                                      child: SvgPicture.asset(
+                                        iconsListOfTab[index],
+                                        height: 18,
+                                        width: 18,
+                                        colorFilter: const ColorFilter.mode(
+                                            AppColors.white, BlendMode.srcIn),
+                                      ),
+                                    )
+                                  : SvgPicture.asset(
+                                      iconsListOfTab[index],
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
+                ),
+              ),
             ),
           ),
         );

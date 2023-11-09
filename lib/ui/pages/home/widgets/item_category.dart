@@ -37,6 +37,7 @@ class ItemCategory extends StatelessWidget {
           right: 0,
           child: Container(
             height: 60,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               color: AppColors.white.withOpacity(0.6),
               borderRadius: BorderRadius.circular(20),
@@ -48,7 +49,7 @@ class ItemCategory extends StatelessWidget {
                   categoryEntity.name,
                   style: AppTextStyle.blackS20W800,
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  overflow: TextOverflow.clip,
                 ),
                 Text(
                   '${categoryEntity.totalProduct} ${S.current.product}',

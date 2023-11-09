@@ -85,5 +85,7 @@
   "off": "tắt",
   "notification_close_app": "Nhấn lần nữa để đóng ứng dụng",
   "title_confirm_exit": "Thoát ứng dụng",
-  "messenge_confirm_exit": "Bạn có muốn thoát ứng dụng?"
+  "messenge_confirm_exit": "Bạn có muốn thoát ứng dụng?",
+  "checkout_success": "Thanh toán thành công",
+  "checkout_failed": "Thanh toán thất bại"
 }

@@ -1,6 +1,5 @@
 import 'package:ecommerce/blocs/app_cubit.dart';
 import 'package:ecommerce/blocs/setting/app_setting_cubit.dart';
-import 'package:ecommerce/common/app_navigator.dart';
 import 'package:ecommerce/generated/l10n.dart';
 import 'package:ecommerce/network/api_client.dart';
 import 'package:ecommerce/network/api_util.dart';
@@ -11,11 +10,8 @@ import 'package:ecommerce/repositories/notification_repository.dart';
 import 'package:ecommerce/repositories/product_repository.dart';
 import 'package:ecommerce/repositories/user_repository.dart';
 import 'package:ecommerce/router/router_config.dart';
-import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
 import 'package:ecommerce/ui/pages/home/home_cubit.dart';
 import 'package:ecommerce/ui/pages/notification/notification_cubit.dart';
-import 'package:ecommerce/ui/pages/profile/profile_cubit.dart';
-import 'package:ecommerce/ui/pages/profile/profile_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -92,15 +88,7 @@ class _MyAppState extends State<MyApp> {
                 ..getAllCategories();
             },
           ),
-          BlocProvider(
-            create: (context) {
-              return CartCubit(
-                cartRepository: RepositoryProvider.of<CartRepository>(context),
-                userRepository: RepositoryProvider.of<UserRepository>(context),
-                appNavigator: AppNavigator(context: context),
-              )..getAllCart();
-            },
-          ),
+
           BlocProvider(
             create: (context) {
               return NotificationCubit(
@@ -108,13 +96,6 @@ class _MyAppState extends State<MyApp> {
                     RepositoryProvider.of<NotificationRepository>(context),
                 userRepository: RepositoryProvider.of<UserRepository>(context),
               )..getAllNotifications();
-            },
-          ),
-          BlocProvider(
-            create: (context) {
-              return ProfileCubit(
-                appCubit: RepositoryProvider.of<AppCubit>(context),
-              )..getUser();
             },
           ),
         ],

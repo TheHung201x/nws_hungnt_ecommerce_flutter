@@ -919,6 +919,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Checkout success`
+  String get checkout_success {
+    return Intl.message(
+      'Checkout success',
+      name: 'checkout_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checkout failed`
+  String get checkout_failed {
+    return Intl.message(
+      'Checkout failed',
+      name: 'checkout_failed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

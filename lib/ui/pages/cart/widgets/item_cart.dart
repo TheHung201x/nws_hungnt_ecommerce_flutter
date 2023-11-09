@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/common/app_colors.dart';
+import 'package:ecommerce/common/app_images.dart';
 import 'package:ecommerce/common/app_text_styles.dart';
 import 'package:ecommerce/models/entities/cart/cart_entity.dart';
 import 'package:ecommerce/router/router_config.dart';
 import 'package:ecommerce/ui/pages/cart/cart_cubit.dart';
+import 'package:ecommerce/ui/widgets/shimmer/app_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -45,6 +47,10 @@ class _ItemCartState extends State<ItemCart> {
               imageUrl: widget.cartEntity.image,
               height: 80,
               width: 80,
+              placeholder: (context, url) => const AppShimmer(),
+              errorWidget: (context, url, error) =>
+                  Image.network(AppImages.imageDefaultNetwork),
+              fit: BoxFit.cover,
             ),
           ),
         ),

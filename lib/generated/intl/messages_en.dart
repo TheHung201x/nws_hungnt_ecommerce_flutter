@@ -32,6 +32,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "available_in_stock":
             MessageLookupByLibrary.simpleMessage("Available in stock"),
         "cart": MessageLookupByLibrary.simpleMessage("Cart"),
+        "checkout_failed":
+            MessageLookupByLibrary.simpleMessage("Checkout failed"),
+        "checkout_success":
+            MessageLookupByLibrary.simpleMessage("Checkout success"),
         "confirm_log_out": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to log out?"),
         "confirm_password":

@@ -23,6 +23,11 @@ class _SearchCategoriesState extends State<SearchCategories> {
     searchController = TextEditingController();
     super.initState();
   }
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
