@@ -191,6 +191,9 @@ class _ProductDetailChildPageState extends State<ProductDetailChildPage> {
                   width: MediaQuery.of(context).size.width / 2,
                   isContentCenter: true,
                   backgroundColor: AppColors.black,
+                  isEnable: stateCart.addToCartStatus == LoadStatus.loading
+                      ? false
+                      : true,
                   title: S.current.add_to_cart,
                   isLoading: stateCart.addToCartStatus == LoadStatus.loading
                       ? true
